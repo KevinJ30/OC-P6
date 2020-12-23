@@ -1,0 +1,20 @@
+@startuml
+
+    class Game {}
+
+    class Map {}
+
+    class Player {}
+
+    class Sound {}
+
+    class Generator {}
+
+    Map -- Game : "contains"
+    Player -- Game : "contains"
+    Sound -- Game : "contains"
+
+    Map *-- Generator
+
+
+@enduml

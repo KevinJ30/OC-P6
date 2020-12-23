@@ -10,9 +10,9 @@
 
     class Generator {}
 
-    Map -- Game : "contains"
-    Player -- Game : "contains"
-    Sound -- Game : "contains"
+    Game "1" -- "1" Map : contains
+    Game "1" -- "1" Player : contains
+    Game "1" -- "1" Sound : contains
 
     Map *-- Generator
 

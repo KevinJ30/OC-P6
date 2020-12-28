@@ -1,8 +1,15 @@
+import { Generator } from './Generator.js';
+
 /**
  * Joudrier Kevin
  * Build a map with the parameters
  **/
 export class Map {
+
+    /**
+     * @param { Genrator } : Generator class
+     **/
+    static generator;
 
     /**
      * @param {Array} map : data of the generated map
@@ -53,22 +60,16 @@ export class Map {
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
         this.map = [];
+
+        this.generator = new Generator(20, 15, 18, 32);
     }
 
     /**
      * Build random map
      **/
-    generated() {
-        // créer un map vide
-        for(let i = 0; i < this.maxTileY; i++) {
-            let row = [];
-
-            for(let j = 0; j < this.maxTileX; j++) {
-                row.push(18);
-            }
-
-            this.map.push(row);
-        }
+    build() {
+        this.map = this.generator.generatedEmptyMap();
+        this.map = this.generator.generatedWallInMap();
     }
 
     /**
@@ -83,9 +84,10 @@ export class Map {
                     x : j * this.tileSize,
                     y : i * this.tileSize
                 }
-
-                const sourceX = Math.floor((18 - 1) % 16) * this.tileSize;
-                const sourceY = Math.floor(18 / 16) *  this.tileSize;
+                
+                let a = this.map[i][j];
+                const sourceX = Math.floor((a - 1) % 16) * this.tileSize;
+                const sourceY = Math.floor(a / 16) *  this.tileSize;
                 
                 context.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
             }

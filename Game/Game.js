@@ -10,7 +10,7 @@ export class Game {
     constructor(map, context) {
         this.map = map;
         this.ctx = context;
-        this.map.generated();
+        this.map.build();
     }
 
     /**

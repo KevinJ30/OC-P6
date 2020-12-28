@@ -71,12 +71,33 @@ export class Map {
         }
     }
 
+    /**
+     * Draw map
+     * 
+     * @param { CanvasRenderingContext2D } : Context d'affichage
+     **/
+    drawMap(context) {
+        for(let i = 0; i < this.maxTileY; i++) {
+            for(let j = 0; j < this.maxTileX; j++) {
+                const positionTile = {
+                    x : j * this.tileSize,
+                    y : i * this.tileSize
+                }
+
+                const sourceX = Math.floor((18 - 1) % 16) * this.tileSize;
+                const sourceY = Math.floor(18 / 16) *  this.tileSize;
+                
+                context.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+            }
+        }
+    }
+
     /** Getter & Setter **/
 
      /**
       * @return {string} tileImg : Image object for the tile
       **/
-    getTileImg() { return this.getTileImg; }
+    getTileImg() { return this.tileImg; }
 
     /**
      * @param {string} tileImg
@@ -86,7 +107,7 @@ export class Map {
     /**
      * @return {number} tileSize : tile size
      **/
-    getTileSize() { return this.getTileSize; }
+    getTileSize() { return this.tileSize; }
 
     /**
      * @param {number} tileSize : tile size

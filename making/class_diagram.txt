@@ -14,7 +14,7 @@
     Game "1" -- "1" Player : contains
     Game "1" -- "1" Sound : contains
 
-    Map *-- Generator
+    Map "1" *-- "1" Generator
 
 
 @enduml

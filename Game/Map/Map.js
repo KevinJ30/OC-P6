@@ -1,4 +1,6 @@
 import { Generator } from './Generator.js';
+import { Config } from '../config/Config.js';
+ 
 
 /**
  * Joudrier Kevin
@@ -61,7 +63,7 @@ export class Map {
         this.maxTileY = maxTileY;
         this.map = [];
 
-        this.generator = new Generator(20, 15, 18, 32);
+        this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
     }
 
     /**
@@ -69,7 +71,7 @@ export class Map {
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
-        this.map = this.generator.generatedWallInMap(100);
+        this.map = this.generator.generatedWallInMap(20);
     }
 
     /**

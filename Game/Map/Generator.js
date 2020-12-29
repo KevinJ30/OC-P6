@@ -35,13 +35,23 @@ export class Generator {
         return this.map;
     }
 
-    generatedWallInMap() {
-        let wallNumber = 30;
-        
+    generatedWallInMap(fillPourcentage) {
+        fillPourcentage = fillPourcentage === undefined ? 0 : fillPourcentage;
+        let wallNumber = (this.maxTileY * this.maxTileX) * fillPourcentage / 100;
+        let wallPosition = [];
         for(let i = 0; i < wallNumber; i++) {
-            let randomX = Utils.randomNumber(0, this.maxTileX)
-            let randomY = Utils.randomNumber(0, this.maxTileY)
+            let randomX = Utils.randomNumber(0, this.maxTileX);
+            let randomY = Utils.randomNumber(0, this.maxTileY);
+            
+            // if exists wall in the case then change random number
+            while(this.map[randomY][randomX] === 32) {
+                randomX = Utils.randomNumber(0, this.maxTileX);
+                randomY = Utils.randomNumber(0, this.maxTileY);
+            }
+            
+
             this.map[randomY][randomX] = this.WALL_TILE;
+            wallPosition.push({x: randomX, y: randomY});
         }
 
         return this.map;

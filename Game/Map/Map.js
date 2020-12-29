@@ -69,7 +69,7 @@ export class Map {
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
-        this.map = this.generator.generatedWallInMap(20);
+        this.map = this.generator.generatedWallInMap(100);
     }
 
     /**

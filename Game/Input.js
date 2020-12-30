@@ -1,7 +1,8 @@
 export class Input {
 
-    constructor(player, canvas) {
+    constructor(player, canvas, map) {
         this.player = player;
+        this.map = map;
 
         // Initialisation of the inputs
         window.addEventListener('keydown', (event) => {
@@ -25,7 +26,7 @@ export class Input {
         })
 
         canvas.addEventListener('click', (event) => {
-            this.player.moveTarget(event.offsetX, event.offsetY);
+            this.player.moveTarget(event.offsetX, event.offsetY, this.map);
         })
     }
 

@@ -58,37 +58,40 @@ export class Player {
         this.update(this.position)
     }
 
-    collide() {
-        /**
-         * Calculate the dimmension of the map
-         **/
-        const map2D = {
-            x: Config.MAP_MAX_X * 32,
-            y: Config.MAP_MAX_Y * 32
-        }
+    // collide() {
+    //     /**
+    //      * Calculate the dimmension of the map
+    //      **/
+    //     const map2D = {
+    //         x: Config.MAP_MAX_X * 32,
+    //         y: Config.MAP_MAX_Y * 32
+    //     }
 
-        console.log((this.position.x - Config.TILE_SIZE) < 0)
-        console.log((this.position.x - Config.TILE_SIZE))
-        console.log(map2D.x)
+    //     /**
+    //      * If the player exceed limit of the map
+    //      **/
+    //     if((this.position.x - Config.TILE_SIZE) < 0 || 
+    //        (this.position.x + Config.TILE_SIZE) > map2D.x) {
+    //         return true;
+    //     }
 
-        /**
-         * If the player exceed limit of the map
-         **/
-        if((this.position.x - Config.TILE_SIZE) < 0 || 
-           (this.position.x + Config.TILE_SIZE) > map2D.x) {
-            return true;
-        }
+    //     return false;
+    // }
 
-        return false;
-    }
+    moveTarget(targetX, targetY, map) {
+        console.log(map);
 
-    moveTarget(targetX, targetY) {
         // Calcule du numéro de la case dans le tableaux
         const numberX = Math.trunc(targetX / 32);
         const numberY = Math.trunc(targetY / 32);
 
         // Move to player with the coordinate of the array map calculated
-
+        if(!map.collide(numberX, numberY)) {
+            this.position.y = numberY * Config.TILE_SIZE;
+            this.position.x = numberX * Config.TILE_SIZE;
+        }else {
+            alert('Je ne peux pas me déplacer ici !')
+        }
     }
 
     update(position) {

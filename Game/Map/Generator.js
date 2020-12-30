@@ -17,19 +17,23 @@ export class Generator {
 
         this.BLANK_TILE = blankTileNumber;
         this.WALL_TILE = wallTileNumber;
+
         this.map = [];
+        this.mapCollision = [];
     }
 
     generatedEmptyMap() {
         // créer un map vide
         for(let i = 0; i < this.maxTileY; i++) {
             let row = [];
+            let colsCollision = [];
 
             for(let j = 0; j < this.maxTileX; j++) {
                 row.push(this.BLANK_TILE);
+                colsCollision.push(0);
             }
-            
             this.map.push(row);
+            this.mapCollision.push(colsCollision);
         }
 
         return this.map;
@@ -52,8 +56,13 @@ export class Generator {
 
             this.map[randomY][randomX] = this.WALL_TILE;
             wallPosition.push({x: randomX, y: randomY});
+            this.mapCollision[randomY][randomX] = 1;
         }
 
         return this.map;
+    }
+
+    getCollisionMap() {
+        return this.mapCollision;
     }
 }

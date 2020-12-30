@@ -61,7 +61,9 @@ export class Map {
         this.tileSize = tileSize;
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
+        
         this.map = [];
+        this.mapCollision = [];
 
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
     }
@@ -72,6 +74,7 @@ export class Map {
     build() {
         this.map = this.generator.generatedEmptyMap();
         this.map = this.generator.generatedWallInMap(20);
+        this.mapCollision = this.generator.getCollisionMap();
     }
 
     /**
@@ -95,6 +98,12 @@ export class Map {
             }
         }
     }
+
+    collide(targetX, targetY) {
+        return this.mapCollision[targetY][targetX];
+    }
+
+
 
     /** Getter & Setter **/
 

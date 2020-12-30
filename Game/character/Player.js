@@ -1,19 +1,40 @@
 import { Config } from '../config/Config.js';
+import { Utils } from '../Utils.js';
+
 export class Player {
 
-    constructor (context, sizeX, sizeY, image) {
+    constructor (context, sizeX, sizeY, image, map) {
         this.ctx = context;
         this.image = image;
+        this.map = map;
 
         this.size = {
             x: sizeX,
             y: sizeY
         }
 
+        const positionPlayer = this.generatePosition();
+
         this.position = {
-            x: 0,
-            y: 0
+            x: positionPlayer.x,
+            y: positionPlayer.y
         }
+    }
+
+    generatePosition() {
+        // Generate coordinate for the player
+        let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
+        let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
+
+        while(this.map.collide(randomX, randomY)){
+            randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
+            randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
+        }
+
+        return {
+            x: randomX * 32,
+            y:randomY * 32
+        };
     }
 
     animate() {
@@ -58,35 +79,13 @@ export class Player {
         this.update(this.position)
     }
 
-    // collide() {
-    //     /**
-    //      * Calculate the dimmension of the map
-    //      **/
-    //     const map2D = {
-    //         x: Config.MAP_MAX_X * 32,
-    //         y: Config.MAP_MAX_Y * 32
-    //     }
-
-    //     /**
-    //      * If the player exceed limit of the map
-    //      **/
-    //     if((this.position.x - Config.TILE_SIZE) < 0 || 
-    //        (this.position.x + Config.TILE_SIZE) > map2D.x) {
-    //         return true;
-    //     }
-
-    //     return false;
-    // }
-
-    moveTarget(targetX, targetY, map) {
-        console.log(map);
-
+    moveTarget(targetX, targetY) {
         // Calcule du numéro de la case dans le tableaux
         const numberX = Math.trunc(targetX / 32);
         const numberY = Math.trunc(targetY / 32);
 
         // Move to player with the coordinate of the array map calculated
-        if(!map.collide(numberX, numberY)) {
+        if(!this.map.collide(numberX, numberY)) {
             this.position.y = numberY * Config.TILE_SIZE;
             this.position.x = numberX * Config.TILE_SIZE;
         }else {

@@ -13,8 +13,8 @@ export class Game {
         this.map = map;
         this.ctx = context;
         this.map.build();0
-        this.player = new Player(this.ctx, 64, 64, playerTile);
-        this.input = new Input(this.player, document.getElementById('screen'), this.map);
+        this.player = new Player(this.ctx, 64, 64, playerTile, this.map);
+        this.input = new Input(this.player, document.getElementById('screen'));
     }
 
     /**

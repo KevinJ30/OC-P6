@@ -26,7 +26,7 @@ export class Input {
         })
 
         canvas.addEventListener('click', (event) => {
-            this.player.moveTarget(event.offsetX, event.offsetY, this.map);
+            this.player.moveTarget(event.offsetX, event.offsetY);
         })
     }
 

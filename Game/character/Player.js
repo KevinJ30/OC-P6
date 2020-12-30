@@ -84,8 +84,10 @@ export class Player {
         const numberX = Math.trunc(targetX / 32);
         const numberY = Math.trunc(targetY / 32);
 
+        console.log()
+
         // Move to player with the coordinate of the array map calculated
-        if(!this.map.collide(numberX, numberY)) {
+        if(!this.map.collide(numberX, numberY) && Math.abs(numberX - (this.position.x / 32)) < 3) {
             this.position.y = numberY * Config.TILE_SIZE;
             this.position.x = numberX * Config.TILE_SIZE;
         }else {

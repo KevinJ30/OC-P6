@@ -1,4 +1,5 @@
 import { Player } from './character/Player.js';
+import { Input } from './Input.js';
 
 export class Game {
 
@@ -12,7 +13,8 @@ export class Game {
         this.map = map;
         this.ctx = context;
         this.map.build();0
-        this.player = new Player(64, 64, playerTile);
+        this.player = new Player(this.ctx, 64, 64, playerTile);
+        this.input = new Input(this.player, document.getElementById('screen'));
     }
 
     /**
@@ -20,7 +22,6 @@ export class Game {
      **/
     update() {
         this.map.drawMap(this.ctx);
-        this.player.animate(this.ctx);
+        this.player.animate();
     }
-
 }

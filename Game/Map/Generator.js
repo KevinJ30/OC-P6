@@ -62,6 +62,10 @@ export class Generator {
         return this.map;
     }
 
+    generateStall() {
+        
+    }
+
     getCollisionMap() {
         return this.mapCollision;
     }

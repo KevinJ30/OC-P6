@@ -12,7 +12,7 @@ export class Game {
         playerTile.src = "./ressources/skeleton.png";
         this.map = map;
         this.ctx = context;
-        this.map.build();0
+        this.map.build();
         this.player = new Player(this.ctx, 64, 64, playerTile, this.map);
         this.input = new Input(this.player, document.getElementById('screen'));
     }
@@ -21,7 +21,7 @@ export class Game {
      * Cette méthode est utilisé dans la boucle du jeu
      **/
     update() {
-        this.map.drawMap(this.ctx);
+        this.map.drawMap();
         this.player.animate();
     }
 }

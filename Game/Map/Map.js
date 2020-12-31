@@ -52,7 +52,8 @@ export class Map {
      * @param {number} maxTileX 
      * @param {number} maxTileY 
      */
-    constructor(srcImage, tileSize, maxTileX, maxTileY) {
+    constructor(context, srcImage, tileSize, maxTileX, maxTileY) {
+        this.ctx = context;
         this.srcImage = srcImage
         
         this.tileImg = new Image();
@@ -64,6 +65,7 @@ export class Map {
         
         this.map = [];
         this.mapCollision = [];
+        this.mapHUDGrid = [];
 
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
     }
@@ -82,7 +84,7 @@ export class Map {
      * 
      * @param { CanvasRenderingContext2D } : Context d'affichage
      **/
-    drawMap(context) {
+    drawMap() {
         for(let i = 0; i < this.maxTileY; i++) {
             for(let j = 0; j < this.maxTileX; j++) {
                 const positionTile = {
@@ -91,10 +93,13 @@ export class Map {
                 }
                 
                 let a = this.map[i][j];
-                const sourceX = Math.floor((a - 1) % 16) * this.tileSize;
-                const sourceY = Math.floor(a / 16) *  this.tileSize;
+                 
+                const sourceX = Math.floor(a % 16) * this.tileSize;
+                const sourceY = Math.floor((a / 16)) *  this.tileSize;
                 
-                context.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+                this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+                this.ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
+                this.ctx.strokeRect(positionTile.x, positionTile.y, this.tileSize, this.tileSize);
             }
         }
     }
@@ -103,7 +108,13 @@ export class Map {
         return this.mapCollision[targetY][targetX];
     }
 
-
+    addGridToMap() {
+        this.ctx.beginPath();
+        this.ctx.moveTo(75, 50);
+        this.ctx.lineTo(100, 75);
+        this.ctx.lineTo(100, 25);
+        this.ctx.fill();
+    }
 
     /** Getter & Setter **/
 

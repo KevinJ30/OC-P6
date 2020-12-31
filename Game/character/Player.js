@@ -8,6 +8,8 @@ export class Player {
         this.image = image;
         this.map = map;
 
+        this.selectedPlayer = true;
+
         this.size = {
             x: sizeX,
             y: sizeY
@@ -39,6 +41,27 @@ export class Player {
 
     animate() {
         this.update(this.position)
+        this.addGridToPlayer();
+    }
+
+    addGridToPlayer() {
+        for(let i = 0; i < 3; i++) {
+            if(this.position.x > 0 && (this.position.x / 32) + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {   
+                if(!this.map.collide((this.position.x + (Config.TILE_SIZE * (i + 1))) / 32, this.position.y / 32)){
+                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+                    this.ctx.fillRect(this.position.x + (Config.TILE_SIZE * (i + 1)), this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.strokeRect(this.position.x + (Config.TILE_SIZE * (i + 1)), this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.fill();
+                }
+                else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
     }
 
     move(direction) {
@@ -87,7 +110,7 @@ export class Player {
         console.log()
 
         // Move to player with the coordinate of the array map calculated
-        if(!this.map.collide(numberX, numberY) && Math.abs(numberX - (this.position.x / 32)) < 3) {
+        if(!this.map.collide(numberX, numberY)) {
             this.position.y = numberY * Config.TILE_SIZE;
             this.position.x = numberX * Config.TILE_SIZE;
         }else {

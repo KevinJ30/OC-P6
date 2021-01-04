@@ -1,20 +1,54 @@
 @startuml
 
-    class Game {}
+    class Game {
+        map : Map
+        ctx : CanvasRenderingContext2D
+        player : Player
+        input : Input
+    }
 
-    class Map {}
+    class Map {
+        ctx : CanvasRenderingContext2D
+        srcImage : string
+        tileImg : Image
+        tileSize : int
+        maxTileX : int
+        maxTileY : int
+        map : Array
+        mapCollision : Array
+        generator : Generator
+    }
 
-    class Player {}
+    class Generator {
+        maxTileX : int
+        maxTileY : int
+        BLANK_TILE : int
+        WALL_TILE : int
+        map : Array
+        mapCollision : Array
+    }
 
-    class Sound {}
+    class Player {
+        ctx : CanvasRenderingContext2D 
+        image : Image
+        map : Map
+        selectedPlayer : true
+        size : Object<int>
+        position : Object<int>
+        health : int
+    }
 
-    class Generator {}
+    class Input {
+        player : Player
+        map : Map
+    }
 
-    Game "1" -- "1" Map : contains
-    Game "1" -- "1" Player : contains
-    Game "1" -- "1" Sound : contains
 
+    Game "1" *-- "1" Player : contains
+    Game "1" *-- "1" Map : contains
+    Input "1" *-- "1" Player
     Map "1" *-- "1" Generator
+    Input "1" *-- "1" Map
 
 
 @enduml

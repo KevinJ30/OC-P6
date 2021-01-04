@@ -1,16 +1,6 @@
 import { Utils } from '../Utils.js';
 
 export class Generator {
-    static map = [];
-
-    static maxTileX;
-
-    static maxTileY;
-
-    static BLANK_TILE;
-
-    static WALL_TILE;
-
     constructor(maxTileX, maxTileY, blankTileNumber, wallTileNumber) {
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;

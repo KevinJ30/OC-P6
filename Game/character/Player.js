@@ -3,6 +3,15 @@ import { Utils } from '../Utils.js';
 
 export class Player {
 
+    /**
+     * Constructor.
+     *
+     * @param {CanvasRenderingContext2D} context
+     * @param {number} sizeX
+     * @param {number} sizeY
+     * @param {Image} image
+     * @param {Map} map
+     **/
     constructor (context, sizeX, sizeY, image, map) {
         this.ctx = context;
         this.image = image;
@@ -21,8 +30,18 @@ export class Player {
             x: positionPlayer.x,
             y: positionPlayer.y
         }
+
+        /**
+         * player feature
+         **/
+        this.health = 100;
     }
 
+    /**
+     * Generate random position for the player
+     *
+     * @returns {{x: number, y: number}}
+     **/
     generatePosition() {
         // Generate coordinate for the player
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
@@ -39,25 +58,42 @@ export class Player {
         };
     }
 
+    /**
+     * Animate the movement player
+     **/
     animate() {
         this.update(this.position)
         this.addGridToPlayer();
     }
 
+    /**
+     * Add case to the grid highlight the player selected
+     *
+     * @param {number} positionGrid
+     * @param {boolean} vertical
+     **/
+    addCaseToGrid(positionGrid, vertical) {
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+        this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+        this.ctx.fillRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        this.ctx.strokeRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        this.ctx.fill();
+    }
+
+    /**
+     * Add Grid highlight to the player
+     *
+     * @return void
+     **/
     addGridToPlayer() {
         // Add grid to the right player
         for(let i = 0; i < 3; i++) {
             let positionGrid = this.position.x + Config.TILE_SIZE * (i + 1);
 
-            if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
-                if(!this.map.collide(positionGrid / 32, this.position.y / 32)){
-                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
-                    this.ctx.fillRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.strokeRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.fill();
-                }
-                else {
+            if(this.map.collideIsEdgeMap(this.position.x + Config.TILE_SIZE, this.position.y)) {
+                if (!this.map.collide(positionGrid / 32, this.position.y / 32)) {
+                    this.addCaseToGrid(positionGrid, true);
+                } else {
                     break;
                 }
             }
@@ -72,11 +108,7 @@ export class Player {
 
             if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
                 if (!this.map.collide(positionGrid / 32, this.position.y / 32)) {
-                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
-                    this.ctx.fillRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.strokeRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.fill();
+                    this.addCaseToGrid(positionGrid, true);
                 } else {
                     break;
                 }
@@ -92,11 +124,7 @@ export class Player {
 
             if(this.position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
                 if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
-                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
-                    this.ctx.fillRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.strokeRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.fill();
+                    this.addCaseToGrid(positionGrid, false);
                 } else {
                     break;
                 }
@@ -110,11 +138,7 @@ export class Player {
 
             if(positionGrid > (0 - 1) && this.position.y / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
                 if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
-                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
-                    this.ctx.fillRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.strokeRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.fill();
+                    this.addCaseToGrid(positionGrid, false);
                 } else {
                     break;
                 }
@@ -124,6 +148,11 @@ export class Player {
         }
     }
 
+    /**
+     * Move player with keyboard
+     *
+     * @param direction
+     **/
     move(direction) {
         /**
          * Calculate the dimmension of the map
@@ -162,23 +191,41 @@ export class Player {
         this.update(this.position)
     }
 
+    /**
+     * Move player with the mouse
+     *
+     * @param {number} targetX
+     * @param {number} targetY
+     **/
     moveTarget(targetX, targetY) {
         // Calcule du numéro de la case dans le tableaux
         const numberX = Math.trunc(targetX / 32);
         const numberY = Math.trunc(targetY / 32);
 
-        console.log()
+        const diffPositionX = Math.abs(this.position.x / Config.TILE_SIZE - numberX);
+        const diffPositionY = Math.abs(this.position.y / Config.TILE_SIZE - numberY);
 
-        // Move to player with the coordinate of the array map calculated
-        if(!this.map.collide(numberX, numberY)) {
-            this.position.y = numberY * Config.TILE_SIZE;
-            this.position.x = numberX * Config.TILE_SIZE;
-        }else {
+        if(diffPositionX <= 3 && diffPositionY <= 3) {
+            if(!this.map.collide(numberX, numberY)) {
+                this.position.y = numberY * Config.TILE_SIZE;
+                this.position.x = numberX * Config.TILE_SIZE;
+            }else {
+                alert('Je ne peux pas me déplacer ici !')
+            }
+        }
+        else {
             alert('Je ne peux pas me déplacer ici !')
         }
+
+        // Move to player with the coordinate of the array map calculated
+
     }
 
+    /**
+     * Update player
+     * @param {Object} position
+     **/
     update(position) {
-        this.ctx.drawImage(this.image, 0, 0, 64, 64, position.x, position.y, 32, 32);
+        this.ctx.drawImage(this.image, 0, 0, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
     }
 }

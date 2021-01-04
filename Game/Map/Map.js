@@ -9,41 +9,6 @@ import { Config } from '../config/Config.js';
 export class Map {
 
     /**
-     * @param { Genrator } : Generator class
-     **/
-    static generator;
-
-    /**
-     * @param {Array} map : data of the generated map
-     **/
-    static map;
-
-    /**
-     * @param {string} srcImage : src tile image
-     **/
-    static srcImage;
-
-    /**
-     * @param {string} tileImg : Image object for the tile
-     **/
-    static tileImg;
-
-    /**
-     * @param {number} tileSize : tile size
-     **/
-    static tileSize;
-
-    /**
-     * @param {number} maxTileX : maximum number of horizontal tiles
-     **/
-    static maxTileX;
-
-    /**
-     * @param {number} maxTileY : maximum number of vertical tiles
-     **/
-    static maxTileY;
-
-    /**
      * Constructor
      * 
      * @param {string} image
@@ -65,7 +30,6 @@ export class Map {
         
         this.map = [];
         this.mapCollision = [];
-        this.mapHUDGrid = [];
 
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
     }
@@ -75,7 +39,7 @@ export class Map {
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
-        this.map = this.generator.generatedWallInMap(20);
+        this.map = this.generator.generatedWallInMap(10);
         this.mapCollision = this.generator.getCollisionMap();
     }
 
@@ -102,6 +66,17 @@ export class Map {
                 this.ctx.strokeRect(positionTile.x, positionTile.y, this.tileSize, this.tileSize);
             }
         }
+    }
+
+    /**
+     * Detect collision with edge map
+     *
+     * @param {number} targetX
+     * @param {number} targetY
+     * @returns {boolean}
+     **/
+    collideIsEdgeMap(targetX, targetY) {
+        return targetX > 0 && targetX / 32 < this.maxTileX && targetY > 0 && targetY / 32 < this.maxTileY;
     }
 
     collide(targetX, targetY) {

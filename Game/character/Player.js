@@ -73,8 +73,8 @@ export class Player {
      * @param {boolean} vertical
      **/
     addCaseToGrid(positionGrid, vertical) {
-        this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
-        this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+        this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8)";
         this.ctx.fillRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         this.ctx.strokeRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         this.ctx.fill();

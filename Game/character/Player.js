@@ -9,53 +9,17 @@ export class Player {
      * @param {CanvasRenderingContext2D} context
      * @param {number} sizeX
      * @param {number} sizeY
-     * @param {Image} image
-     * @param {Map} map
+     * @param {HTMLImageElement} image
+     * @param {Object} map
      **/
-    constructor (context, sizeX, sizeY, image, map) {
+    constructor (context, sizeX, sizeY, image, map, position) {
         this.ctx = context;
         this.image = image;
         this.map = map;
-
         this.selectedPlayer = true;
-
-        this.size = {
-            x: sizeX,
-            y: sizeY
-        }
-
-        const positionPlayer = this.generatePosition();
-
-        this.position = {
-            x: positionPlayer.x,
-            y: positionPlayer.y
-        }
-
-        /**
-         * player feature
-         **/
+        this.size = { x: sizeX, y: sizeY };
+        this.position = position;
         this.health = 100;
-    }
-
-    /**
-     * Generate random position for the player
-     *
-     * @returns {{x: number, y: number}}
-     **/
-    generatePosition() {
-        // Generate coordinate for the player
-        let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
-        let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
-
-        while(this.map.collide(randomX, randomY)){
-            randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
-            randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
-        }
-
-        return {
-            x: randomX * 32,
-            y:randomY * 32
-        };
     }
 
     /**

@@ -20,17 +20,13 @@ export class Map {
     constructor(context, srcImage, tileSize, maxTileX, maxTileY) {
         this.ctx = context;
         this.srcImage = srcImage
-        
         this.tileImg = new Image();
         this.tileImg.src = this.srcImage;
-
         this.tileSize = tileSize;
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
-        
         this.map = [];
         this.mapCollision = [];
-
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
     }
 

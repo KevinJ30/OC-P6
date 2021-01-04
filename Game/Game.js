@@ -1,7 +1,8 @@
 import { Utils } from './Utils.js';
 import { Player } from './character/Player.js';
 import { Input } from './Input.js';
-import {Config} from "./config/Config.js";
+import { Config } from "./config/Config.js";
+import {GameStore} from "./stores/GameStore.js";
 
 /**
  * @property {Map} map
@@ -19,9 +20,22 @@ export class Game {
         this.map = map;
         this.ctx = context;
         this.map.build();
-        this.player = [];
+        this.players = [];
         this.loadPlayer(2)
-        this.input = new Input(this.player, document.getElementById('screen'));
+        //this.playerSelected = this.players[0];
+
+
+        /**
+         * Update state GameStore
+         **/
+        this.store = GameStore.getInstance();
+        this.store.update({
+            playerIndex: 0,
+            playerSelected: this.players[0],
+            map: this.map
+        })
+
+        this.input = new Input(this.store.getState().playerSelected, document.getElementById('screen'));
     }
 
     /**
@@ -37,8 +51,7 @@ export class Game {
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-
-            this.player.push(new Player(this.ctx, 64, 64, playerTile, this.map, positionPlayer))
+            this.players.push(new Player(this.ctx, 64, 64, playerTile, this.map, positionPlayer))
         }
     }
 
@@ -52,7 +65,7 @@ export class Game {
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
         let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
 
-        this.player.forEach((player) => {
+        this.players.forEach((player) => {
             let diffPlayerPosition = {
                 x : Math.abs(player.position.x - randomX),
                 y : Math.abs(player.position.y - randomY)
@@ -64,7 +77,7 @@ export class Game {
             }
         })
 
-        while(this.map.collide(randomX, randomY)){
+        while(this.map.collide(randomX, randomY)) {
             randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
             randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
         }
@@ -78,6 +91,9 @@ export class Game {
      **/
     update() {
         this.map.drawMap();
-        this.player.forEach(player => player.animate());
+        console.log(this.store.getState());
+        this.players.forEach((player) => {
+            player.animate();
+        })
     }
 }

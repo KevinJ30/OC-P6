@@ -45,13 +45,16 @@ export class Player {
     }
 
     addGridToPlayer() {
+        // Add grid to the right player
         for(let i = 0; i < 3; i++) {
-            if(this.position.x > 0 && (this.position.x / 32) + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {   
-                if(!this.map.collide((this.position.x + (Config.TILE_SIZE * (i + 1))) / 32, this.position.y / 32)){
+            let positionGrid = this.position.x + Config.TILE_SIZE * (i + 1);
+
+            if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
+                if(!this.map.collide(positionGrid / 32, this.position.y / 32)){
                     this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
                     this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
-                    this.ctx.fillRect(this.position.x + (Config.TILE_SIZE * (i + 1)), this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-                    this.ctx.strokeRect(this.position.x + (Config.TILE_SIZE * (i + 1)), this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.fillRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.strokeRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
                     this.ctx.fill();
                 }
                 else {
@@ -59,6 +62,63 @@ export class Player {
                 }
             }
             else {
+                break;
+            }
+        }
+
+        // Add grid to the left player
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = this.position.x - Config.TILE_SIZE * (i + 1);
+
+            if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
+                if (!this.map.collide(positionGrid / 32, this.position.y / 32)) {
+                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+                    this.ctx.fillRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.strokeRect(positionGrid, this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.fill();
+                } else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        // Add grid to the up player
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (this.position.y + Config.TILE_SIZE * (i + 1));
+
+            if(this.position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
+                if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
+                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+                    this.ctx.fillRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.strokeRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.fill();
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (this.position.y  - Config.TILE_SIZE * (i + 1));
+
+            if(positionGrid > (0 - 1) && this.position.y / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
+                if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
+                    this.ctx.fillStyle = "rgba(255, 255, 255, 0.5)";
+                    this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8";
+                    this.ctx.fillRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.strokeRect(this.position.x, positionGrid, Config.TILE_SIZE, Config.TILE_SIZE);
+                    this.ctx.fill();
+                } else {
+                    break;
+                }
+            } else {
                 break;
             }
         }

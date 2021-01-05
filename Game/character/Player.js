@@ -1,8 +1,14 @@
 import { Config } from '../config/Config.js';
 import { Utils } from '../Utils.js';
 
-export class Player {
+export class PlayerTile {
+    static LEFT = 10;
+    static RIGHT = 30;
+    static UP = 0;
+    static DOWN = 20;
+}
 
+export class Player {
     /**
      * Constructor.
      *
@@ -11,6 +17,7 @@ export class Player {
      * @param {number} sizeY
      * @param {HTMLImageElement} image
      * @param {Object} map
+     * @param {x, y, numberTile} position
      **/
     constructor (context, sizeX, sizeY, image, map, position) {
         this.ctx = context;
@@ -21,6 +28,7 @@ export class Player {
         this.position = position;
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
+        console.log(position);
     }
 
     /**
@@ -203,13 +211,13 @@ export class Player {
     animate(vertical, movementPosition, behind = false) {
         let i = 0;
         let loopAnimate = setInterval(() => {
-            //debugger
             if(vertical) {
                 if(movementPosition.x !== this.position.x / 32) {
                         if(!behind.x) {
-                            this.position.x += this.velocity;
+                            this.moveRight();
+                            // changer l'apparance du personnage
                         } else {
-                            this.position.x -= this.velocity;
+                            this.moveLeft();
                         }
                 }
                 else {
@@ -219,10 +227,10 @@ export class Player {
             else {
                 if(movementPosition.y !== this.position.y / 32) {
                     if(!behind.y) {
-                        this.position.y += this.velocity;
+                        this.moveDown();
 
                     } else {
-                        this.position.y -= this.velocity;
+                        this.moveUp();
                     }
                 }
                 else {
@@ -233,12 +241,38 @@ export class Player {
         }, 16)
     }
 
+    moveLeft() {
+        this.position.x -= this.velocity;
+        this.position.numberTile = PlayerTile.LEFT;
+    }
+
+    moveRight() {
+        this.position.x += this.velocity;
+        this.position.numberTile = PlayerTile.RIGHT;
+    }
+
+    moveUp() {
+        this.position.y -= this.velocity;
+        this.position.numberTile = PlayerTile.UP;
+    }
+
+    moveDown() {
+        this.position.y += this.velocity;
+        this.position.numberTile = PlayerTile.DOWN;
+    }
+
     /**
      * Update player
      * @param {Object} position
      **/
     update(position) {
-        this.ctx.drawImage(this.image, 0, 0, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        // selected tile with tileset
+        const numberTile = position.numberTile;
+        console.log(numberTile);
+        const sourceX = Math.floor(numberTile % 9) * 64;
+        const sourceY = Math.floor((numberTile / 9)) *  64;
+
+        this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         this.addGridToPlayer();
     }
 }

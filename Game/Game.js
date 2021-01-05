@@ -1,5 +1,5 @@
 import { Utils } from './Utils.js';
-import { Player } from './character/Player.js';
+import {Player, PlayerTile} from './character/Player.js';
 import { Input } from './Input.js';
 import { Config } from "./config/Config.js";
 import {GameStore} from "./stores/GameStore.js";
@@ -82,7 +82,7 @@ export class Game {
             randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
         }
 
-        return {x: randomX * 32, y:randomY * 32};
+        return {x: randomX * 32, y:randomY * 32, numberTile: PlayerTile.RIGHT};
     }
 
     /**

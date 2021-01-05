@@ -21,8 +21,7 @@ export class Game {
         this.ctx = context;
         this.map.build();
         this.players = [];
-        this.loadPlayer(2)
-        //this.playerSelected = this.players[0];
+        this.loadPlayer(1)
 
 
         /**
@@ -36,6 +35,7 @@ export class Game {
         })
 
         this.input = new Input(this.store.getState().playerSelected, document.getElementById('screen'));
+        this.input.init();
     }
 
     /**
@@ -91,9 +91,8 @@ export class Game {
      **/
     update() {
         this.map.drawMap();
-        console.log(this.store.getState());
         this.players.forEach((player) => {
-            player.animate();
+            player.update(player.position);
         })
     }
 }

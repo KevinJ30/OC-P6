@@ -20,14 +20,7 @@ export class Player {
         this.size = { x: sizeX, y: sizeY };
         this.position = position;
         this.health = 100;
-    }
-
-    /**
-     * Animate the movement player
-     **/
-    animate() {
-        this.update(this.position)
-        this.addGridToPlayer();
+        this.velocity = 4; // Valeur divisible par 32
     }
 
     /**
@@ -54,8 +47,10 @@ export class Player {
         for(let i = 0; i < 3; i++) {
             let positionGrid = this.position.x + Config.TILE_SIZE * (i + 1);
 
+            console.log(positionGrid / 32, this.position.y / 32)
+
             if(this.map.collideIsEdgeMap(this.position.x + Config.TILE_SIZE, this.position.y)) {
-                if (!this.map.collide(positionGrid / 32, this.position.y / 32)) {
+                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(this.position.y / 32))) {
                     this.addCaseToGrid(positionGrid, true);
                 } else {
                     break;
@@ -71,7 +66,7 @@ export class Player {
             let positionGrid = this.position.x - Config.TILE_SIZE * (i + 1);
 
             if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
-                if (!this.map.collide(positionGrid / 32, this.position.y / 32)) {
+                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(this.position.y / 32))) {
                     this.addCaseToGrid(positionGrid, true);
                 } else {
                     break;
@@ -87,7 +82,7 @@ export class Player {
             let positionGrid = (this.position.y + Config.TILE_SIZE * (i + 1));
 
             if(this.position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
-                if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
+                if (!this.map.collide(Math.floor(this.position.x / 32), Math.floor(positionGrid / 32))) {
                     this.addCaseToGrid(positionGrid, false);
                 } else {
                     break;
@@ -101,7 +96,7 @@ export class Player {
             let positionGrid = (this.position.y  - Config.TILE_SIZE * (i + 1));
 
             if(positionGrid > (0 - 1) && this.position.y / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
-                if (!this.map.collide(this.position.x / 32, positionGrid / 32)) {
+                if (!this.map.collide(Math.floor(this.position.x / 32), Math.floor(positionGrid / 32))) {
                     this.addCaseToGrid(positionGrid, false);
                 } else {
                     break;
@@ -129,7 +124,7 @@ export class Player {
         switch(direction) {
             case 'left':
                 if(this.position.x > 0) {
-                    this.position.x -= 32;
+                    this.position.x -= this.velocity;
                 }
                 break;
 
@@ -169,10 +164,33 @@ export class Player {
         const diffPositionX = Math.abs(this.position.x / Config.TILE_SIZE - numberX);
         const diffPositionY = Math.abs(this.position.y / Config.TILE_SIZE - numberY);
 
-        if(diffPositionX <= 3 && diffPositionY <= 3) {
+        if(diffPositionX <= 3 && diffPositionY <= 3 && diffPositionX !== 0 && diffPositionY === 0 || diffPositionY !== 0 && diffPositionX === 0) {
+            //debugger
             if(!this.map.collide(numberX, numberY)) {
-                this.position.y = numberY * Config.TILE_SIZE;
-                this.position.x = numberX * Config.TILE_SIZE;
+                // si le player ce deplace l'axe x
+                if(diffPositionX !== 0 && diffPositionY === 0) {
+                    const behind = {
+                        x : numberX - this.position.x / Config.TILE_SIZE < 0,
+                        y : numberY - this.position.y / Config.TILE_SIZE < 0
+                    }
+
+                    this.animate(true,{
+                        x: numberX,
+                        y: numberY
+                    }, behind)
+                }
+                else if(diffPositionY !== 0 && diffPositionX === 0) {
+                    const behind = {
+                        x : numberX - this.position.x / Config.TILE_SIZE < 0,
+                        y : numberY - this.position.y / Config.TILE_SIZE < 0
+                    }
+
+                    this.animate(false,{
+                        x: numberX,
+                        y: numberY
+                    }, behind)
+                }
+
             }else {
                 alert('Je ne peux pas me déplacer ici !')
             }
@@ -180,9 +198,39 @@ export class Player {
         else {
             alert('Je ne peux pas me déplacer ici !')
         }
+    }
 
-        // Move to player with the coordinate of the array map calculated
+    animate(vertical, movementPosition, behind = false) {
+        let i = 0;
+        let loopAnimate = setInterval(() => {
+            //debugger
+            if(vertical) {
+                if(movementPosition.x !== this.position.x / 32) {
+                        if(!behind.x) {
+                            this.position.x += this.velocity;
+                        } else {
+                            this.position.x -= this.velocity;
+                        }
+                }
+                else {
+                    clearInterval(loopAnimate);
+                }
+            }
+            else {
+                if(movementPosition.y !== this.position.y / 32) {
+                    if(!behind.y) {
+                        this.position.y += this.velocity;
 
+                    } else {
+                        this.position.y -= this.velocity;
+                    }
+                }
+                else {
+                    clearInterval(loopAnimate);
+                }
+            }
+
+        }, 16)
     }
 
     /**
@@ -191,5 +239,6 @@ export class Player {
      **/
     update(position) {
         this.ctx.drawImage(this.image, 0, 0, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        this.addGridToPlayer();
     }
 }

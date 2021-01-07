@@ -36,6 +36,8 @@ export class Game {
 
         this.input = new Input(this.store.getState().playerSelected, document.getElementById('screen'));
         this.input.init();
+
+        console.log(Math.floor(0 % 9) + PlayerTile.LEFT);
     }
 
     /**

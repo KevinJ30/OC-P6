@@ -11,6 +11,22 @@ export class PlayerTile {
     static DOWN = 18;
 }
 
+
+/**
+ * @property {CanvasRenderingContext2D} ctx
+ * @property {HTMLImageElement} image
+ * @property {Map} map
+ * @property {boolean} selectedPlayer
+ * @property {number} size
+ * @property {Object} position
+ * @property {number} health
+ * @property {number} velocity
+ * @property {number} playerDirection
+ * @property {Armor} chest
+ * @property {Armor} legs
+ * @property {Armor} foot
+ * @property {Weapon} weapon
+ **/
 export class Player {
     /**
      * Constructor.
@@ -35,7 +51,7 @@ export class Player {
         this.chest = new ChestArmor();
         this.legs = new LegsArmor();
         this.foot = new FootArmor();
-        this.weapon = new DragonspearWeapon()
+        this.weapon = null;
     }
 
     /**
@@ -119,137 +135,6 @@ export class Player {
             }
         }
     }
-
-    /**
-     * Move player with keyboard
-     *
-     * @param direction
-     **/
-    // move(direction) {
-    //     /**
-    //      * Calculate the dimmension of the map
-    //      **/
-    //     const map2D = {
-    //         x: Config.MAP_MAX_X * 32,
-    //         y: Config.MAP_MAX_Y * 32
-    //     }
-
-    //     switch(direction) {
-    //         case 'left':
-    //             if(this.position.x > 0) {
-    //                 this.position.x -= this.velocity;
-    //             }
-    //             break;
-
-    //         case 'right':
-    //             if((this.position.x + Config.TILE_SIZE) < map2D.x){
-    //                 this.position.x += 32;
-    //             }
-    //             break;
-
-    //         case 'up':
-    //             if(this.position.y > 0){
-    //                 this.position.y -= 32;
-    //             }
-    //             break;
-
-    //         case 'down':
-    //             if((this.position.y + Config.TILE_SIZE) < map2D.y){
-    //                 this.position.y += 32;
-    //             }
-    //             break;
-    //     }
-
-    //     this.update(this.position)
-    // }
-
-    /**
-     * Move player with the mouse
-     *
-     * @param {number} targetX
-     * @param {number} targetY
-     **/
-    // /moveTarget(targetX, targetY) {
-    //     // Calcule du numéro de la case dans le tableaux
-    //     const numberX = Math.trunc(targetX / 32);
-    //     const numberY = Math.trunc(targetY / 32);
-
-    //     const diffPositionX = Math.abs(this.position.x / Config.TILE_SIZE - numberX);
-    //     const diffPositionY = Math.abs(this.position.y / Config.TILE_SIZE - numberY);
-
-    //     if(diffPositionX <= 3 && diffPositionY <= 3 && diffPositionX !== 0 && diffPositionY === 0 || diffPositionY !== 0 && diffPositionX === 0) {
-    //         //debugger
-    //         if(!this.map.collide(numberX, numberY)) {
-    //             // si le player ce deplace l'axe x
-    //             if(diffPositionX !== 0 && diffPositionY === 0) {
-    //                 const behind = {
-    //                     x : numberX - this.position.x / Config.TILE_SIZE < 0,
-    //                     y : numberY - this.position.y / Config.TILE_SIZE < 0
-    //                 }
-
-    //                 this.animate(true,{
-    //                     x: numberX,
-    //                     y: numberY
-    //                 }, behind)
-    //             }
-    //             else if(diffPositionY !== 0 && diffPositionX === 0) {
-    //                 const behind = {
-    //                     x : numberX - this.position.x / Config.TILE_SIZE < 0,
-    //                     y : numberY - this.position.y / Config.TILE_SIZE < 0
-    //                 }
-
-    //                 this.animate(false,{
-    //                     x: numberX,
-    //                     y: numberY
-    //                 }, behind)
-    //             }
-
-    //         }else {
-    //             alert('Je ne peux pas me déplacer ici !')
-    //         }
-    //     }
-    //     else {
-    //         alert('Je ne peux pas me déplacer ici !')
-    //     }
-    // }
-
-    // animate(vertical, movementPosition, behind = false) {
-    //     let i = 0;
-    //     let loopAnimate = setInterval(() => {
-    //         if(vertical) {
-    //             if(movementPosition.x !== this.position.x / 32) {
-    //                     if(!behind.x) {
-    //                         this.moveRight();
-                            
-    //                         // Change sprite movement left player
-    //                         this.position.numberTile =  Math.floor(i % 9) + PlayerTile.RIGHT;
-    //                     } else {
-    //                         this.moveLeft();
-                            
-    //                         // Change sprite movement left player
-    //                         this.position.numberTile =  Math.floor(i % 9) + PlayerTile.LEFT;
-    //                     }
-    //             }
-    //             else {
-    //                 clearInterval(loopAnimate);
-    //             }
-    //         }
-    //         else {
-    //             if(movementPosition.y !== this.position.y / 32) {
-    //                 if(!behind.y) {
-    //                     this.moveDown();
-
-    //                 } else {
-    //                     this.moveUp();
-    //                 }
-    //             }
-    //             else {
-    //                 clearInterval(loopAnimate);
-    //             }
-    //         }
-    //         i++;
-    //     }, 16)
-    // }
 
     /**
      * Mouse player with mosue
@@ -407,12 +292,16 @@ export class Player {
 
         this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 32, 32);
+
+
         this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
 
-        console.log(sourceX, sourceY, numberTile);
+        if(this.weapon) {
+            this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        }
+
 
         this.addGridToPlayer();
     }

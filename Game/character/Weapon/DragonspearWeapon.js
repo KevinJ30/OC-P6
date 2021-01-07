@@ -8,6 +8,8 @@ export class DragonspearWeapon extends Weapon {
         this.spritesheet = new Image();
         this.spritesheet.src= "../ressources/dragonspear.png";
         this.spriteSelected = 0;
+
+        this.damage = 10;
     }
 
 }

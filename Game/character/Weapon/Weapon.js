@@ -2,6 +2,7 @@ export class Weapon {
 
     constructor() {
         this.spriteSelected = 0;
+        this.damage = 5;
     }
 
     draw(ctx, sourceX, sourceY, positionX, positionY) {

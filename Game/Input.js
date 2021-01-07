@@ -1,9 +1,11 @@
 export class Input {
 
-    constructor(player, canvas, map) {
+    constructor(gameStore, player, canvas, map) {
         this.player = player;
         this.map = map;
         this.canvas = canvas;
+
+        console.log(gameStore);
     }
 
     init() {

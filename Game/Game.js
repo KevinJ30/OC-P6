@@ -3,6 +3,7 @@ import {Player, PlayerTile} from './character/Player.js';
 import { Input } from './Input.js';
 import { Config } from "./config/Config.js";
 import {GameStore} from "./stores/GameStore.js";
+import {PlayerObserver} from "./Observer/playerObserver.js";
 
 /**
  * @property {Map} map
@@ -21,20 +22,29 @@ export class Game {
         this.ctx = context;
         this.map.build();
         this.players = [];
-        this.loadPlayer(1)
+        this.loadPlayer(2)
 
+        this.playerObserver = new PlayerObserver();
+
+        // subscribe observer player
+        this.playerObserver.subscribe((playerSelected) => {
+            this.playerSelected = playerSelected;
+        })
+
+        this.playerObserver.notify(this.players[1]);
 
         /**
          * Update state GameStore
          **/
         this.store = GameStore.getInstance();
+
         this.store.update({
             playerIndex: 0,
-            playerSelected: this.players[0],
+            playerSelected: this.playerSelected,
             map: this.map
         })
 
-        this.input = new Input(this.store.getState().playerSelected, document.getElementById('screen'));
+        this.input = new Input(this.store, this.store.getState().playerSelected, document.getElementById('screen'));
         this.input.init();
     }
 

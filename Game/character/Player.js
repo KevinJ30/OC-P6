@@ -293,7 +293,6 @@ export class Player {
         this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 32, 32);
 
-
         this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);

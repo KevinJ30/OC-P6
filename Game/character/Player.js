@@ -2,10 +2,10 @@ import { Config } from '../config/Config.js';
 import { Utils } from '../Utils.js';
 
 export class PlayerTile {
-    static LEFT = 10;
-    static RIGHT = 30;
+    static LEFT = 9;
+    static RIGHT = 27;
     static UP = 0;
-    static DOWN = 20;
+    static DOWN = 18;
 }
 
 export class Player {
@@ -28,7 +28,7 @@ export class Player {
         this.position = position;
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
-        console.log(position);
+        this.playerDirection = PlayerTile.LEFT;
     }
 
     /**
@@ -279,16 +279,17 @@ export class Player {
                 
                  // Movement left Player
                 if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX < 0) {
-                    this.moveLeft(Math.abs(diffPositionX));               
+                    this.moveLeft(this.position.x + diffPositionX * 32);
+
                 }
                 else if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX > 0) {
-                    this.moveRight(Math.abs(diffPositionX));
+                    this.moveRight(this.position.x + diffPositionX * 32);
                 }
                 else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY < 0) {
-                    this.moveUp(Math.abs(diffPositionY));
+                    this.moveUp(this.position.y + diffPositionY * 32);
                 }
                 else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY > 0) {
-                    this.moveDown(Math.abs(diffPositionY));
+                    this.moveDown(this.position.y + diffPositionY * 32);
                 }
             }
             else {
@@ -305,34 +306,86 @@ export class Player {
      * Move left player
      * @return void
      */
-    moveLeft(numberCase) {
-        /**this.position.x -= this.velocity;
-        this.position.numberTile = PlayerTile.LEFT;**/
-        this.position.x -= numberCase * 32; 
+    moveLeft(newPosition) {
+        this.playerDirection = PlayerTile.LEFT;
+        let i = 0;
+        let animate = setInterval(() => {
+            if(newPosition !== this.position.x) {
+                this.playerDirection = Math.floor(i % 9) + PlayerTile.LEFT;
+                this.position.x -= this.velocity;
+                i++;
+            }
+            else {
+                this.playerDirection = PlayerTile.LEFT;
+                clearInterval(animate);
+            }
+        }, 16);
     }
 
     /**
      * Move right player
      * @return void
      **/
-    moveRight(numberCase) {
-        this.position.x += numberCase * 32;
+    moveRight(newPosition) {
+        this.playerDirection = PlayerTile.RIGHT;
+
+        let i = 0;
+        console.log(Math.floor(i % 9) + PlayerTile.RIGHT)
+        let animate = setInterval(() => {
+            if(newPosition !== this.position.x) {
+                this.playerDirection = Math.floor(i % 9) + PlayerTile.RIGHT;
+                this.position.x += this.velocity;
+                i++;
+            }
+            else{
+                this.playerDirection = PlayerTile.RIGHT;
+                clearInterval(animate);
+            }
+        }, 16)
     }
 
     /**
      * Move up player
      * @return void
      **/
-    moveUp(numberCase) {
-        this.position.y -= numberCase * 32;
+    moveUp(newPosition) {
+        this.playerDirection = PlayerTile.UP;
+
+        let i = 0;
+        let animate = setInterval(() => {
+            if(newPosition !== this.position.y) {
+                this.playerDirection = Math.floor(i % 9) + PlayerTile.UP;
+                this.position.y -= this.velocity;
+                i++;
+            }
+            else {
+                this.playerDirection = PlayerTile.UP;
+                clearInterval(animate);
+            }
+        }, 16);
+        
     }
 
     /**
      * Move down player
      * @return void
      **/
-    moveDown(numberCase) {
-        this.position.y += numberCase * 32;
+    moveDown(newPosition) {
+        this.playerDirection = PlayerTile.DOWN;
+        let i = 0;
+
+        let animate = setInterval(() => {
+            if(newPosition !== this.position.y) {
+                // Calculated playerDirection sprite
+                this.playerDirection = Math.floor(i % 9) + PlayerTile.DOWN;
+                this.position.y += this.velocity;
+                i++;
+            }
+            else {
+                this.playerDirection = PlayerTile.DOWN;
+                clearInterval(animate);
+            }
+        }, 16); 
     }
 
     /**
@@ -341,12 +394,12 @@ export class Player {
      **/
     update(position) {
         // selected tile with tileset
-        const numberTile = position.numberTile;
+        const numberTile = this.playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
-        //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 64, 64);
+        this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 64, 64);
         this.addGridToPlayer();
     }
 }

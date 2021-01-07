@@ -2,6 +2,7 @@ import { Config } from '../config/Config.js';
 import { LegsArmor } from './Armor/LegsArmor.js';
 import { ChestArmor } from './Armor/ChestArmor.js';
 import {FootArmor} from "./Armor/FootArmor.js";
+import {DragonspearWeapon} from "./Weapon/DragonspearWeapon.js";
 
 export class PlayerTile {
     static LEFT = 9;
@@ -34,7 +35,7 @@ export class Player {
         this.chest = new ChestArmor();
         this.legs = new LegsArmor();
         this.foot = new FootArmor();
-
+        this.weapon = new DragonspearWeapon()
     }
 
     /**
@@ -409,6 +410,10 @@ export class Player {
         this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+
+        console.log(sourceX, sourceY, numberTile);
+
         this.addGridToPlayer();
     }
 }

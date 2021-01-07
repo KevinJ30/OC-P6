@@ -46,7 +46,7 @@ export class Game {
      **/
     loadPlayer(numberPlayer) {
         let playerTile = new Image();
-        playerTile.src = "./ressources/skeleton.png";
+        playerTile.src = "./ressources/player.png";
 
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position

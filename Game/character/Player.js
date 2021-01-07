@@ -1,5 +1,7 @@
 import { Config } from '../config/Config.js';
-import { Utils } from '../Utils.js';
+import { LegsArmor } from './Armor/LegsArmor.js';
+import { ChestArmor } from './Armor/ChestArmor.js';
+import {FootArmor} from "./Armor/FootArmor.js";
 
 export class PlayerTile {
     static LEFT = 9;
@@ -29,6 +31,10 @@ export class Player {
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
         this.playerDirection = PlayerTile.LEFT;
+        this.chest = new ChestArmor();
+        this.legs = new LegsArmor();
+        this.foot = new FootArmor();
+
     }
 
     /**
@@ -399,7 +405,10 @@ export class Player {
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 64, 64);
+        //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 32, 32);
+        this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.addGridToPlayer();
     }
 }

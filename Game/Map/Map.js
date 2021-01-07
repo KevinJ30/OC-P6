@@ -58,8 +58,10 @@ export class Map {
                 const sourceY = Math.floor((a / 16)) *  this.tileSize;
                 
                 this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+                //this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, 64, 64);
                 this.ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
                 this.ctx.strokeRect(positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+                //this.ctx.strokeRect(positionTile.x, positionTile.y, 64, 64);
             }
         }
     }

@@ -6,6 +6,7 @@ import {GameStore} from "./stores/GameStore.js";
 import {RoundObserver} from "./Observer/RoundObserver.js";
 import {DropItemObserver} from "./Observer/DropItemObserver.js";
 import {Map} from "./Map/Map.js";
+import {Container} from "./Container.js";
 
 /**
  * @property {Map} map
@@ -104,6 +105,7 @@ export class Game {
         return {x: randomX * 32, y:randomY * 32, numberTile: PlayerSprite.RIGHT};
     }
 
+
     /**
      * Configure the change of a round game
      **/
@@ -133,5 +135,16 @@ export class Game {
 
         // Affiche la grille pour le joueur selectionné
         players[playerSelected].addGridToPlayer();
+
+        this.gameOver();
+    }
+
+    gameOver() {
+        this.players.forEach((player) => {
+            if(player.isDead()) {
+                console.log('end game....');
+                return true;
+            }
+        })
     }
 }

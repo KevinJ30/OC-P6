@@ -6,6 +6,6 @@ export class LegsArmor extends Armor {
         super();
 
         this.spritesheet = new Image();
-        this.spritesheet.src = "../ressources/legsArmor.png";
+        this.spritesheet.src = "./ressources/legsArmor.png";
     }
 }

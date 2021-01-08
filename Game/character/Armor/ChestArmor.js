@@ -6,6 +6,6 @@ export class ChestArmor extends Armor {
         super();
 
         this.spritesheet = new Image();
-        this.spritesheet.src = "../ressources/chestArmor.png";
+        this.spritesheet.src = "./ressources/chestArmor.png";
     }
 }

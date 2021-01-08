@@ -6,6 +6,6 @@ export class FootArmor extends Armor {
         super();
 
         this.spritesheet = new Image();
-        this.spritesheet.src = "../ressources/footArmor.png";
+        this.spritesheet.src = "./ressources/footArmor.png";
     }
 }

@@ -22,7 +22,7 @@ export class Game {
         this.ctx = context;
         this.map.build();
         this.players = [];
-
+        console.log(this.map.mapEvents);
         this.roundObsever = new RoundObserver();
         this.loadPlayer(2)
 
@@ -125,6 +125,7 @@ export class Game {
         let playerSelected = this.store.getState().playerSelected;
 
         this.map.drawMap();
+        this.map.drawEvents();
 
         this.players.forEach((player) => {
             player.update(player.position);

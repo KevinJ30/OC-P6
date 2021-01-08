@@ -1,12 +1,14 @@
 import { Generator } from './Generator.js';
 import { Config } from '../config/Config.js';
- 
+import {Utils} from "../Utils.js";
 
 /**
  * Joudrier Kevin
  * Build a map with the parameters
  **/
+
 export class Map {
+    static WEAPON_DRAGONSPEAR = 1;
 
     /**
      * Constructor
@@ -27,7 +29,15 @@ export class Map {
         this.maxTileY = maxTileY;
         this.map = [];
         this.mapCollision = [];
+        this.mapEvents = [];
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
+
+        this.loadWeapon();
+    }
+
+    loadWeapon() {
+        this.weaponDragonspearSprite = new Image();
+        this.weaponDragonspearSprite.src = "../ressources/dragonspear.png";
     }
 
     /**
@@ -37,6 +47,12 @@ export class Map {
         this.map = this.generator.generatedEmptyMap();
         this.map = this.generator.generatedWallInMap(10);
         this.mapCollision = this.generator.getCollisionMap();
+        this.mapEvents = this.generateEventsMap();
+
+        // add four weapon on the map
+        for(let i = 0; i < 4; i++) {
+            this.addWeapon();
+        }
     }
 
     /**
@@ -66,6 +82,26 @@ export class Map {
         }
     }
 
+    drawEvents() {
+        for(let i = 0; i < this.maxTileY; i++) {
+            for(let j = 0; j < this.maxTileX; j++) {
+                if(this.mapEvents[i][j] === 1) {
+                    const positionTile = {
+                        x : j * this.tileSize,
+                        y : i * this.tileSize
+                    }
+
+                    const a = 168;
+                    const sourceX = Math.floor(a % 16) * this.tileSize;
+                    const sourceY = Math.floor((a / 16)) *  this.tileSize;
+
+                    this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
+                    /**this.ctx.drawImage(this.tileImg, 0, 0, 64, 64, 0, 0, 32, 32)**/
+                }
+            }
+        }
+    }
+
     /**
      * Detect collision with edge map
      *
@@ -81,12 +117,43 @@ export class Map {
         return this.mapCollision[targetY][targetX];
     }
 
+    generateEventsMap() {
+        let mapEvents = [];
+
+        for(let i = 0; i < this.maxTileY; i++) {
+            let row = [];
+            for(let j = 0; j < this.maxTileX; j++) {
+                row.push(0);
+            }
+
+            mapEvents.push(row);
+        }
+
+        return mapEvents;
+    }
+
     addGridToMap() {
         this.ctx.beginPath();
         this.ctx.moveTo(75, 50);
         this.ctx.lineTo(100, 75);
         this.ctx.lineTo(100, 25);
         this.ctx.fill();
+    }
+
+    /**
+     * Add random weapon on the map
+     **/
+    addWeapon() {
+        let positionX = Utils.randomNumber(0, this.maxTileX);
+        let positionY = Utils.randomNumber(0, this.maxTileY);
+
+        // Genere une nouvelle position si il y a collision dans la map
+        while(this.collide(positionX, positionY) || this.mapEvents[positionY][positionX] === Map.WEAPON_DRAGONSPEAR) {
+            positionX = Utils.randomNumber(0, this.maxTileX);
+            positionY = Utils.randomNumber(0, this.maxTileY);
+        }
+
+        this.mapEvents[positionY][positionX] = Map.WEAPON_DRAGONSPEAR;
     }
 
     /** Getter & Setter **/

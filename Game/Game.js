@@ -121,10 +121,16 @@ export class Game {
      * @return void
      **/
     update() {
+        let players = this.store.getState().players;
+        let playerSelected = this.store.getState().playerSelected;
+
         this.map.drawMap();
 
         this.players.forEach((player) => {
             player.update(player.position);
         })
+
+        // Affiche la grille pour le joueur selectionné
+        players[playerSelected].addGridToPlayer();
     }
 }

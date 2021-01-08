@@ -307,7 +307,6 @@ export class Player {
             this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         }
 
-
-        this.addGridToPlayer();
+        //this.addGridToPlayer();
     }
 }

@@ -1,4 +1,3 @@
-import { Map } from './Map/Map.js';
 import { Game } from './Game.js';
 import {GameStore} from "./stores/GameStore.js";
 
@@ -10,6 +9,7 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
 let runApp = true;
 
 let gameStore = GameStore.getInstance();
+
 gameStore.update({
     playerNumber: 50
 })

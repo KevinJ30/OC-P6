@@ -1,6 +1,6 @@
 export class Input {
 
-    constructor(gameStore, canvas, map) {
+    constructor(gameStore, canvas) {
         this.canvas = canvas;
         this.gameStore = gameStore;
     }

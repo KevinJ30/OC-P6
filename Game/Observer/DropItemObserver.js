@@ -1,18 +1,12 @@
-export class DropItemObserver {
+import {Observer} from "./Observer.js";
+
+/**
+ * Observe player the drop item on the map
+ **/
+export class DropItemObserver extends Observer {
 
     constructor() {
-        this.observers = [];
+        super();
     }
 
-    subscribe(observer) {
-        this.observers.push(observer);
-    }
-
-    unsubscribe(observer) {
-        this.observers = this.observers.filter(subscriber => subscriber !== observer);
-    }
-
-    notify(data) {
-        this.observers.forEach(observer => observer(data));
-    }
 }

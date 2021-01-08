@@ -31,6 +31,7 @@ export class Player {
     /**
      * Constructor.
      *
+     * @param dropItemObserver
      * @param roundObserver
      * @param {CanvasRenderingContext2D} context
      * @param {number} sizeX
@@ -39,7 +40,7 @@ export class Player {
      * @param {Object} map
      * @param {x, y, numberTile} position
      **/
-    constructor (roundObserver, context, sizeX, sizeY, image, map, position) {
+    constructor (dropItemObserver, roundObserver, context, sizeX, sizeY, image, map, position) {
         this.ctx = context;
         this.image = image;
         this.map = map;
@@ -52,8 +53,9 @@ export class Player {
         this.chest = new ChestArmor();
         this.legs = new LegsArmor();
         this.foot = new FootArmor();
-        this.weapon = new DragonspearWeapon();
+        this.weapon = null;
         this.roundObserver = roundObserver;
+        this.dropItemObserver = dropItemObserver;
     }
 
     /**
@@ -210,11 +212,20 @@ export class Player {
                 i++;
             }
             else {
+                this.dropItem();
+
                 this.playerDirection = PlayerSprite.LEFT;
                 this.roundObserver.notify()
                 clearInterval(animate);
             }
         }, 16);
+    }
+
+    dropItem() {
+        if(this.map.mapEvents[this.position.y / 32][this.position.x / 32]) {
+            this.weapon = new DragonspearWeapon();
+            this.dropItemObserver.notify(this.position);
+        }
     }
 
     /**
@@ -232,7 +243,7 @@ export class Player {
                 i++;
             }
             else{
-
+                this.dropItem();
                 this.playerDirection = PlayerSprite.RIGHT;
                 this.roundObserver.notify()
                 clearInterval(animate);
@@ -255,6 +266,7 @@ export class Player {
                 i++;
             }
             else {
+                this.dropItem();
                 this.playerDirection = PlayerSprite.UP;
                 this.roundObserver.notify()
                 clearInterval(animate);
@@ -279,6 +291,7 @@ export class Player {
                 i++;
             }
             else {
+                this.dropItem();
                 this.playerDirection = PlayerSprite.DOWN;
                 this.roundObserver.notify()
                 clearInterval(animate);
@@ -306,7 +319,5 @@ export class Player {
         if(this.weapon) {
             this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         }
-
-        //this.addGridToPlayer();
     }
 }

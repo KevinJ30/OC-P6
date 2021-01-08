@@ -4,6 +4,8 @@ import { Input } from './Input.js';
 import { Config } from "./config/Config.js";
 import {GameStore} from "./stores/GameStore.js";
 import {RoundObserver} from "./Observer/RoundObserver.js";
+import {DropItemObserver} from "./Observer/DropItemObserver.js";
+import {Map} from "./Map/Map.js";
 
 /**
  * @property {Map} map
@@ -17,12 +19,12 @@ export class Game {
      * @param {Map} map
      * @param {CanvasRenderingContext2D} context
      **/
-    constructor(map, context) {
-        this.map = map;
+    constructor(context) {
+        this.dropItemObserver = new DropItemObserver();
         this.ctx = context;
+        this.map = new Map(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
         this.map.build();
         this.players = [];
-        console.log(this.map.mapEvents);
         this.roundObsever = new RoundObserver();
         this.loadPlayer(2)
 
@@ -35,9 +37,7 @@ export class Game {
          * Update state GameStore
          **/
         this.store = GameStore.getInstance();
-
         this.input = new Input(this.store, document.getElementById('screen'));
-
     }
 
     /**
@@ -70,7 +70,7 @@ export class Game {
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-            this.players.push(new Player(this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
+            this.players.push(new Player(this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
         }
     }
 

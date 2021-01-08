@@ -19,7 +19,7 @@ export class Map {
      * @param {number} maxTileX 
      * @param {number} maxTileY 
      */
-    constructor(context, srcImage, tileSize, maxTileX, maxTileY) {
+    constructor(context, srcImage, tileSize, maxTileX, maxTileY, dropItemObserver) {
         this.ctx = context;
         this.srcImage = srcImage
         this.tileImg = new Image();
@@ -31,8 +31,18 @@ export class Map {
         this.mapCollision = [];
         this.mapEvents = [];
         this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
+        this.dropItemObserver = dropItemObserver;
+
+        // Bind this to the method
+        this.dropItemSubscribe = this.dropItemSubscribe.bind(this);
+        this.dropItemObserver.subscribe(this.dropItemSubscribe);
 
         this.loadWeapon();
+    }
+
+    dropItemSubscribe(position) {
+        this.mapEvents[position.y / 32][position.x / 32] = 0;
+        console.log('your suppress bourse of item');
     }
 
     loadWeapon() {

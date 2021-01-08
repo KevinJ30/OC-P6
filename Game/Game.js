@@ -1,5 +1,5 @@
 import { Utils } from './Utils.js';
-import {Player, PlayerTile} from './character/Player.js';
+import {Player, PlayerSprite} from './character/Player.js';
 import { Input } from './Input.js';
 import { Config } from "./config/Config.js";
 import {GameStore} from "./stores/GameStore.js";
@@ -29,13 +29,21 @@ export class Game {
         /**
          * Bind method
          **/
-        this.changePlayerSelected = this.changePlayerSelected.bind(this);
+        this.changeRound = this.changeRound.bind(this);
 
         /**
          * Update state GameStore
          **/
         this.store = GameStore.getInstance();
 
+        this.input = new Input(this.store, document.getElementById('screen'));
+
+    }
+
+    /**
+     * start the game playing
+     **/
+    start() {
         this.store.update({
             playerIndex: 0,
             playerSelected: this.players[0],
@@ -44,14 +52,9 @@ export class Game {
         })
 
         // subscribe observer player
-        this.roundObsever.subscribe(this.changePlayerSelected)
-
+        this.roundObsever.subscribe(this.changeRound)
         this.store.getState().playerSelected = 0;
-
-        this.input = new Input(this.store, document.getElementById('screen'));
         this.input.init();
-
-
     }
 
     /**
@@ -61,13 +64,13 @@ export class Game {
      * @return void
      **/
     loadPlayer(numberPlayer) {
-        let playerTile = new Image();
-        playerTile.src = "./ressources/player.png";
+        let PlayerSprite = new Image();
+        PlayerSprite.src = "./ressources/player.png";
 
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-            this.players.push(new Player(this.roundObsever, this.ctx, 64, 64, playerTile, this.map, positionPlayer))
+            this.players.push(new Player(this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
         }
     }
 
@@ -98,11 +101,13 @@ export class Game {
             randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
         }
 
-        return {x: randomX * 32, y:randomY * 32, numberTile: PlayerTile.RIGHT};
+        return {x: randomX * 32, y:randomY * 32, numberTile: PlayerSprite.RIGHT};
     }
 
-    changePlayerSelected() {
-        console.log(this);
+    /**
+     * Configure the change of a round game
+     **/
+    changeRound() {
         if(this.store.getState().playerSelected === 0) {
             this.store.getState().playerSelected = 1
         }

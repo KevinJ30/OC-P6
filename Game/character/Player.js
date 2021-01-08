@@ -4,7 +4,7 @@ import { ChestArmor } from './Armor/ChestArmor.js';
 import {FootArmor} from "./Armor/FootArmor.js";
 import {DragonspearWeapon} from "./Weapon/DragonspearWeapon.js";
 
-export class PlayerTile {
+export class PlayerSprite {
     static LEFT = 9;
     static RIGHT = 27;
     static UP = 0;
@@ -48,11 +48,11 @@ export class Player {
         this.position = position;
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
-        this.playerDirection = PlayerTile.LEFT;
+        this.playerDirection = PlayerSprite.LEFT;
         this.chest = new ChestArmor();
         this.legs = new LegsArmor();
         this.foot = new FootArmor();
-        this.weapon = null;
+        this.weapon = new DragonspearWeapon();
         this.roundObserver = roundObserver;
     }
 
@@ -201,16 +201,16 @@ export class Player {
      * @return void
      */
     moveLeft(newPosition) {
-        this.playerDirection = PlayerTile.LEFT;
+        this.playerDirection = PlayerSprite.LEFT;
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
-                this.playerDirection = Math.floor(i % 9) + PlayerTile.LEFT;
+                this.playerDirection = Math.floor(i % 9) + PlayerSprite.LEFT;
                 this.position.x -= this.velocity;
                 i++;
             }
             else {
-                this.playerDirection = PlayerTile.LEFT;
+                this.playerDirection = PlayerSprite.LEFT;
                 this.roundObserver.notify()
                 clearInterval(animate);
             }
@@ -222,19 +222,18 @@ export class Player {
      * @return void
      **/
     moveRight(newPosition) {
-        this.playerDirection = PlayerTile.RIGHT;
+        this.playerDirection = PlayerSprite.RIGHT;
 
         let i = 0;
-        console.log(Math.floor(i % 9) + PlayerTile.RIGHT)
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
-                this.playerDirection = Math.floor(i % 9) + PlayerTile.RIGHT;
+                this.playerDirection = Math.floor(i % 9) + PlayerSprite.RIGHT;
                 this.position.x += this.velocity;
                 i++;
             }
             else{
 
-                this.playerDirection = PlayerTile.RIGHT;
+                this.playerDirection = PlayerSprite.RIGHT;
                 this.roundObserver.notify()
                 clearInterval(animate);
             }
@@ -246,17 +245,17 @@ export class Player {
      * @return void
      **/
     moveUp(newPosition) {
-        this.playerDirection = PlayerTile.UP;
+        this.playerDirection = PlayerSprite.UP;
 
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
-                this.playerDirection = Math.floor(i % 9) + PlayerTile.UP;
+                this.playerDirection = Math.floor(i % 9) + PlayerSprite.UP;
                 this.position.y -= this.velocity;
                 i++;
             }
             else {
-                this.playerDirection = PlayerTile.UP;
+                this.playerDirection = PlayerSprite.UP;
                 this.roundObserver.notify()
                 clearInterval(animate);
             }
@@ -269,18 +268,18 @@ export class Player {
      * @return void
      **/
     moveDown(newPosition) {
-        this.playerDirection = PlayerTile.DOWN;
+        this.playerDirection = PlayerSprite.DOWN;
         let i = 0;
 
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 // Calculated playerDirection sprite
-                this.playerDirection = Math.floor(i % 9) + PlayerTile.DOWN;
+                this.playerDirection = Math.floor(i % 9) + PlayerSprite.DOWN;
                 this.position.y += this.velocity;
                 i++;
             }
             else {
-                this.playerDirection = PlayerTile.DOWN;
+                this.playerDirection = PlayerSprite.DOWN;
                 this.roundObserver.notify()
                 clearInterval(animate);
             }

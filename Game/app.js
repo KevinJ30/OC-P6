@@ -14,9 +14,8 @@ gameStore.update({
     playerNumber: 50
 })
 
-let game = new Game(new Map(ScreenRenderer, './ressources/tile_map.png', 32, 20, 15), ScreenRenderer);
-
-let i = 0;
+let game = new Game(new Map(ScreenRenderer, './ressources/tile_map.png', 32, 20, 15), ScreenRenderer)
+game.start();
 
 const render = (timestamp) => {
     game.update()

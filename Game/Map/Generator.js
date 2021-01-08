@@ -1,6 +1,17 @@
 import { Utils } from '../Utils.js';
 
+/**
+ * Created by Joudrier Kevin
+ **/
 export class Generator {
+    /**
+     * Constructor.
+     *
+     * @param maxTileX
+     * @param maxTileY
+     * @param blankTileNumber
+     * @param wallTileNumber
+     **/
     constructor(maxTileX, maxTileY, blankTileNumber, wallTileNumber) {
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
@@ -12,6 +23,11 @@ export class Generator {
         this.mapCollision = [];
     }
 
+    /**
+     * Generate empty map
+     *
+     * @returns {Array} map
+     **/
     generatedEmptyMap() {
         // créer un map vide
         for(let i = 0; i < this.maxTileY; i++) {
@@ -29,6 +45,12 @@ export class Generator {
         return this.map;
     }
 
+    /**
+     * Generate wall map
+     *
+     * @param {number} fillPourcentage : pourcent wall generate
+     * @returns {Array} map
+     **/
     generatedWallInMap(fillPourcentage) {
         fillPourcentage = fillPourcentage === undefined ? 0 : fillPourcentage;
         let wallNumber = (this.maxTileY * this.maxTileX) * fillPourcentage / 100;
@@ -52,10 +74,11 @@ export class Generator {
         return this.map;
     }
 
-    generateStall() {
-        
-    }
-
+    /**
+     * Return collition map
+     *
+     * @returns {Array} mapCollision
+     **/
     getCollisionMap() {
         return this.mapCollision;
     }

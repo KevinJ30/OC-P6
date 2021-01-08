@@ -163,37 +163,42 @@ export class Player {
          * Detect the collision and maximum number of case movement
          **/
 
-        // Map end collision 
-        if(Math.abs(diffPositionX) <= 3 && Math.abs(diffPositionY) <= 3 && Math.abs(diffPositionX) !== 0 && Math.abs(diffPositionY) === 0 || Math.abs(diffPositionY) !== 0 && Math.abs(diffPositionX) === 0) {
+        // Map end collision
+        if(Math.abs(diffPositionX) <= 3 && Math.abs(diffPositionY) <= 3) {
+            if(Math.abs(diffPositionX) !== 0 && Math.abs(diffPositionY) === 0 || Math.abs(diffPositionY) !== 0 && Math.abs(diffPositionX) === 0) {
 
-            // Collision with wall map
-            if(!this.map.collide(caseNumberX, caseNumberY)) {
-                
-                /**
-                 * Determined direction movement player
-                 **/
-                
-                 // Movement left Player
-                if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX < 0) {
-                    this.moveLeft(this.position.x + diffPositionX * 32);
+                // Collision with wall map
+                if(!this.map.collide(caseNumberX, caseNumberY)) {
+                    
+                    /**
+                     * Determined direction movement player
+                     **/
+                    
+                    // Movement left Player
+                    if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX < 0) {
+                        this.moveLeft(this.position.x + diffPositionX * 32);
 
+                    }
+                    else if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX > 0) {
+                        this.moveRight(this.position.x + diffPositionX * 32);
+                    }
+                    else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY < 0) {
+                        this.moveUp(this.position.y + diffPositionY * 32);
+                    }
+                    else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY > 0) {
+                        this.moveDown(this.position.y + diffPositionY * 32);
+                    }
                 }
-                else if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX > 0) {
-                    this.moveRight(this.position.x + diffPositionX * 32);
-                }
-                else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY < 0) {
-                    this.moveUp(this.position.y + diffPositionY * 32);
-                }
-                else if(diffPositionY !== 0 && diffPositionX === 0 && diffPositionY > 0) {
-                    this.moveDown(this.position.y + diffPositionY * 32);
+                else {
+                    alert('Je ne peux pas me déplacer ici !');
                 }
             }
             else {
+                // Envoyer une message sur le jeu
                 alert('Je ne peux pas me déplacer ici !');
             }
         }
         else {
-            // Envoyer une message sur le jeu
             alert('Je ne peux pas me déplacer ici !');
         }
     }   

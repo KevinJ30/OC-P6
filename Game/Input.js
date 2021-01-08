@@ -1,11 +1,8 @@
 export class Input {
 
-    constructor(gameStore, player, canvas, map) {
-        this.player = player;
-        this.map = map;
+    constructor(gameStore, canvas, map) {
         this.canvas = canvas;
-
-        console.log(gameStore);
+        this.gameStore = gameStore;
     }
 
     init() {
@@ -31,8 +28,8 @@ export class Input {
         })
 
         this.canvas.addEventListener('click', (event) => {
-            this.player.moveTarget(event.offsetX, event.offsetY);
+            let player = this.gameStore.getState().players[this.gameStore.getState().playerSelected];
+            player.moveTarget(event.offsetX, event.offsetY);
         })
     }
-
 }

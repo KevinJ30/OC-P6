@@ -3,7 +3,7 @@ import {Player, PlayerTile} from './character/Player.js';
 import { Input } from './Input.js';
 import { Config } from "./config/Config.js";
 import {GameStore} from "./stores/GameStore.js";
-import {PlayerObserver} from "./Observer/playerObserver.js";
+import {RoundObserver} from "./Observer/RoundObserver.js";
 
 /**
  * @property {Map} map
@@ -22,16 +22,14 @@ export class Game {
         this.ctx = context;
         this.map.build();
         this.players = [];
+
+        this.roundObsever = new RoundObserver();
         this.loadPlayer(2)
 
-        this.playerObserver = new PlayerObserver();
-
-        // subscribe observer player
-        this.playerObserver.subscribe((playerSelected) => {
-            this.playerSelected = playerSelected;
-        })
-
-        this.playerObserver.notify(this.players[1]);
+        /**
+         * Bind method
+         **/
+        this.changePlayerSelected = this.changePlayerSelected.bind(this);
 
         /**
          * Update state GameStore
@@ -40,12 +38,20 @@ export class Game {
 
         this.store.update({
             playerIndex: 0,
-            playerSelected: this.playerSelected,
-            map: this.map
+            playerSelected: this.players[0],
+            map: this.map,
+            players: this.players
         })
 
-        this.input = new Input(this.store, this.store.getState().playerSelected, document.getElementById('screen'));
+        // subscribe observer player
+        this.roundObsever.subscribe(this.changePlayerSelected)
+
+        this.store.getState().playerSelected = 0;
+
+        this.input = new Input(this.store, document.getElementById('screen'));
         this.input.init();
+
+
     }
 
     /**
@@ -61,7 +67,7 @@ export class Game {
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-            this.players.push(new Player(this.ctx, 64, 64, playerTile, this.map, positionPlayer))
+            this.players.push(new Player(this.roundObsever, this.ctx, 64, 64, playerTile, this.map, positionPlayer))
         }
     }
 
@@ -95,12 +101,23 @@ export class Game {
         return {x: randomX * 32, y:randomY * 32, numberTile: PlayerTile.RIGHT};
     }
 
+    changePlayerSelected() {
+        console.log(this);
+        if(this.store.getState().playerSelected === 0) {
+            this.store.getState().playerSelected = 1
+        }
+        else {
+            this.store.getState().playerSelected = 0
+        }
+    }
+
     /**
      * Game loop
      * @return void
      **/
     update() {
         this.map.drawMap();
+
         this.players.forEach((player) => {
             player.update(player.position);
         })

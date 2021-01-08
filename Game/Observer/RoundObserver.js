@@ -1,4 +1,4 @@
-export class PlayerObserver {
+export class RoundObserver {
 
     constructor() {
         this.observers = [];

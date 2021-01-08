@@ -31,6 +31,7 @@ export class Player {
     /**
      * Constructor.
      *
+     * @param roundObserver
      * @param {CanvasRenderingContext2D} context
      * @param {number} sizeX
      * @param {number} sizeY
@@ -38,7 +39,7 @@ export class Player {
      * @param {Object} map
      * @param {x, y, numberTile} position
      **/
-    constructor (context, sizeX, sizeY, image, map, position) {
+    constructor (roundObserver, context, sizeX, sizeY, image, map, position) {
         this.ctx = context;
         this.image = image;
         this.map = map;
@@ -52,6 +53,7 @@ export class Player {
         this.legs = new LegsArmor();
         this.foot = new FootArmor();
         this.weapon = null;
+        this.roundObserver = roundObserver;
     }
 
     /**
@@ -209,6 +211,7 @@ export class Player {
             }
             else {
                 this.playerDirection = PlayerTile.LEFT;
+                this.roundObserver.notify()
                 clearInterval(animate);
             }
         }, 16);
@@ -230,7 +233,9 @@ export class Player {
                 i++;
             }
             else{
+
                 this.playerDirection = PlayerTile.RIGHT;
+                this.roundObserver.notify()
                 clearInterval(animate);
             }
         }, 16)
@@ -252,6 +257,7 @@ export class Player {
             }
             else {
                 this.playerDirection = PlayerTile.UP;
+                this.roundObserver.notify()
                 clearInterval(animate);
             }
         }, 16);
@@ -275,6 +281,7 @@ export class Player {
             }
             else {
                 this.playerDirection = PlayerTile.DOWN;
+                this.roundObserver.notify()
                 clearInterval(animate);
             }
         }, 16); 

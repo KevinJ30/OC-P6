@@ -1,6 +1,7 @@
 export class Weapon {
 
     constructor() {
+        this.spritesheet = null;
         this.spriteSelected = 0;
         this.damage = 5;
     }

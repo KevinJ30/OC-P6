@@ -6,8 +6,6 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
 /**
  * Boucle de jeu
  **/
-let runApp = true;
-
 let gameStore = GameStore.getInstance();
 
 gameStore.update({

@@ -36,5 +36,6 @@ export class PlayerInit extends PlayerControl {
         this.weapon = null;
         this.roundObserver = roundObserver;
         this.dropItemObserver = dropItemObserver;
+        this.damage = 5;
     }
 }

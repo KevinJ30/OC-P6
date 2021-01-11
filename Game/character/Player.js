@@ -141,6 +141,14 @@ export class Player extends PlayerInit {
         }
     }
 
+    getDamage() {
+        if(this.weapon) {
+            return this.weapon.damage;
+        }
+
+        return this.damage;
+    }
+
     isDead() {
         if(this.health <= 0) {
             return true;

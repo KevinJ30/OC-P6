@@ -110,6 +110,17 @@ export class Game {
      * Configure the change of a round game
      **/
     changeRound() {
+        const player1 = this.players[this.store.getState().playerSelected];
+        const player2 = this.players[this.store.getState().playerSelected == 1 ? 0: 1];
+        
+        /**
+         * Detect player conflict
+         **/
+        if(this.detectPlayerConflict(player1, player2)) {
+            // le second personnage recoit les degât 
+            this.players[this.store.getState().playerSelected == 1 ? 0: 1].receiveDamage(player1.getDamage());
+        }
+
         if(this.store.getState().playerSelected === 0) {
             this.store.getState().playerSelected = 1
         }
@@ -135,8 +146,25 @@ export class Game {
 
         // Affiche la grille pour le joueur selectionné
         players[playerSelected].addGridToPlayer();
+        
+        /**
+         * Detect player conflict
+         **/
+        /****/
 
         this.gameOver();
+    }
+
+    /**
+     * Detect player conflict on the map
+     **/
+    detectPlayerConflict(player1, player2) {
+        const xAbs = Math.abs(player1.position.x - player2.position.x);
+        const yAbs = Math.abs(player1.position.y - player2.position.y);
+
+        let distance = (xAbs * 2 + yAbs * 2) / 2;
+
+        return distance <= 32;
     }
 
     gameOver() {

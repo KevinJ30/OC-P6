@@ -32,3 +32,28 @@
   -pie-background: linear-gradient(0deg, transparent 79px, #abced4 79px, #abced4 81px, transparent 81px) 0 0 / 100% 1.2em, linear-gradient(#eee .05em, transparent .05em) 0 0 / 100% 1.2em #fff;
   behavior: url(/PIE.htc);
 }
+
+
+#menu_game {
+    position:absolute;
+    top: 0; left: 0;
+    background-color:rgba(0, 0, 0, 0.5);
+    width: 640px;
+    height:480px;
+    z-index:10000;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+#menu_game .btn {
+    margin-bottom: 16px;
+    padding:8px 32px;
+    border:none;
+}
+
+#menu_game.hidden {
+    display:none;
+}

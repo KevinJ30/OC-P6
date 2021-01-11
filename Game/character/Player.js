@@ -41,6 +41,15 @@ export class Player extends PlayerInit {
     }
 
     /**
+     * Name of the player game
+     * 
+     * @param {string} username 
+     **/
+    setName(username) {
+        this.username = username;
+    }
+
+    /**
      * Add case to the grid highlight the player selected
      *
      * @param {number} positionGrid

@@ -28,7 +28,7 @@ export class Game {
         this.players = [];
         this.roundObsever = new RoundObserver();
         this.loadPlayer(2)
-
+        
         /**
          * Bind method
          **/
@@ -119,6 +119,12 @@ export class Game {
         if(this.detectPlayerConflict(player1, player2)) {
             // le second personnage recoit les degât 
             this.players[this.store.getState().playerSelected == 1 ? 0: 1].receiveDamage(player1.getDamage());
+            
+            /**
+             * Draw information all player in the console navagator
+             **/
+            console.log('Name of player : ' + this.players[0].username + ' health : ' + this.players[0].health);
+            console.log('Name of player : ' + this.players[1].username + ' health : ' + this.players[1].health);
         }
 
         if(this.store.getState().playerSelected === 0) {
@@ -146,11 +152,6 @@ export class Game {
 
         // Affiche la grille pour le joueur selectionné
         players[playerSelected].addGridToPlayer();
-        
-        /**
-         * Detect player conflict
-         **/
-        /****/
 
         this.gameOver();
     }

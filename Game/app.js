@@ -1,5 +1,6 @@
 import { Game } from './Game.js';
-import {GameStore} from "./stores/GameStore.js";
+import {GameStore} from './stores/GameStore.js';
+import {MenuView} from './Views/MenuView.js';
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
@@ -7,6 +8,8 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
  * Boucle de jeu
  **/
 let gameStore = GameStore.getInstance();
+
+let menuView = new MenuView();
 
 gameStore.update({
     playerNumber: 50

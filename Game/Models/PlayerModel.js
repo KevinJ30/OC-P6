@@ -150,22 +150,45 @@ export class PlayerModel {
     }
 
     /**
-     * the method is called when the fight begins
-     **/
-    /**enterFight() {
-        console.log(111);
-    }**/
-
-    /**
      * Receive damage when is attacked
      * @param {number} quantity
      **/
     receiveDamage(quantity) {
         this.health -= quantity;
 
+        this.animateDamage();
+
         if(this.health < 0) {
             this.health = 0;
         }
+    }
+
+    /**
+     * Animate player when receive damage
+     **/
+    animateDamage() {
+        let i = 0;
+        let lastImagePlayer = this.image;
+        let lastChestImage = this.chest.spritesheet;
+        let lastLegsImage = this.legs.spritesheet;
+        let lastFootImage = this.foot.spritesheet;
+
+        // Animation disparition player
+        let animation = setInterval(() => {
+            this.image = this.image === null ? lastImagePlayer : null;
+            this.chest.spritesheet = this.chest.spritesheet === null ? lastChestImage : null;
+            this.legs.spritesheet = this.legs.spritesheet === null ? lastLegsImage : null;
+            this.foot.spritesheet = this.foot.spritesheet === null ? lastFootImage : null;
+            if(i > 4) {
+                clearInterval(animation);
+            }
+            i++;
+        }, 250)
+
+        this.image = lastImagePlayer;
+        this.chest.spritesheet = lastChestImage;
+        this.legs.spritesheet = lastLegsImage;
+        this.foot.spritesheet = lastFootImage;
     }
 
     getDamage() {
@@ -194,11 +217,15 @@ export class PlayerModel {
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
-        this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        if(this.image) {
+            this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        }
 
-        this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        if(this.chest && this.legs && this.foot) {
+            this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+            this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+            this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        }
 
         if(this.weapon) {
             this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);

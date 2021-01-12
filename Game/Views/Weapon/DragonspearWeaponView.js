@@ -1,6 +1,6 @@
-import {Weapon} from "./Weapon.js";
+import {WeaponView} from "./WeaponView.js";
 
-export class DragonspearWeapon extends Weapon {
+export class DragonspearWeaponView extends WeaponView {
 
     constructor() {
         super();

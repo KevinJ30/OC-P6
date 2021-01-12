@@ -2,7 +2,7 @@ import { Config } from '../config/Config.js';
 import {ChestArmor} from "../character/Armor/ChestArmor.js";
 import {LegsArmor} from "../character/Armor/LegsArmor.js";
 import {FootArmor} from "../character/Armor/FootArmor.js";
-import {DragonspearWeapon} from "../character/Weapon/DragonspearWeapon.js";
+import {DragonspearWeaponView} from "../Views/Weapon/DragonspearWeaponView.js";
 
 export class PlayerSprite {
     static LEFT = 9;
@@ -24,7 +24,7 @@ export class PlayerSprite {
  * @property {Armor} chest
  * @property {Armor} legs
  * @property {Armor} foot
- * @property {Weapon} weapon
+ * @property {WeaponView} weapon
  **/
 export class PlayerModel {
     /**
@@ -299,7 +299,7 @@ export class PlayerModel {
 
     dropItem() {
         if(this.map.mapEvents[this.position.y / 32][this.position.x / 32]) {
-            this.weapon = new DragonspearWeapon();
+            this.weapon = new DragonspearWeaponView();
             this.dropItemObserver.notify(this.position);
         }
     }

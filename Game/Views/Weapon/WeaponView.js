@@ -1,4 +1,4 @@
-export class Weapon {
+export class WeaponView {
 
     constructor() {
         this.spritesheet = null;

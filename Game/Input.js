@@ -29,6 +29,7 @@ export class Input {
 
         this.canvas.addEventListener('click', (event) => {
             let player = this.gameStore.getState().players[this.gameStore.getState().playerSelected];
+            console.log(player);
             player.moveTarget(event.offsetX, event.offsetY);
         })
     }

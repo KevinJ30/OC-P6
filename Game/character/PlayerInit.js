@@ -1,8 +1,8 @@
-import {PlayerSprite} from "./Player.js";
+import {PlayerSprite} from "../Models/PlayerModel.js";
 import {ChestArmor} from "./Armor/ChestArmor.js";
 import {LegsArmor} from "./Armor/LegsArmor.js";
 import {FootArmor} from "./Armor/FootArmor.js";
-import {PlayerControl} from "./PlayerControl.js";
+import {PlayerControl} from "./character/PlayerControl.js";
 
 export class PlayerInit extends PlayerControl {
 

@@ -1,7 +1,7 @@
-import { Game } from './Game.js';
 import {GameStore} from './stores/GameStore.js';
 import {MenuView} from './Views/MenuView.js';
 import {MenuController} from './Controllers/MenuController.js';
+import {GameController} from "./Controllers/GameController.js";
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
@@ -17,11 +17,11 @@ gameStore.update({
     playerNumber: 50
 })
 
-let game = new Game(ScreenRenderer)
-game.start();
+let gameController = new GameController(ScreenRenderer)
+gameController.start();
 
 const render = (timestamp) => {
-    game.update()
+    gameController.update()
     window.requestAnimationFrame(render);
 }
 

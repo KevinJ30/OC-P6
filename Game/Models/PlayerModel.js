@@ -1,7 +1,7 @@
 import { Config } from '../config/Config.js';
-import {ChestArmor} from "../character/Armor/ChestArmor.js";
-import {LegsArmor} from "../character/Armor/LegsArmor.js";
-import {FootArmor} from "../character/Armor/FootArmor.js";
+import {ChestArmor} from "../Views/Armor/ChestArmor.js";
+import {LegsArmor} from "../Views/Armor/LegsArmor.js";
+import {FootArmor} from "../Views/Armor/FootArmor.js";
 import {DragonspearWeaponView} from "../Views/Weapon/DragonspearWeaponView.js";
 
 export class PlayerSprite {
@@ -195,7 +195,6 @@ export class PlayerModel {
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        //this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, 32, 32);
 
         this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);

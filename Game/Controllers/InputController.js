@@ -1,4 +1,4 @@
-export class Input {
+export class InputController {
 
     constructor(gameStore, canvas) {
         this.canvas = canvas;

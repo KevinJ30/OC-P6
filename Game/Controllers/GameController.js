@@ -1,11 +1,11 @@
 import { Utils } from '../Utils.js';
-import { Input } from '../Input.js';
 import { Config } from "../config/Config.js";
 import {GameStore} from "../stores/GameStore.js";
 import {RoundObserver} from "../Observer/RoundObserver.js";
 import {DropItemObserver} from "../Observer/DropItemObserver.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
+import {InputController} from "./InputController.js";
 
 /**
  * @property {Map} map
@@ -37,7 +37,7 @@ export class GameController {
          * Update state GameStore
          **/
         this.store = GameStore.getInstance();
-        this.input = new Input(this.store, document.getElementById('screen'));
+        this.input = new InputController(this.store, document.getElementById('screen'));
     }
 
     /**

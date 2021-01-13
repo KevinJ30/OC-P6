@@ -1,5 +1,78 @@
 @startuml
+    class Map {
+        +ctx: CanvasRenderingContext2D
+        +srcImage: string
+        +spritesheet: Image
+        +maxTileX: int
+        +maxTileY: int
+        +map: Array
+        +mapCollision: Array
+        +mapGenerator: Generator
+    }
 
+    class Generator {
+        +maxTileX: int
+        +maxTileY: int
+        +BLANK_TILE : const
+        +WALL_TILE : const
+        +map: Array
+        +mapCollision: Array
+    }
+
+    class Game {
+        +map : Map
+        +ctx: CanvasRenderingContext2D
+        +player: PLayer
+        +input: Input
+    }
+
+    class Player {
+        +ctx: CanvasRenderingContext2D
+        +image: Image
+        +size: Object
+        +health: int
+        +velocity: int
+        +maxHealth: int
+        +position: Object
+        +playerDirection: int
+        +chest: Armor
+        +legs: Armor
+        +foot: Armor
+    }
+
+    class Input {
+        +player: PLayer
+        +map: Map
+    }
+
+    Abstract class Armor {
+        +spritesheet: Image
+        +armor: int
+    }
+
+    class ChestArmor {}
+    class LegsArmor {}
+    class FootArmor {}
+
+    Abstract class Weapon {
+        +spritesheet: Image
+        +damage: int
+    }
+
+    class DragonspearWeapon {}
     
+    Armor <|-- ChestArmor
+    Armor <|-- LegsArmor
+    Armor <|-- FootArmor
+
+    Weapon <|-- DragonspearWeapon
+
+    Player o-- Weapon
+    Player o-- Armor
+    Map o-- Generator
+
+
+    Game *-- Player
+    Game *-- Map
 
 @enduml

@@ -2,6 +2,7 @@ import {GameStore} from './stores/GameStore.js';
 import {MenuView} from './Views/MenuView.js';
 import {MenuController} from './Controllers/MenuController.js';
 import {GameController} from "./Controllers/GameController.js";
+import {HUDController} from "./Controllers/HUDController.js";
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
@@ -19,6 +20,8 @@ gameStore.update({
 
 let gameController = new GameController(ScreenRenderer)
 gameController.start();
+
+let HUDCtrl = new HUDController();
 
 const render = (timestamp) => {
     gameController.update()

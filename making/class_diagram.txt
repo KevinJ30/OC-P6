@@ -50,21 +50,14 @@
         +map: Map
     }
 
-    Abstract class ArmorModel {
+    class ArmorModel {
         +armor: int
     }
 
-    class ChestArmorModel {}
-    class LegsArmorModel {}
-    class FootArmorModel {}
-
-    Abstract class Armor { 
+    class Armor { 
         +spriteSheet : Image 
     }
 
-    class ChestArmor {}
-    class LegsArmor {}
-    class FootArmor {}
 
     class Player {
         +spriteSheet : HTMLImageElement
@@ -78,14 +71,6 @@
     
     class DragonspearWeapon {}
     
-    ArmorModel <|-- ChestArmorModel
-    ArmorModel <|-- LegsArmorModel
-    ArmorModel <|-- FootArmorModel
-
-    Armor <|-- ChestArmor
-    Armor <|-- LegsArmor
-    Armor <|-- FootArmor
-
     Weapon <|-- DragonspearWeapon
 
     PlayerModel *-- Weapon

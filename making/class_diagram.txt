@@ -48,7 +48,6 @@
     }
 
     Abstract class ArmorModel {
-        +spritesheet: Image
         +armor: int
     }
 
@@ -56,7 +55,9 @@
     class LegsArmorModel {}
     class FootArmorModel {}
 
-    Abstract class Armor {}
+    Abstract class Armor { 
+        +spriteSheet : Image 
+    }
 
     class ChestArmor {}
     class LegsArmor {}
@@ -85,6 +86,7 @@
     Weapon <|-- DragonspearWeapon
 
     PlayerModel *-- Weapon
+    PlayerModel o-- MapModel
     PlayerModel "1" *-- "3" ArmorModel
     MapModel o-- Generator
 
@@ -103,13 +105,17 @@
     class EnterCombatObserver {}
     class PlayerDeadObserver {}
     class RoundObserver {}
+    class ReceiveDamageObserver {}
 
     Observer <|-- DropItemObserver
     Observer <|-- EnterCombatObserver
     Observer <|-- PlayerDeadObserver
     Observer <|-- RoundObserver
+    Observer <|-- ReceiveDamageObserver
 
     GameController "1" *-- "many" Observer
+    PlayerModel o-- Observer
+    Player o-- Observer
     
     /' Application stores '/
     class GameStore {

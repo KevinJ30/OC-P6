@@ -7,6 +7,7 @@ import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
 import {Player} from "../Views/Player.js";
+import {ReceiveDamageObserver} from "../Observer/ReceiveDamageObserver.js";
 
 /**
  * @property {Map} map
@@ -54,6 +55,7 @@ export class GameController {
     initObservers (){
         this.roundObsever = new RoundObserver();
         this.dropItemObserver = new DropItemObserver();
+        this.receiveDamageObserver = new ReceiveDamageObserver();
     }
 
     /**
@@ -84,12 +86,12 @@ export class GameController {
         PlayerSprite.src = "./ressources/player.png";
 
         // load class view
-        this.playerView = new Player(this.ctx, "./ressources/player.png");
+        this.playerView = new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png");
 
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-            this.players.push(new PlayerModel(this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
+            this.players.push(new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
         }
     }
 
@@ -129,14 +131,14 @@ export class GameController {
      **/
     changeRound() {
         const player1 = this.players[this.store.getState().playerSelected];
-        const player2 = this.players[this.store.getState().playerSelected == 1 ? 0: 1];
+        const player2 = this.players[this.store.getState().playerSelected === 1 ? 0: 1];
         
         /**
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
             // le second personnage recoit les degât 
-            this.players[this.store.getState().playerSelected == 1 ? 0: 1].receiveDamage(player1.getDamage());
+            this.players[this.store.getState().playerSelected === 1 ? 0: 1].receiveDamage(player1.getDamage());
             
             /**
              * Draw information all player in the console navagator
@@ -169,7 +171,7 @@ export class GameController {
         })
 
         // Affiche la grille pour le joueur selectionné
-        players[playerSelected].addGridToPlayer();
+        //players[playerSelected].addGridToPlayer();
 
         this.gameOver();
     }

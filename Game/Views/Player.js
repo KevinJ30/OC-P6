@@ -9,13 +9,19 @@ export class Player {
 
     /**
      *
+     * @param {Observer} receiveDamageObserver
      * @param {CanvasRenderingContext2D} context
      * @param {string} spriteSheetSrc
      */
-    constructor(context, spriteSheetSrc) {
+    constructor(receiveDamageObserver, context, spriteSheetSrc) {
         this.spriteSheet = new Image();
         this.spriteSheet.src = spriteSheetSrc;
         this.ctx = context;
+        this.receiveDamageObserver = receiveDamageObserver;
+
+        // Bind method
+        this.animateDamage = this.animateDamage.bind(this);
+        this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
     /**
@@ -32,8 +38,6 @@ export class Player {
             this.ctx.drawImage(this.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         }
 
-
-
         /**if(this.chest && this.legs && this.foot) {
             this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
             this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
@@ -45,6 +49,120 @@ export class Player {
         }
 
         this.isDead();**/
+
+    }
+
+    /**
+     * Animate player when receive damage
+     **/
+    animateDamage() {
+        let i = 0;
+        let lastImagePlayer = this.spriteSheet;
+        /**let lastChestImage = this.chest.spritesheet;
+        let lastLegsImage = this.legs.spritesheet;
+        let lastFootImage = this.foot.spritesheet;**/
+
+        // Animation disparition player
+        let animation = setInterval(() => {
+            this.spriteSheet = this.spriteSheet === null ? lastImagePlayer : null;
+            /**this.chest.spritesheet = this.chest.spritesheet === null ? lastChestImage : null;
+            this.legs.spritesheet = this.legs.spritesheet === null ? lastLegsImage : null;
+            this.foot.spritesheet = this.foot.spritesheet === null ? lastFootImage : null;**/
+            if(i > 4) {
+                clearInterval(animation);
+            }
+            i++;
+        }, 250)
+
+        this.spriteSheet = lastImagePlayer;
+        /**this.chest.spritesheet = lastChestImage;
+        this.legs.spritesheet = lastLegsImage;
+        this.foot.spritesheet = lastFootImage;**/
+
+        console.log('animate player your receive damage');
+    }
+
+    /**
+     * Add case to the grid highlight the player selected
+     *
+     * @param {number} position
+     * @param {number} positionGrid
+     * @param {boolean} vertical
+     **/
+    addCaseToGrid(position, positionGrid, vertical) {
+        this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
+        this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8)";
+        this.ctx.fillRect(vertical ? positionGrid : position.x, !vertical ? positionGrid : position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        this.ctx.strokeRect(vertical ? positionGrid : position.x, !vertical ? positionGrid : position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        this.ctx.fill();
+    }
+
+    /**
+     * Add Grid highlight to the player
+     *
+     * @return void
+     **/
+    addGridToPlayer(mapModel, position) {
+        // Add grid to the right player
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = position.x + Config.TILE_SIZE * (i + 1);
+
+            if(mapModel.collideIsEdgeMap(position.x + Config.TILE_SIZE, position.y)) {
+                if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+                    this.addCaseToGrid(position, positionGrid, true);
+                } else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        // Add grid to the left player
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
+
+            if(position.x > 0 && position.x / 32 + 1 < Config.MAP_MAX_X && position.y > 0 && (position.y / 32) < Config.MAP_MAX_Y) {
+                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+                    this.addCaseToGrid(position, positionGrid, true);
+                } else {
+                    break;
+                }
+            }
+            else {
+                break;
+            }
+        }
+
+        // Add grid to the up player
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (position.y + Config.TILE_SIZE * (i + 1));
+
+            if(position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
+                if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+                    this.addCaseToGrid(position, positionGrid, false);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
+
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (position.y  - Config.TILE_SIZE * (i + 1));
+
+            if(positionGrid > (0 - 1) && position.y / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
+                if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+                    this.addCaseToGrid(position, positionGrid, false);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+        }
     }
 
 }

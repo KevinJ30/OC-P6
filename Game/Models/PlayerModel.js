@@ -1,7 +1,7 @@
 import { Config } from '../config/Config.js';
-import {ChestArmor} from "../Views/Armor/ChestArmor.js";
-import {LegsArmor} from "../Views/Armor/LegsArmor.js";
-import {FootArmor} from "../Views/Armor/FootArmor.js";
+// import {ChestArmor} from "../Views/Armor/ChestArmor.js";
+// import {LegsArmor} from "../Views/Armor/LegsArmor.js";
+// import {FootArmor} from "../Views/Armor/FootArmor.js";
 import {DragonspearWeaponView} from "../Views/Weapon/DragonspearWeaponView.js";
 
 export class PlayerSprite {
@@ -30,32 +30,35 @@ export class PlayerModel {
     /**
      * Constructor.
      *
-     * @param dropItemObserver
-     * @param roundObserver
+     * @param {Observer} receiveDamageObserver
+     * @param {Observer} dropItemObserver
+     * @param {Observer} roundObserver
      * @param {CanvasRenderingContext2D} context
      * @param {number} sizeX
      * @param {number} sizeY
      * @param {HTMLImageElement} image
-     * @param {Object} map
+     * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (dropItemObserver, roundObserver, context, sizeX, sizeY, image, map, position) {
+    constructor (receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
         this.image = image;
-        this.map = map;
+        this.mapModel = mapModel;
         this.selectedPlayer = true;
         this.size = { x: sizeX, y: sizeY };
         this.position = position;
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
         this.playerDirection = PlayerSprite.LEFT;
-        this.chest = new ChestArmor();
-        this.legs = new LegsArmor();
-        this.foot = new FootArmor();
+        // this.chest = new ChestArmor();
+        // this.legs = new LegsArmor();
+        // this.foot = new FootArmor();
         this.weapon = null;
+        this.damage = 5;
+
         this.roundObserver = roundObserver;
         this.dropItemObserver = dropItemObserver;
-        this.damage = 5;
+        this.receiveDamageObserver = receiveDamageObserver;
     }
 
     /**
@@ -67,87 +70,6 @@ export class PlayerModel {
         this.username = username;
     }
 
-    /**
-     * Add case to the grid highlight the player selected
-     *
-     * @param {number} positionGrid
-     * @param {boolean} vertical
-     **/
-    addCaseToGrid(positionGrid, vertical) {
-        this.ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
-        this.ctx.strokeStyle = "rgba(0, 0, 0, 0.8)";
-        this.ctx.fillRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        this.ctx.strokeRect(vertical ? positionGrid : this.position.x, !vertical ? positionGrid : this.position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        this.ctx.fill();
-    }
-
-    /**
-     * Add Grid highlight to the player
-     *
-     * @return void
-     **/
-    addGridToPlayer() {
-        // Add grid to the right player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = this.position.x + Config.TILE_SIZE * (i + 1);
-
-            if(this.map.collideIsEdgeMap(this.position.x + Config.TILE_SIZE, this.position.y)) {
-                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(this.position.y / 32))) {
-                    this.addCaseToGrid(positionGrid, true);
-                } else {
-                    break;
-                }
-            }
-            else {
-                break;
-            }
-        }
-
-        // Add grid to the left player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = this.position.x - Config.TILE_SIZE * (i + 1);
-
-            if(this.position.x > 0 && this.position.x / 32 + 1 < Config.MAP_MAX_X && this.position.y > 0 && (this.position.y / 32) < Config.MAP_MAX_Y) {
-                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(this.position.y / 32))) {
-                    this.addCaseToGrid(positionGrid, true);
-                } else {
-                    break;
-                }
-            }
-            else {
-                break;
-            }
-        }
-
-        // Add grid to the up player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = (this.position.y + Config.TILE_SIZE * (i + 1));
-
-            if(this.position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
-                if (!this.map.collide(Math.floor(this.position.x / 32), Math.floor(positionGrid / 32))) {
-                    this.addCaseToGrid(positionGrid, false);
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = (this.position.y  - Config.TILE_SIZE * (i + 1));
-
-            if(positionGrid > (0 - 1) && this.position.y / 32 < Config.MAP_MAX_Y && this.position.x > 0 && (this.position.x / 32) < Config.MAP_MAX_X) {
-                if (!this.map.collide(Math.floor(this.position.x / 32), Math.floor(positionGrid / 32))) {
-                    this.addCaseToGrid(positionGrid, false);
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-    }
 
     /**
      * Receive damage when is attacked
@@ -156,39 +78,13 @@ export class PlayerModel {
     receiveDamage(quantity) {
         this.health -= quantity;
 
-        this.animateDamage();
+        // Notifier la vue pour animer le personnage
+        //this.animateDamage();
+        this.receiveDamageObserver.notify();
 
         if(this.health < 0) {
             this.health = 0;
         }
-    }
-
-    /**
-     * Animate player when receive damage
-     **/
-    animateDamage() {
-        let i = 0;
-        let lastImagePlayer = this.image;
-        let lastChestImage = this.chest.spritesheet;
-        let lastLegsImage = this.legs.spritesheet;
-        let lastFootImage = this.foot.spritesheet;
-
-        // Animation disparition player
-        let animation = setInterval(() => {
-            this.image = this.image === null ? lastImagePlayer : null;
-            this.chest.spritesheet = this.chest.spritesheet === null ? lastChestImage : null;
-            this.legs.spritesheet = this.legs.spritesheet === null ? lastLegsImage : null;
-            this.foot.spritesheet = this.foot.spritesheet === null ? lastFootImage : null;
-            if(i > 4) {
-                clearInterval(animation);
-            }
-            i++;
-        }, 250)
-
-        this.image = lastImagePlayer;
-        this.chest.spritesheet = lastChestImage;
-        this.legs.spritesheet = lastLegsImage;
-        this.foot.spritesheet = lastFootImage;
     }
 
     getDamage() {
@@ -244,7 +140,7 @@ export class PlayerModel {
             if(Math.abs(diffPositionX) !== 0 && Math.abs(diffPositionY) === 0 || Math.abs(diffPositionY) !== 0 && Math.abs(diffPositionX) === 0) {
 
                 // Collision with wall map
-                if(!this.map.collide(caseNumberX, caseNumberY)) {
+                if(!this.mapModel.collide(caseNumberX, caseNumberY)) {
 
                     /**
                      * Determined direction movement player
@@ -303,7 +199,7 @@ export class PlayerModel {
     }
 
     dropItem() {
-        if(this.map.mapEvents[this.position.y / 32][this.position.x / 32]) {
+        if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
             this.weapon = new DragonspearWeaponView();
             this.dropItemObserver.notify(this.position);
         }

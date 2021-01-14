@@ -27,7 +27,7 @@
         +input: InputController
     }
 
-    class Player {
+    class PlayerModel {
         +ctx: CanvasRenderingContext2D
         +image: Image
         +size: Object
@@ -46,15 +46,21 @@
         +map: Map
     }
 
-    Abstract class Armor {
+    Abstract class ArmorModel {
         +spritesheet: Image
         +armor: int
     }
 
+    class ChestArmorModel {}
+    class LegsArmorModel {}
+    class FootArmorModel {}
+
+    Abstract class Armor {}
+
     class ChestArmor {}
     class LegsArmor {}
     class FootArmor {}
-
+    
     Abstract class Weapon {
         +spritesheet: Image
         +damage: int
@@ -62,19 +68,23 @@
     
     class DragonspearWeapon {}
     
+    ArmorModel <|-- ChestArmorModel
+    ArmorModel <|-- LegsArmorModel
+    ArmorModel <|-- FootArmorModel
+
     Armor <|-- ChestArmor
     Armor <|-- LegsArmor
     Armor <|-- FootArmor
 
     Weapon <|-- DragonspearWeapon
 
-    Player *-- Weapon
-    Player *-- Armor
-    Map o-- Generator
+    PlayerModel *-- Weapon
+    PlayerModel *-- ArmorModel
+    MapController o-- Generator
 
 
-    GameController *-- Player
-    GameController *-- Map
+    GameController *-- PlayerModel
+    GameController *-- MapController
 
     /' class Observer '/
     class Observer {

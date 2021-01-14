@@ -1,4 +1,5 @@
 import {Config} from "../config/Config.js";
+import {Armor} from "./Armor/Armor.js";
 
 /**
  * Class Player view
@@ -18,6 +19,9 @@ export class Player {
         this.spriteSheet.src = spriteSheetSrc;
         this.ctx = context;
         this.receiveDamageObserver = receiveDamageObserver;
+        this.chestArmorView = new Armor('./ressources/chestArmor.png');
+        this.legsArmorView = new Armor('./ressources/legsArmor.png');
+        this.footArmorView = new Armor('./ressources/footArmor.png');
 
         // Bind method
         this.animateDamage = this.animateDamage.bind(this);
@@ -38,17 +42,17 @@ export class Player {
             this.ctx.drawImage(this.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         }
 
-        /**if(this.chest && this.legs && this.foot) {
-            this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        if(this.chestArmorView && this.legsArmorView && this.footArmorView) {
+            this.chestArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+            this.legsArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+            this.footArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         }
 
-        if(this.weapon) {
-            this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        }
+        // if(this.weapon) {
+        //     this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        // }
 
-        this.isDead();**/
+        // this.isDead();**/
 
     }
 

@@ -1,8 +1,6 @@
 import { Config } from '../config/Config.js';
-// import {ChestArmor} from "../Views/Armor/ChestArmor.js";
-// import {LegsArmor} from "../Views/Armor/LegsArmor.js";
-// import {FootArmor} from "../Views/Armor/FootArmor.js";
 import {DragonspearWeaponView} from "../Views/Weapon/DragonspearWeaponView.js";
+import {ArmorModel} from "./Armors/ArmorModel.js";
 
 export class PlayerSprite {
     static LEFT = 9;
@@ -50,12 +48,16 @@ export class PlayerModel {
         this.health = 100;
         this.velocity = 4; // Valeur divisible par 32
         this.playerDirection = PlayerSprite.LEFT;
-        // this.chest = new ChestArmor();
-        // this.legs = new LegsArmor();
-        // this.foot = new FootArmor();
+        this.chest = new ArmorModel(30);
+        this.legs = new ArmorModel(15);
+        this.foot = new ArmorModel(10);
         this.weapon = null;
         this.damage = 5;
 
+        /**
+         * Observer
+         * @type {Observer}
+         **/
         this.roundObserver = roundObserver;
         this.dropItemObserver = dropItemObserver;
         this.receiveDamageObserver = receiveDamageObserver;

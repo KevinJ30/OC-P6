@@ -9,9 +9,9 @@
         +maxHealth: int
         +position: Object
         +playerDirection: int
-        +chest: Armor
-        +legs: Armor
-        +foot: Armor
+        +chestArmorModel: Armor
+        +legsArmorModel: Armor
+        +footArmorModel: Armor
     }
 
     class MapModel {

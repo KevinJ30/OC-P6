@@ -30,10 +30,11 @@ export class Player {
 
     /**
      *
+     * @param {MapModel} mapModel
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
      **/
-    update(position, playerDirection, ) {
+    update(mapModel, position, playerDirection, ) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
@@ -52,7 +53,7 @@ export class Player {
         //     this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         // }
 
-        // this.isDead();**/
+        //this.isDead();
 
     }
 
@@ -62,16 +63,17 @@ export class Player {
     animateDamage() {
         let i = 0;
         let lastImagePlayer = this.spriteSheet;
-        /**let lastChestImage = this.chest.spritesheet;
-        let lastLegsImage = this.legs.spritesheet;
-        let lastFootImage = this.foot.spritesheet;**/
+
+        let lastChestImage = this.chestArmorView.spritesheet;
+        let lastLegsImage = this.legsArmorView.spritesheet;
+        let lastFootImage = this.footArmorView.spritesheet;
 
         // Animation disparition player
         let animation = setInterval(() => {
             this.spriteSheet = this.spriteSheet === null ? lastImagePlayer : null;
-            /**this.chest.spritesheet = this.chest.spritesheet === null ? lastChestImage : null;
-            this.legs.spritesheet = this.legs.spritesheet === null ? lastLegsImage : null;
-            this.foot.spritesheet = this.foot.spritesheet === null ? lastFootImage : null;**/
+            this.chestArmorView.spritesheet = this.chestArmorView.spritesheet === null ? lastChestImage : null;
+            this.legsArmorView.spritesheet = this.legsArmorView.spritesheet === null ? lastLegsImage : null;
+            this.footArmorView.spritesheet = this.footArmorView.spritesheet === null ? lastFootImage : null;
             if(i > 4) {
                 clearInterval(animation);
             }
@@ -79,11 +81,9 @@ export class Player {
         }, 250)
 
         this.spriteSheet = lastImagePlayer;
-        /**this.chest.spritesheet = lastChestImage;
-        this.legs.spritesheet = lastLegsImage;
-        this.foot.spritesheet = lastFootImage;**/
-
-        console.log('animate player your receive damage');
+        this.chestArmorView.spritesheet = lastChestImage;
+        this.legsArmorView.spritesheet = lastLegsImage;
+        this.footArmorView.spritesheet = lastFootImage;
     }
 
     /**
@@ -128,7 +128,7 @@ export class Player {
             let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
 
             if(position.x > 0 && position.x / 32 + 1 < Config.MAP_MAX_X && position.y > 0 && (position.y / 32) < Config.MAP_MAX_Y) {
-                if (!this.map.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+                if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
                     this.addCaseToGrid(position, positionGrid, true);
                 } else {
                     break;

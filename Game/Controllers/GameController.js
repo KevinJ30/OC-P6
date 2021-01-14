@@ -83,13 +83,14 @@ export class GameController {
         let PlayerSprite = new Image();
         PlayerSprite.src = "./ressources/player.png";
 
-        // load class view
-        this.playerView = new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png");
-
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
-            this.players.push(new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer))
+
+            this.players.push({
+                model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer),
+                view : new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
+            });
         }
     }
 
@@ -105,11 +106,11 @@ export class GameController {
 
         this.players.forEach((player) => {
             let diffPlayerPosition = {
-                x : Math.abs(player.position.x - randomX),
-                y : Math.abs(player.position.y - randomY)
+                x : Math.abs(player.model.position.x - randomX),
+                y : Math.abs(player.model.position.y - randomY)
             }
 
-            while(randomX === player.position.x && diffPlayerPosition.x < (32 * 3) &&  randomY === player.position.y && diffPlayerPosition.y < (32 * 3)) {
+            while(randomX === player.model.position.x && diffPlayerPosition.x < (32 * 3) &&  randomY === player.model.position.y && diffPlayerPosition.y < (32 * 3)) {
                 randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
                 randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
             }
@@ -164,9 +165,14 @@ export class GameController {
         this.map.drawMap();
         this.map.drawEvents();
 
-        this.players.forEach((player) => {
+        /**this.players.forEach((player) => {
             this.playerView.update(player.position, player.playerDirection);
-        })
+            player.view.update(player.position)
+        })**/
+
+        for(let i =0; i < this.players.length; i++) {
+            this.players[i].view.update(this.map, this.players[i].model.position, this.players[i].model.playerDirection);
+        }
 
         // Affiche la grille pour le joueur selectionné
         //players[playerSelected].addGridToPlayer();
@@ -178,8 +184,8 @@ export class GameController {
      * Detect player conflict on the map
      **/
     detectPlayerConflict(player1, player2) {
-        const xAbs = Math.abs(player1.position.x - player2.position.x);
-        const yAbs = Math.abs(player1.position.y - player2.position.y);
+        const xAbs = Math.abs(player1.model.position.x - player2.model.position.x);
+        const yAbs = Math.abs(player1.model.position.y - player2.model.position.y);
 
         let distance = (xAbs * 2 + yAbs * 2) / 2;
 
@@ -187,11 +193,11 @@ export class GameController {
     }
 
     gameOver() {
-        this.players.forEach((player) => {
+        /**this.players.forEach((player) => {
             if(player.isDead()) {
                 console.log('end game....');
                 return true;
             }
-        })
+        })**/
     }
 }

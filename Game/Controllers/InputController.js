@@ -29,7 +29,7 @@ export class InputController {
 
         this.canvas.addEventListener('click', (event) => {
             let player = this.gameStore.getState().players[this.gameStore.getState().playerSelected];
-            player.moveTarget(event.offsetX, event.offsetY);
+            player.model.moveTarget(event.offsetX, event.offsetY);
         })
     }
 }

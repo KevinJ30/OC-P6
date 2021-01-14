@@ -1,5 +1,19 @@
 @startuml Game
     /' Class Game '/
+    class PlayerModel {
+        +ctx: CanvasRenderingContext2D
+        +image: Image
+        +size: Object
+        +health: int
+        +velocity: int
+        +maxHealth: int
+        +position: Object
+        +playerDirection: int
+        +chest: Armor
+        +legs: Armor
+        +foot: Armor
+    }
+
     class MapController {
         +ctx: CanvasRenderingContext2D
         +srcImage: string
@@ -27,20 +41,6 @@
         +input: InputController
     }
 
-    class PlayerModel {
-        +ctx: CanvasRenderingContext2D
-        +image: Image
-        +size: Object
-        +health: int
-        +velocity: int
-        +maxHealth: int
-        +position: Object
-        +playerDirection: int
-        +chest: Armor
-        +legs: Armor
-        +foot: Armor
-    }
-
     class InputController {
         +player: PLayer
         +map: Map
@@ -60,7 +60,9 @@
     class ChestArmor {}
     class LegsArmor {}
     class FootArmor {}
-    
+
+    class Player {}
+
     Abstract class Weapon {
         +spritesheet: Image
         +damage: int
@@ -79,15 +81,14 @@
     Weapon <|-- DragonspearWeapon
 
     PlayerModel *-- Weapon
-    PlayerModel *-- ArmorModel
+    PlayerModel "1" *-- "3" ArmorModel
     MapController o-- Generator
 
 
     GameController *-- PlayerModel
     GameController *-- MapController
-    GameController *-- ChestArmor
-    GameController *-- LegsArmor
-    GameController *-- FootArmor
+    Player "3" *-- "1" Armor
+    GameController *-- Player
 
     /' class Observer '/
     class Observer {
@@ -104,8 +105,7 @@
     Observer <|-- PlayerDeadObserver
     Observer <|-- RoundObserver
 
-    GameController *-- RoundObserver
-    GameController *-- DropItemObserv
+    GameController "1" *-- "many" Observer
     
     /' Application stores '/
     class GameStore {
@@ -115,6 +115,5 @@
 
     GameController *-- GameStore
     InputController o-- GameStore
-
 
 @enduml

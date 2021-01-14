@@ -6,6 +6,7 @@ import {DropItemObserver} from "../Observer/DropItemObserver.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
+import {Player} from "../Views/Player.js";
 
 /**
  * @property {Map} map
@@ -20,14 +21,19 @@ export class GameController {
      * @param {CanvasRenderingContext2D} context
      **/
     constructor(context) {
-        this.dropItemObserver = new DropItemObserver();
+        this.initObservers();
+
         this.ctx = context;
         this.map = new MapModel(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
         this.map.build();
         this.players = [];
-        this.roundObsever = new RoundObserver();
+
         this.loadPlayer(2)
-        
+
+        /**
+         * Observers
+         **/
+
         /**
          * Bind method
          **/
@@ -38,6 +44,16 @@ export class GameController {
          **/
         this.store = GameStore.getInstance();
         this.input = new InputController(this.store, document.getElementById('screen'));
+    }
+
+    /**
+     * Init observers
+     *
+     * @return {void}
+     **/
+    initObservers (){
+        this.roundObsever = new RoundObserver();
+        this.dropItemObserver = new DropItemObserver();
     }
 
     /**
@@ -66,6 +82,9 @@ export class GameController {
     loadPlayer(numberPlayer) {
         let PlayerSprite = new Image();
         PlayerSprite.src = "./ressources/player.png";
+
+        // load class view
+        this.playerView = new Player(this.ctx, "./ressources/player.png");
 
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
@@ -146,7 +165,7 @@ export class GameController {
         this.map.drawEvents();
 
         this.players.forEach((player) => {
-            player.update(player.position);
+            this.playerView.update(player.position, player.playerDirection);
         })
 
         // Affiche la grille pour le joueur selectionné

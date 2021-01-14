@@ -211,28 +211,7 @@ export class PlayerModel {
      * Update player
      * @param {Object} position
      **/
-    update(position) {
-        // selected tile with tileset
-        const numberTile = this.playerDirection;
-        const sourceX = Math.floor(numberTile % 9) * 64;
-        const sourceY = Math.floor((numberTile / 9)) *  64;
-
-        if(this.image) {
-            this.ctx.drawImage(this.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-        }
-
-        if(this.chest && this.legs && this.foot) {
-            this.chest.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.legs.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.foot.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        }
-
-        if(this.weapon) {
-            this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        }
-
-        this.isDead();
-    }
+    update(position) {}
 
     /**
      * Player Control

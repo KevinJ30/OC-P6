@@ -14,7 +14,7 @@
         +foot: Armor
     }
 
-    class MapController {
+    class MapModel {
         +ctx: CanvasRenderingContext2D
         +srcImage: string
         +spritesheet: Image
@@ -37,12 +37,13 @@
     class GameController {
         +map : Map
         +ctx: CanvasRenderingContext2D
-        +player: PLayer
+        +players: Array<Player>
         +input: InputController
+        +playerView : Player
     }
 
     class InputController {
-        +player: PLayer
+        +player: Player
         +map: Map
     }
 
@@ -61,7 +62,10 @@
     class LegsArmor {}
     class FootArmor {}
 
-    class Player {}
+    class Player {
+        +spriteSheet : HTMLImageElement
+        +context : CanvasRenderingContext2D
+    }
 
     Abstract class Weapon {
         +spritesheet: Image
@@ -82,11 +86,11 @@
 
     PlayerModel *-- Weapon
     PlayerModel "1" *-- "3" ArmorModel
-    MapController o-- Generator
+    MapModel o-- Generator
 
 
     GameController *-- PlayerModel
-    GameController *-- MapController
+    GameController *-- MapModel
     Player "3" *-- "1" Armor
     GameController *-- Player
 

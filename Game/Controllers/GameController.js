@@ -137,13 +137,13 @@ export class GameController {
          **/
         if(this.detectPlayerConflict(player1, player2)) {
             // le second personnage recoit les degât 
-            this.players[this.store.getState().playerSelected === 1 ? 0: 1].receiveDamage(player1.getDamage());
+            this.players[this.store.getState().playerSelected === 1 ? 0: 1].model.receiveDamage(player1.model.getDamage());
             
             /**
              * Draw information all player in the console navagator
              **/
-            console.log('Name of player : ' + this.players[0].username + ' health : ' + this.players[0].health);
-            console.log('Name of player : ' + this.players[1].username + ' health : ' + this.players[1].health);
+            console.log('Name of player : ' + this.players[0].model.username + ' health : ' + this.players[0].model.health);
+            console.log('Name of player : ' + this.players[1].model.username + ' health : ' + this.players[1].model.health);
         }
 
         if(this.store.getState().playerSelected === 0) {
@@ -164,11 +164,6 @@ export class GameController {
 
         this.map.drawMap();
         this.map.drawEvents();
-
-        /**this.players.forEach((player) => {
-            this.playerView.update(player.position, player.playerDirection);
-            player.view.update(player.position)
-        })**/
 
         for(let i =0; i < this.players.length; i++) {
             this.players[i].view.update(this.map, this.players[i].model.position, this.players[i].model.playerDirection);
@@ -193,11 +188,11 @@ export class GameController {
     }
 
     gameOver() {
-        /**this.players.forEach((player) => {
-            if(player.isDead()) {
+        this.players.forEach((player) => {
+            if(player.model.isDead()) {
                 console.log('end game....');
                 return true;
             }
-        })**/
+        })
     }
 }

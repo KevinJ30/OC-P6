@@ -98,11 +98,7 @@ export class PlayerModel {
     }
 
     isDead() {
-        if(this.health <= 0) {
-            return true;
-        }
-
-        return false;
+        return this.health <= 0;
     }
 
     /**

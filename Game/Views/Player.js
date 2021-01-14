@@ -28,6 +28,10 @@ export class Player {
         this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
+    setWeapon(weaponClass) {
+        this.weaponView = weaponClass;
+    }
+
     /**
      *
      * @param {MapModel} mapModel
@@ -49,9 +53,9 @@ export class Player {
             this.footArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
         }
 
-        // if(this.weapon) {
-        //     this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-        // }
+        if(this.weapon) {
+            this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        }
 
         //this.isDead();
 

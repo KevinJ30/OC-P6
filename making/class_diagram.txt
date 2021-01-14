@@ -73,7 +73,7 @@
     
     Weapon <|-- DragonspearWeapon
 
-    PlayerModel *-- Weapon
+    PlayerModel o-- Weapon
     PlayerModel o-- MapModel
     PlayerModel "1" *-- "3" ArmorModel
     MapModel o-- Generator

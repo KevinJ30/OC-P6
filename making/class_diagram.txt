@@ -85,6 +85,9 @@
 
     GameController *-- PlayerModel
     GameController *-- MapController
+    GameController *-- ChestArmor
+    GameController *-- LegsArmor
+    GameController *-- FootArmor
 
     /' class Observer '/
     class Observer {

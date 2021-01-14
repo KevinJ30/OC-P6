@@ -1,5 +1,6 @@
-@startuml
-    class Map {
+@startuml Game
+    /' Class Game '/
+    class MapController {
         +ctx: CanvasRenderingContext2D
         +srcImage: string
         +spritesheet: Image
@@ -19,11 +20,11 @@
         +mapCollision: Array
     }
 
-    class Game {
+    class GameController {
         +map : Map
         +ctx: CanvasRenderingContext2D
         +player: PLayer
-        +input: Input
+        +input: InputController
     }
 
     class Player {
@@ -40,7 +41,7 @@
         +foot: Armor
     }
 
-    class Input {
+    class InputController {
         +player: PLayer
         +map: Map
     }
@@ -58,7 +59,7 @@
         +spritesheet: Image
         +damage: int
     }
-
+    
     class DragonspearWeapon {}
     
     Armor <|-- ChestArmor
@@ -67,12 +68,40 @@
 
     Weapon <|-- DragonspearWeapon
 
-    Player o-- Weapon
-    Player o-- Armor
+    Player *-- Weapon
+    Player *-- Armor
     Map o-- Generator
 
 
-    Game *-- Player
-    Game *-- Map
+    GameController *-- Player
+    GameController *-- Map
+
+    /' class Observer '/
+    class Observer {
+        +observers : Array
+    }
+
+    class DropItemObserver {}
+    class EnterCombatObserver {}
+    class PlayerDeadObserver {}
+    class RoundObserver {}
+
+    Observer <|-- DropItemObserver
+    Observer <|-- EnterCombatObserver
+    Observer <|-- PlayerDeadObserver
+    Observer <|-- RoundObserver
+
+    GameController *-- RoundObserver
+    GameController *-- DropItemObserv
+    
+    /' Application stores '/
+    class GameStore {
+        +instance: static
+        state: Object
+    }
+
+    GameController *-- GameStore
+    InputController o-- GameStore
+
 
 @enduml

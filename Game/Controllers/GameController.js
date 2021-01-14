@@ -175,7 +175,7 @@ export class GameController {
         }
 
         // Affiche la grille pour le joueur selectionné
-        //players[playerSelected].addGridToPlayer();
+        players[playerSelected].view.addGridToPlayer(this.map, players[playerSelected].model.position);
 
         this.gameOver();
     }

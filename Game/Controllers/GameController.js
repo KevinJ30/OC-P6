@@ -1,13 +1,11 @@
 import { Utils } from '../Utils.js';
 import { Config } from "../config/Config.js";
 import {GameStore} from "../stores/GameStore.js";
-import {RoundObserver} from "../Observer/RoundObserver.js";
-import {DropItemObserver} from "../Observer/DropItemObserver.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
 import {Player} from "../Views/Player.js";
-import {ReceiveDamageObserver} from "../Observer/ReceiveDamageObserver.js";
+import {Observer} from "../Observer/Observer.js";
 
 /**
  * @property {Map} map
@@ -53,9 +51,9 @@ export class GameController {
      * @return {void}
      **/
     initObservers (){
-        this.roundObsever = new RoundObserver();
-        this.dropItemObserver = new DropItemObserver();
-        this.receiveDamageObserver = new ReceiveDamageObserver();
+        this.roundObsever = new Observer();
+        this.dropItemObserver = new Observer();
+        this.receiveDamageObserver = new Observer();
     }
 
     /**

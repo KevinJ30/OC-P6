@@ -40,6 +40,9 @@
         +players: Array<Player>
         +input: InputController
         +playerView : Player
+        +roundObserver : Observer
+        +dropItemObserver : Observer
+        +receiveDamageObserver : Observer
     }
 
     class InputController {
@@ -100,18 +103,6 @@
     class Observer {
         +observers : Array
     }
-
-    class DropItemObserver {}
-    class EnterCombatObserver {}
-    class PlayerDeadObserver {}
-    class RoundObserver {}
-    class ReceiveDamageObserver {}
-
-    Observer <|-- DropItemObserver
-    Observer <|-- EnterCombatObserver
-    Observer <|-- PlayerDeadObserver
-    Observer <|-- RoundObserver
-    Observer <|-- ReceiveDamageObserver
 
     GameController "1" *-- "many" Observer
     PlayerModel o-- Observer

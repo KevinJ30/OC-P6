@@ -6,6 +6,7 @@ import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
 import {Player} from "../Views/Player.js";
 import {Observer} from "../Observer/Observer.js";
+import { Generator } from '../Map/Generator.js';
 
 /**
  * @property {Map} map
@@ -20,10 +21,12 @@ export class GameController {
      * @param {CanvasRenderingContext2D} context
      **/
     constructor(context) {
+        const generator = new Generator();
         this.initObservers();
 
         this.ctx = context;
         this.map = new MapModel(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
+        this.map.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.map.build();
         this.players = [];
 

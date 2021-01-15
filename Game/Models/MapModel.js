@@ -30,7 +30,7 @@ export class MapModel {
         this.map = [];
         this.mapCollision = [];
         this.mapEvents = [];
-        this.generator = new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE);
+        this.generator = null;
         this.dropItemObserver = dropItemObserver;
 
         // Bind this to the method
@@ -38,6 +38,14 @@ export class MapModel {
         this.dropItemObserver.subscribe(this.dropItemSubscribe);
 
         this.loadWeapon();
+    }
+
+    /**
+     * Add generator class
+     * @param {Generator} generator 
+     **/
+    addGenerator(generator) {
+        this.generator = generator;
     }
 
     dropItemSubscribe(position) {

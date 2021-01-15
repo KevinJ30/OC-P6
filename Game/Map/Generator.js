@@ -23,6 +23,10 @@ export class Generator {
         this.mapCollision = [];
     }
 
+    getInstance() {
+
+    }
+
     /**
      * Generate empty map
      *

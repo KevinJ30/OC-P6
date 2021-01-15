@@ -9,14 +9,8 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
 /**
  * Boucle de jeu
  **/
-let gameStore = GameStore.getInstance();
-
 let menuView = new MenuView();
 let menuController = new MenuController('', menuView);
-
-gameStore.update({
-    playerNumber: 50
-})
 
 let gameController = new GameController(ScreenRenderer)
 gameController.start();

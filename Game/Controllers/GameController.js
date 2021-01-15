@@ -41,7 +41,11 @@ export class GameController {
         /**
          * Update state GameStore
          **/
-        this.store = GameStore.getInstance();
+        this.store = new GameStore();
+        this.store.update({
+            playerNumber: 50
+        })
+
         this.input = new InputController(this.store, document.getElementById('screen'));
     }
 

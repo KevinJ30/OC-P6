@@ -64,24 +64,24 @@
         +context : CanvasRenderingContext2D
     }
 
-    Abstract class Weapon {
+    class WeaponModel {
+        +damage: int
+    }
+
+    class Weapon {
         +spritesheet: Image
         +damage: int
     }
-    
-    class DragonspearWeapon {}
-    
-    Weapon <|-- DragonspearWeapon
-
-    PlayerModel o-- Weapon
+        
+    PlayerModel o-- WeaponModel
     PlayerModel o-- MapModel
     PlayerModel "1" *-- "3" ArmorModel
     MapModel o-- Generator
 
-
     GameController *-- PlayerModel
     GameController *-- MapModel
     Player "3" *-- "1" Armor
+    Player *-- Weapon
     GameController *-- Player
 
     /' class Observer '/

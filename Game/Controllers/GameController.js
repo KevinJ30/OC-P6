@@ -9,6 +9,7 @@ import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
 import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
+import {MapView} from "../Views/MapView.js";
 
 /**
  * @property {Map} map
@@ -27,9 +28,11 @@ export class GameController {
         this.initObservers();
 
         this.ctx = context;
-        this.map = new MapModel(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
-        this.map.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
-        this.map.build();
+        this.mapModel = new MapModel(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
+        this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
+        this.mapModel.build();
+
+        this.mapView = new MapView(this.ctx, './ressources/tile_map.png');
         this.players = [];
 
         this.loadPlayer(2)
@@ -79,7 +82,7 @@ export class GameController {
         this.store.update({
             playerIndex: 0,
             playerSelected: this.players[0],
-            map: this.map,
+            map: this.mapModel,
             players: this.players
         })
 
@@ -104,7 +107,7 @@ export class GameController {
             let positionPlayer = this.generatePositionPlayer();
 
             this.players.push({
-                model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.map, positionPlayer),
+                model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
                 view : new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
             });
         }
@@ -132,7 +135,7 @@ export class GameController {
             }
         })
 
-        while(this.map.collide(randomX, randomY)) {
+        while(this.mapModel.collide(randomX, randomY)) {
             randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
             randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
         }
@@ -178,15 +181,15 @@ export class GameController {
         let players = this.store.getState().players;
         let playerSelected = this.store.getState().playerSelected;
 
-        this.map.drawMap();
-        this.map.drawEvents();
+        this.mapView.draw(this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
+        this.mapView.drawEvents(this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
 
         for(let i =0; i < this.players.length; i++) {
             this.players[i].view.update(this.map, this.players[i].model.position, this.players[i].model.playerDirection);
         }
 
         // Affiche la grille pour le joueur selectionné
-        players[playerSelected].view.addGridToPlayer(this.map, players[playerSelected].model.position);
+        players[playerSelected].view.addGridToPlayer(this.mapModel, players[playerSelected].model.position);
 
         this.gameOver();
     }

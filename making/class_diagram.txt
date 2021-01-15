@@ -64,6 +64,10 @@
         +context : CanvasRenderingContext2D
     }
 
+    class MapView {
+
+    }
+
     class WeaponModel {
         +damage: int
     }
@@ -80,9 +84,10 @@
 
     GameController *-- PlayerModel
     GameController *-- MapModel
+    GameController *-- MapView
+    GameController *-- Player
     Player "3" *-- "1" Armor
     Player *-- Weapon
-    GameController *-- Player
 
     /' class Observer '/
     class Observer {
@@ -90,8 +95,10 @@
     }
 
     GameController "1" *-- "many" Observer
+    MapView o-- Observer
     PlayerModel o-- Observer
     Player o-- Observer
+    MapModel o-- Observer
     
     /' Application stores '/
     class GameStore {

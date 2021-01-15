@@ -74,53 +74,6 @@ export class MapModel {
     }
 
     /**
-     * Draw map
-     * 
-     * @param { CanvasRenderingContext2D } : Context d'affichage
-     **/
-    drawMap() {
-        for(let i = 0; i < this.maxTileY; i++) {
-            for(let j = 0; j < this.maxTileX; j++) {
-                const positionTile = {
-                    x : j * this.tileSize,
-                    y : i * this.tileSize
-                }
-                
-                let a = this.map[i][j];
-                 
-                const sourceX = Math.floor(a % 16) * this.tileSize;
-                const sourceY = Math.floor((a / 16)) *  this.tileSize;
-                
-                this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
-                //this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, 64, 64);
-                this.ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
-                this.ctx.strokeRect(positionTile.x, positionTile.y, this.tileSize, this.tileSize);
-                //this.ctx.strokeRect(positionTile.x, positionTile.y, 64, 64);
-            }
-        }
-    }
-
-    drawEvents() {
-        for(let i = 0; i < this.maxTileY; i++) {
-            for(let j = 0; j < this.maxTileX; j++) {
-                if(this.mapEvents[i][j] === 1) {
-                    const positionTile = {
-                        x : j * this.tileSize,
-                        y : i * this.tileSize
-                    }
-
-                    const a = 168;
-                    const sourceX = Math.floor(a % 16) * this.tileSize;
-                    const sourceY = Math.floor((a / 16)) *  this.tileSize;
-
-                    this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, this.tileSize, this.tileSize);
-                    /**this.ctx.drawImage(this.tileImg, 0, 0, 64, 64, 0, 0, 32, 32)**/
-                }
-            }
-        }
-    }
-
-    /**
      * Detect collision with edge map
      *
      * @param {number} targetX
@@ -148,14 +101,6 @@ export class MapModel {
         }
 
         return mapEvents;
-    }
-
-    addGridToMap() {
-        this.ctx.beginPath();
-        this.ctx.moveTo(75, 50);
-        this.ctx.lineTo(100, 75);
-        this.ctx.lineTo(100, 25);
-        this.ctx.fill();
     }
 
     /**

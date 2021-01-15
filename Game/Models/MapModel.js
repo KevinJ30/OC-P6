@@ -50,7 +50,6 @@ export class MapModel {
 
     dropItemSubscribe(position) {
         this.mapEvents[position.y / 32][position.x / 32] = 0;
-        console.log('your suppress bourse of item');
     }
 
     loadWeapon() {

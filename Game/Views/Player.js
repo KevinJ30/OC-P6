@@ -1,5 +1,6 @@
 import {Config} from "../config/Config.js";
 import {Armor} from "./Armor/Armor.js";
+import {WeaponView} from "./Weapon/WeaponView.js";
 
 /**
  * Class Player view
@@ -23,13 +24,20 @@ export class Player {
         this.legsArmorView = new Armor('./ressources/legsArmor.png');
         this.footArmorView = new Armor('./ressources/footArmor.png');
 
+        this.weaponView = null;
+
         // Bind method
         this.animateDamage = this.animateDamage.bind(this);
         this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
-    setWeapon(weaponClass) {
-        this.weaponView = weaponClass;
+    /**
+     * Add weapon to the player
+     * @param {WeaponView} weapon
+     **/
+    setWeapon(weapon) {
+        this.weapon = weapon;
+        console.log(this.weapon);
     }
 
     /**

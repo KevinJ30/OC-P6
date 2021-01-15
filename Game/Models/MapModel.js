@@ -34,8 +34,8 @@ export class MapModel {
         this.dropItemObserver = dropItemObserver;
 
         // Bind this to the method
-        this.dropItemSubscribe = this.dropItemSubscribe.bind(this);
-        this.dropItemObserver.subscribe(this.dropItemSubscribe);
+        // this.dropItemSubscribe = this.dropItemSubscribe.bind(this);
+        // this.dropItemObserver.subscribe(this.dropItemSubscribe);
 
         this.loadWeapon();
     }
@@ -48,10 +48,10 @@ export class MapModel {
         this.generator = generator;
     }
 
-    dropItemSubscribe(position) {
+    /**dropItemSubscribe(position) {
         this.mapEvents[position.y / 32][position.x / 32] = 0;
         console.log('your suppress bourse of item');
-    }
+    }**/
 
     loadWeapon() {
         this.weaponDragonspearSprite = new Image();

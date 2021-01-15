@@ -7,6 +7,8 @@ import {InputController} from "./InputController.js";
 import {Player} from "../Views/Player.js";
 import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
+import {WeaponView} from "../Views/Weapon/WeaponView.js";
+import {WeaponModel} from "../Models/WeaponModel.js";
 
 /**
  * @property {Map} map
@@ -61,6 +63,13 @@ export class GameController {
         this.roundObsever = new Observer();
         this.dropItemObserver = new Observer();
         this.receiveDamageObserver = new Observer();
+        this.dropItemEvent = this.dropItemEvent.bind(this);
+        this.dropItemObserver.subscribe(this.dropItemEvent);
+    }
+
+    dropItemEvent() {
+        this.players[this.store.getState().playerSelected].view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
+        this.players[this.store.getState().playerSelected].model.setWeapon(new WeaponModel(10));
     }
 
     /**

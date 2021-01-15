@@ -1,6 +1,6 @@
 import { Config } from '../config/Config.js';
-import {DragonspearWeaponView} from "../Views/Weapon/DragonspearWeaponView.js";
 import {ArmorModel} from "./Armors/ArmorModel.js";
+import {WeaponModel} from "./WeaponModel.js";
 
 export class PlayerSprite {
     static LEFT = 9;
@@ -46,7 +46,7 @@ export class PlayerModel {
         this.size = { x: sizeX, y: sizeY };
         this.position = position;
         this.health = 100;
-        this.velocity = 4; // Valeur divisible par 32
+        this.velocity = 4;
         this.playerDirection = PlayerSprite.LEFT;
         this.chest = new ArmorModel(30);
         this.legs = new ArmorModel(15);
@@ -64,6 +64,14 @@ export class PlayerModel {
     }
 
     /**
+     *
+     * @param {WeaponModel} weapon
+     **/
+    setWeapon(weapon) {
+        this.weapon = weapon;
+    }
+
+    /**
      * Name of the player game
      * 
      * @param {string} username 
@@ -71,7 +79,6 @@ export class PlayerModel {
     setName(username) {
         this.username = username;
     }
-
 
     /**
      * Receive damage when is attacked
@@ -198,7 +205,7 @@ export class PlayerModel {
 
     dropItem() {
         if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
-            this.weapon = new DragonspearWeaponView();
+            this.weapon = new WeaponModel(10);
             this.dropItemObserver.notify(this.position);
         }
     }

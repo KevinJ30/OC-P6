@@ -106,7 +106,7 @@
         state: Object
     }
 
-    GameController *-- GameStore
+    GameController o-- GameStore
     InputController o-- GameStore
     HUDController o-- GameStore
     GameStore <|-- Observer

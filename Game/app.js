@@ -18,7 +18,10 @@ gameController.start();
 let HUDCtrl = new HUDController(gameController.store);
 
 const render = (timestamp) => {
-    gameController.update()
+    if(!gameController.update()) {
+        return cancelAnimationFrame(this);
+    }
+
     window.requestAnimationFrame(render);
 }
 

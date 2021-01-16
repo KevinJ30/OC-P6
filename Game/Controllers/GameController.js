@@ -7,8 +7,6 @@ import {InputController} from "./InputController.js";
 import {Player} from "../Views/Player.js";
 import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
-import {WeaponView} from "../Views/Weapon/WeaponView.js";
-import {WeaponModel} from "../Models/WeaponModel.js";
 import {MapView} from "../Views/MapView.js";
 
 /**
@@ -20,7 +18,6 @@ import {MapView} from "../Views/MapView.js";
 export class GameController {
 
     /**
-     * @param {Map} map
      * @param {CanvasRenderingContext2D} context
      **/
     constructor(context) {
@@ -33,13 +30,6 @@ export class GameController {
         this.mapModel.build();
 
         this.mapView = new MapView(this.ctx, './ressources/tile_map.png');
-        this.players = [];
-
-        this.loadPlayer(2)
-
-        /**
-         * Observers
-         **/
 
         /**
          * Bind method
@@ -50,10 +40,6 @@ export class GameController {
          * Update state GameStore
          **/
         this.store = new GameStore();
-        this.store.update({
-            playerNumber: 50
-        })
-
         this.input = new InputController(this.store, document.getElementById('screen'));
     }
 
@@ -71,8 +57,8 @@ export class GameController {
     }
 
     dropItemEvent() {
-        this.players[this.store.getState().playerSelected].view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
-        this.players[this.store.getState().playerSelected].model.setWeapon(new WeaponModel(10));
+       /** this.players[this.store.getState().playerSelected].view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
+        this.players[this.store.getState().playerSelected].model.setWeapon(new WeaponModel(10));**/
     }
 
     /**
@@ -81,15 +67,17 @@ export class GameController {
     start() {
         this.store.update({
             playerIndex: 0,
-            playerSelected: this.players[0],
+            playerSelected: 0,
             map: this.mapModel,
-            players: this.players
+            players: []
         })
 
         // subscribe observer player
-        this.roundObsever.subscribe(this.changeRound)
         this.store.getState().playerSelected = 0;
+        this.roundObsever.subscribe(this.changeRound)
         this.input.init();
+        this.loadPlayer(2)
+
     }
 
     /**
@@ -106,11 +94,15 @@ export class GameController {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
 
-            this.players.push({
+            this.store.addPlayer({
                 model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
                 view : new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
             });
+
+            // Intialisation des noms
+            this.store.getState().players[i].model.setName('Player ' + i);
         }
+        this.store.notify()
     }
 
     /**
@@ -123,7 +115,7 @@ export class GameController {
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
         let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
 
-        this.players.forEach((player) => {
+        this.store.getPlayers().forEach((player) => {
             let diffPlayerPosition = {
                 x : Math.abs(player.model.position.x - randomX),
                 y : Math.abs(player.model.position.y - randomY)
@@ -148,21 +140,23 @@ export class GameController {
      * Configure the change of a round game
      **/
     changeRound() {
-        const player1 = this.players[this.store.getState().playerSelected];
-        const player2 = this.players[this.store.getState().playerSelected === 1 ? 0: 1];
-        
+        const player1 = this.store.getPlayerSelected();
+        const player2 = this.store.getNotSelectedPlayer();
+        console.log('Change Round player...');
+
         /**
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
-            // le second personnage recoit les degât 
-            this.players[this.store.getState().playerSelected === 1 ? 0: 1].model.receiveDamage(player1.model.getDamage());
-            
+            // le second personnage recoit les degât
+            this.store.getNotSelectedPlayer().model.receiveDamage(player1.model.getDamage())
+            this.store.notify();
+
             /**
              * Draw information all player in the console navagator
              **/
-            console.log('Name of player : ' + this.players[0].model.username + ' health : ' + this.players[0].model.health);
-            console.log('Name of player : ' + this.players[1].model.username + ' health : ' + this.players[1].model.health);
+            console.log('Name of player : ' + this.store.getPlayerIndex(0).model.username + ' health : ' + this.store.getPlayerIndex(0).model.health);
+            console.log('Name of player : ' + this.store.getPlayerIndex(1).model.username + ' health : ' + this.store.getPlayerIndex(1).model.health);
         }
 
         if(this.store.getState().playerSelected === 0) {
@@ -175,23 +169,30 @@ export class GameController {
 
     /**
      * Game loop
-     * @return void
+     * @return {boolean} endGame
      **/
     update() {
-        let players = this.store.getState().players;
+        let players = this.store.getPlayers();
         let playerSelected = this.store.getState().playerSelected;
 
         this.mapView.draw(this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
         this.mapView.drawEvents(this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
 
-        for(let i =0; i < this.players.length; i++) {
-            this.players[i].view.update(this.map, this.players[i].model.position, this.players[i].model.playerDirection);
+        for(let i =0; i < this.store.countPlayer(); i++) {
+            this.store.getPlayerIndex(i).view.update(this.map, this.store.getPlayerIndex(i).model.position, this.store.getPlayerIndex(i).model.playerDirection);
         }
 
         // Affiche la grille pour le joueur selectionné
-        players[playerSelected].view.addGridToPlayer(this.mapModel, players[playerSelected].model.position);
+        this.store.getPlayerSelected().view.addGridToPlayer(this.mapModel, this.store.getPlayerSelected().model.position);
 
-        this.gameOver();
+        // Si le player est mort on ecrit dans la console
+        if(this.gameOver())
+        {
+            console.log('end game....');
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -207,11 +208,13 @@ export class GameController {
     }
 
     gameOver() {
-        this.players.forEach((player) => {
+        let isDeadPlayer = 0;
+        this.store.getPlayers().forEach((player) => {
             if(player.model.isDead()) {
-                console.log('end game....');
-                return true;
+                isDeadPlayer++;
             }
         })
+
+        return isDeadPlayer > 0;
     }
 }

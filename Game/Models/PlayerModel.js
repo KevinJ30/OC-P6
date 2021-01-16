@@ -53,7 +53,7 @@ export class PlayerModel {
         this.foot = new ArmorModel(10);
         this.weapon = null;
         this.damage = 5;
-        this.name = "init__class"
+        this.username = "No Player Name"
 
         /**
         /**
@@ -93,7 +93,7 @@ export class PlayerModel {
         //this.animateDamage();
         this.receiveDamageObserver.notify();
 
-        if(this.health < 0) {
+       if(this.health <= 0) {
             this.health = 0;
         }
     }

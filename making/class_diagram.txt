@@ -108,5 +108,14 @@
 
     GameController *-- GameStore
     InputController o-- GameStore
+    HUDModel o-- GameStore
+
+    class HUDController {
+        +viewHUD: HUDView
+    }
+
+    class HUDView {}
+
+    HUDController o-- HUDView
 
 @enduml

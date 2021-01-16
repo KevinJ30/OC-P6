@@ -108,14 +108,20 @@
 
     GameController *-- GameStore
     InputController o-- GameStore
-    HUDModel o-- GameStore
+    HUDController o-- GameStore
+    GameStore <|-- Observer
 
     class HUDController {
         +viewHUD: HUDView
     }
 
+    class HUDModel {
+        +gameStore : GameStore
+    }
+
     class HUDView {}
 
-    HUDController o-- HUDView
+    HUDController *-- HUDView
+    HUDController *-- HUDModel
 
 @enduml

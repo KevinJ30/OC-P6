@@ -15,7 +15,7 @@ let menuController = new MenuController('', menuView);
 let gameController = new GameController(ScreenRenderer)
 gameController.start();
 
-let HUDCtrl = new HUDController();
+let HUDCtrl = new HUDController(gameController.store);
 
 const render = (timestamp) => {
     gameController.update()

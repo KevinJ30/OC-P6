@@ -15,7 +15,7 @@ import {MapView} from "../Views/MapView.js";
  * @property {Map} map
  * @property {CanvasRenderingContext2D} ctx
  * @property {Array} player
- * @property {Input} input
+ * @property {InputController} input
  **/
 export class GameController {
 

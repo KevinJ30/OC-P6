@@ -53,7 +53,9 @@ export class PlayerModel {
         this.foot = new ArmorModel(10);
         this.weapon = null;
         this.damage = 5;
+        this.name = "init__class"
 
+        /**
         /**
          * Observer
          * @type {Observer}

@@ -4,6 +4,7 @@ export class GameStore extends Observer {
 
     constructor() {
         super();
+
         this.state = {
             players: []
         }

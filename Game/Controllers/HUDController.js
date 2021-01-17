@@ -8,11 +8,11 @@ export class HUDController {
         this.HUDModel = new HUDModel();
         this.gameStore = gameStore;
 
-        this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
         this.gameStore.subscribe(this.handleUpdateGameStore)
+        this.gameStore.notify()
     }
 
-    handleUpdateGameStore() {
+    handleUpdateGameStore = () => {
         this.HUDView.updateDisplay(this.gameStore);
     }
 }

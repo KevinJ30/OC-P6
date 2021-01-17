@@ -13,6 +13,7 @@ let menuView = new MenuView();
 let menuController = new MenuController('', menuView);
 
 let gameController = new GameController(ScreenRenderer)
+console.log(gameController.store);
 gameController.start();
 
 let HUDCtrl = new HUDController(gameController.store);

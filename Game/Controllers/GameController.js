@@ -42,6 +42,8 @@ export class GameController {
          * Update state GameStore
          **/
         this.store = new GameStore();
+        this.loadPlayer(2)
+        this.store.notify('111');
         this.input = new InputController(this.store, document.getElementById('screen'));
     }
 
@@ -67,19 +69,17 @@ export class GameController {
      * start the game playing
      **/
     start() {
-        this.store.update({
-            playerIndex: 0,
-            playerSelected: 0,
-            map: this.mapModel,
-            players: []
-        })
+        // this.store.update({
+        //     playerIndex: 0,
+        //     playerSelected: 0,
+        //     map: this.mapModel,
+        //     players: []
+        // })
 
         // subscribe observer player
         this.store.getState().playerSelected = 0;
         this.roundObsever.subscribe(this.changeRound)
         this.input.init();
-        this.loadPlayer(2)
-
     }
 
     /**
@@ -104,7 +104,6 @@ export class GameController {
             // Intialisation des noms
             this.store.getState().players[i].model.setName('Player ' + i);
         }
-        this.store.notify()
     }
 
     /**
@@ -144,7 +143,6 @@ export class GameController {
     changeRound() {
         const player1 = this.store.getPlayerSelected();
         const player2 = this.store.getNotSelectedPlayer();
-        console.log('Change Round player...');
 
         /**
          * Detect player conflict

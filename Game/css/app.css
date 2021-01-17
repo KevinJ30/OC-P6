@@ -1,5 +1,7 @@
 .game_screen {
     position: relative;
+    width:640px;
+    background-color:red;
 }
 
 #screen {
@@ -56,4 +58,40 @@
 
 #menu_game.hidden {
     display:none;
+}
+
+/**
+ * HUD player
+ **/
+.hud {
+    position: relative;
+    padding:32px 32px;
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.health-bar {
+    position: relative;
+    width:150px;
+    height:15px;
+}
+
+.health-bar[value] {
+    -webkit-appearance: none;
+    appearance:none;
+}
+
+.health-bar[value]::-webkit-progress-bar {
+    background-color: #eee;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25) inset;
+}
+
+.health-bar[value]::-webkit-progress-value {
+    background: rgb(0,43,8);
+    background: linear-gradient(-180deg, rgba(0,43,8,1) 0%, rgba(170,241,173,1) 9%, rgba(170,241,173,1) 16%, rgba(38,189,11,1) 50%, rgba(0,43,8,1) 100%);
+
+    border-radius: 10px;
+    background-size: 35px 20px, 100% 100%, 100% 100%;
 }

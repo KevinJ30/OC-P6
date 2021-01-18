@@ -18,11 +18,7 @@ export class PlayerView extends GameView {
      */
     constructor(receiveDamageObserver, context, spriteSheetSrc) {
         super(context);
-
         this.receiveDamageObserver = receiveDamageObserver;
-        this.chestArmorView = new Armor('./ressources/chestArmor.png');
-        this.legsArmorView = new Armor('./ressources/legsArmor.png');
-        this.footArmorView = new Armor('./ressources/footArmor.png');
 
         this.weaponView = null;
 
@@ -52,14 +48,15 @@ export class PlayerView extends GameView {
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         if(playerModel.spriteSheet) {
-            this.ctx.drawImage(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+            this.draw(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         }
 
-        if(this.chestArmorView && this.legsArmorView && this.footArmorView) {
-            this.chestArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.legsArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
-            this.footArmorView.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        if(playerModel.chest && playerModel.legs && playerModel.foot) {
+            this.draw(playerModel.chest.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+            this.draw(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+            this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         }
+
 
         if(this.weapon) {
             this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);

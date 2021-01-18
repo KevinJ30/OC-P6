@@ -78,9 +78,7 @@
     
     /' Application stores '/
     class GameModel {
-        +observers: Array
         +map : Map
-        +ctx: CanvasRenderingContext2D
         +players: Array<Player>
         +input: InputController
         +playerView : Player

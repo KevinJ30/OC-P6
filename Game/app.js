@@ -9,12 +9,10 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
 /**
  * Boucle de jeu
  **/
-let menuView = new MenuView();
-let menuController = new MenuController('', menuView);
-
 let gameController = new GameController(ScreenRenderer)
-console.log(gameController.store);
-gameController.start();
+
+let menuView = new MenuView();
+let menuController = new MenuController(gameController.store, '', menuView);
 
 let HUDCtrl = new HUDController(gameController.store);
 
@@ -29,3 +27,4 @@ const render = (timestamp) => {
 window.onload = () => {
     render();
 }
+

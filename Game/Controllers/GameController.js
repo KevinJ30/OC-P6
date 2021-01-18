@@ -69,13 +69,6 @@ export class GameController {
      * start the game playing
      **/
     start() {
-        // this.store.update({
-        //     playerIndex: 0,
-        //     playerSelected: 0,
-        //     map: this.mapModel,
-        //     players: []
-        // })
-
         // subscribe observer player
         this.store.getState().playerSelected = 0;
         this.roundObsever.subscribe(this.changeRound)

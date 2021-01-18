@@ -44,6 +44,10 @@ export class GameStore extends Observer {
         return this.state.players[this.state.playerSelected ? 0 : 1];
     }
 
+    gameIsStarted() {
+        return this.state.start;
+    }
+
     countPlayer() {
         return this.state.players.length;
     }

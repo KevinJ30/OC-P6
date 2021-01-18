@@ -1,8 +1,9 @@
 export class MenuController {
     
-    constructor (model, view) {
+    constructor (gameStore, model, view) {
         this.model = model;
         this.view = view;
+        this.gameStore = gameStore;
 
         /**
          * Bind handle
@@ -11,6 +12,7 @@ export class MenuController {
     }
 
     handleButtonStartGame = () => {
+        console.log(this.gameStore);
         this.view.displayMenu();
     }
 

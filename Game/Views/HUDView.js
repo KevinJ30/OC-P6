@@ -3,26 +3,11 @@ export class HUDView {
     constructor() {
         this.HUDContainer = $('.js-HUD');
 
-        /**this.HUDContainerPlayerOne = $('<div></div>').addClass('js-player-hud-1');
-        this.HUDContainerPlayerTwo = $('<div></div>').addClass('js-player-hud-2');
 
-        this.playerOneNameElement = $('<p><p>').addClass('js-player1-name');
-        //this.playerTwoNameElement = $('<p><p>').addClass('js-player2-name');
-
-        /**this.HUDContainerPlayerOne.append(this.playerOneNameElement)
-        this.HUDContainerPlayerTwo.append(this.playerTwoNameElement)
-
-        this.HUDContainer.append(this.HUDContainerPlayerOne);
-        this.HUDContainer.append(this.HUDContainerPlayerTwo);
-        this.HUDContainerPlayerOne.append(this.playerOneNameElement);
-        this.HUDContainerPlayerTwo.append(this.playerTwoNameElement);
-
-        this.HUDContainer.append(this.HUDContainerPlayerOne);**/
-
-        this.HUDContainerPlayerOne = $('<div></div>').addClass('js-player-hud-1').append('<p></p>');
-        this.HUDContainerPlayerTwo = $('<div></div>').addClass('js-player-hud-2').append('<p></p>');
-        this.playerOneNameElement = this.HUDContainerPlayerOne.children().addClass('js-player1-name');
-        this.playerTwoNameElement = this.HUDContainerPlayerTwo.children().addClass('js-player2-name');
+        this.HUDContainerPlayerOne = $('<div></div>').addClass('player-hud js-player-hud-1').append('<p></p>');
+        this.HUDContainerPlayerTwo = $('<div></div>').addClass('player-hud js-player-hud-2').append('<p></p>');
+        this.playerOneNameElement = this.HUDContainerPlayerOne.children().addClass('player-name js-player1-name');
+        this.playerTwoNameElement = this.HUDContainerPlayerTwo.children().addClass('player-name js-player2-name');
         this.HUDContainerPlayerOne.append('<progress class="health-bar js-hud__health-player1" value="0" max="100"></progress>')
         this.HUDContainerPlayerTwo.append('<progress class="health-bar js-hud__health-player1" value="0" max="100"></progress>')
 

@@ -1,15 +1,15 @@
 import {Config} from "../config/Config.js";
+import {GameView} from "./GameView.js";
 
-export class MapView {
+export class MapView extends GameView {
 
     /**
      * @param {CanvasRenderingContext2D} context
-     * @param {string} spriteSheetSrc
+     * @param {Image} spriteSheet
      **/
-    constructor(context, spriteSheetSrc) {
+    constructor(context ) {
+        super(context);
         this.ctx = context;
-        this.spriteSheet = new Image();
-        this.spriteSheet.src = spriteSheetSrc;
     }
 
     addGridToMap() {
@@ -27,7 +27,7 @@ export class MapView {
      * @param {number} maxTileY
      * @param {number} maxTileX
      **/
-    draw(map, maxTileX, maxTileY) {
+    draw(spriteSheet, map, maxTileX, maxTileY) {
         const tileSize = Config.TILE_SIZE;
 
         for(let i = 0; i < maxTileY; i++) {
@@ -42,16 +42,14 @@ export class MapView {
                 const sourceX = Math.floor(a % 16) * tileSize;
                 const sourceY = Math.floor((a / 16)) *  tileSize;
 
-                this.ctx.drawImage(this.spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
-                //this.ctx.drawImage(this.tileImg, sourceX, sourceY, this.tileSize, this.tileSize, positionTile.x, positionTile.y, 64, 64);
+                this.ctx.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
                 this.ctx.strokeStyle = "rgba(0, 0, 0, 0.3)";
                 this.ctx.strokeRect(positionTile.x, positionTile.y, tileSize, tileSize);
-                //this.ctx.strokeRect(positionTile.x, positionTile.y, 64, 64);
             }
         }
     }
 
-    drawEvents(mapEvents, maxTileX, maxTileY) {
+    drawEvents(spriteSheet, mapEvents, maxTileX, maxTileY) {
         const tileSize = Config.TILE_SIZE;
 
         for(let i = 0; i < maxTileY; i++) {
@@ -66,8 +64,7 @@ export class MapView {
                     const sourceX = Math.floor(a % 16) * tileSize;
                     const sourceY = Math.floor((a / 16)) *  tileSize;
 
-                    this.ctx.drawImage(this.spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
-                    /**this.ctx.drawImage(this.tileImg, 0, 0, 64, 64, 0, 0, 32, 32)**/
+                    this.ctx.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
                 }
             }
         }

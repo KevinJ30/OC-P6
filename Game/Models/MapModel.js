@@ -19,11 +19,9 @@ export class MapModel {
      * @param {number} maxTileX 
      * @param {number} maxTileY 
      */
-    constructor(context, srcImage, tileSize, maxTileX, maxTileY, dropItemObserver) {
-        this.ctx = context;
-        this.srcImage = srcImage
-        this.tileImg = new Image();
-        this.tileImg.src = this.srcImage;
+    constructor(tileSize, maxTileX, maxTileY, dropItemObserver) {
+        this.spriteSheet = new Image();
+        this.spriteSheet.src = './ressources/tile_map.png';
         this.tileSize = tileSize;
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
@@ -117,46 +115,4 @@ export class MapModel {
 
         this.mapEvents[positionY][positionX] = MapModel.WEAPON_DRAGONSPEAR;
     }
-
-    /** Getter & Setter **/
-
-     /**
-      * @return {string} tileImg : Image object for the tile
-      **/
-    getTileImg() { return this.tileImg; }
-
-    /**
-     * @param {string} tileImg
-     **/
-    setTileImg(tileImg) { this.tileImg = tileImg; }
-
-    /**
-     * @return {number} tileSize : tile size
-     **/
-    getTileSize() { return this.tileSize; }
-
-    /**
-     * @param {number} tileSize : tile size
-     **/
-    setTileSize(tileSize) { this.tileSize = tileSize; }
-
-    /**
-     * @return {number} maxTileX : maximum number of horizontal tiles
-     **/
-    getMaxTileX() { return this.maxTileX; }
-
-    /** 
-     * @param {number} maxTileX : maximum number of horizontal tiles 
-     */
-    setMaxTileX(maxTileX) { this.maxTileX = maxTileX; }
-
-    /**
-     * @return {number} maxTileY : maximum number of vertical tiles
-     **/
-    getMaxTileY() { return this.maxTileY; }
-
-    /**
-     * @param {number} maxTileY : maximum number of vertical tiles
-     **/
-    setMaxTileY(maxTileY) { this.maxTileY = maxTileY; }
 }

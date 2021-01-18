@@ -6,6 +6,7 @@ export class GameStore extends Observer {
         super();
 
         this.state = {
+            playerSelected: 0,
             players: []
         }
     }
@@ -21,7 +22,7 @@ export class GameStore extends Observer {
 
     /**
      * Add player in the store and notify
-     * @param {{view: Player, model: PlayerModel}} player
+     * @param {{view: PlayerView, model: PlayerModel}} player
      **/
     addPlayer(player) {
         this.state.players.push(player);
@@ -42,6 +43,14 @@ export class GameStore extends Observer {
 
     getNotSelectedPlayer() {
         return this.state.players[this.state.playerSelected ? 0 : 1];
+    }
+
+    getPlayerModelWithIndex(index) {
+        return this.state.players[index].model;
+    }
+
+    getPlayerViewWithIndex(index) {
+        return this.state.players[index].view;
     }
 
     gameIsStarted() {

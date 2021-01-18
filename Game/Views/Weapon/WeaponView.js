@@ -2,7 +2,6 @@ export class WeaponView {
     constructor(spriteSheetSrc) {
         this.spriteSheet = new Image();
         this.spriteSheet.src = spriteSheetSrc;
-        this.spriteSelected = 0;
     }
 
     draw(ctx, sourceX, sourceY, positionX, positionY) {

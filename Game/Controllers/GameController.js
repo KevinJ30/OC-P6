@@ -4,7 +4,7 @@ import {GameStore} from "../stores/GameStore.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
-import {Player} from "../Views/Player.js";
+import {PlayerView} from "../Views/PlayerView.js";
 import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
 import {MapView} from "../Views/MapView.js";
@@ -27,11 +27,11 @@ export class GameController {
         this.initObservers();
 
         this.ctx = context;
-        this.mapModel = new MapModel(context, './ressources/tile_map.png',32, 20, 15, this.dropItemObserver);
+        this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
         this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.mapModel.build();
 
-        this.mapView = new MapView(this.ctx, './ressources/tile_map.png');
+        this.mapView = new MapView(this.ctx);
 
         /**
          * Bind method
@@ -91,7 +91,7 @@ export class GameController {
 
             this.store.addPlayer({
                 model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObsever, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
-                view : new Player(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
+                view : new PlayerView(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
             });
 
             // Intialisation des noms
@@ -102,7 +102,7 @@ export class GameController {
     /**
      * Generate random position for the player
      * 
-     * @param {Array<Player>} players
+     * @param {Array<PlayerView>} players
      * @returns {{x: number, y: number}}
      **/
     generatePositionPlayer() {
@@ -168,11 +168,11 @@ export class GameController {
         let players = this.store.getPlayers();
         let playerSelected = this.store.getState().playerSelected;
 
-        this.mapView.draw(this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
-        this.mapView.drawEvents(this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
+        this.mapView.draw(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
+        this.mapView.drawEvents(this.mapModel.spriteSheet, this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
 
         for(let i =0; i < this.store.countPlayer(); i++) {
-            this.store.getPlayerIndex(i).view.update(this.map, this.store.getPlayerIndex(i).model.position, this.store.getPlayerIndex(i).model.playerDirection);
+            this.store.getPlayerIndex(i).view.update(this.store.getPlayerModelWithIndex(i), this.map, this.store.getPlayerIndex(i).model.position, this.store.getPlayerIndex(i).model.playerDirection);
         }
 
         // Affiche la grille pour le joueur selectionné

@@ -1,13 +1,14 @@
 import {Config} from "../config/Config.js";
 import {Armor} from "./Armor/Armor.js";
 import {WeaponView} from "./Weapon/WeaponView.js";
+import {GameView} from "./GameView.js";
 
 /**
  * Class Player view
  *
  * @property {HTMLImageElement} spriteSheet
  **/
-export class Player {
+export class PlayerView extends GameView {
 
     /**
      *
@@ -16,9 +17,8 @@ export class Player {
      * @param {string} spriteSheetSrc
      */
     constructor(receiveDamageObserver, context, spriteSheetSrc) {
-        this.spriteSheet = new Image();
-        this.spriteSheet.src = spriteSheetSrc;
-        this.ctx = context;
+        super(context);
+
         this.receiveDamageObserver = receiveDamageObserver;
         this.chestArmorView = new Armor('./ressources/chestArmor.png');
         this.legsArmorView = new Armor('./ressources/legsArmor.png');
@@ -37,22 +37,22 @@ export class Player {
      **/
     setWeapon(weapon) {
         this.weapon = weapon;
-        console.log(this.weapon);
     }
 
     /**
      *
+     * @param {PlayerModel} playerModel
      * @param {MapModel} mapModel
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
      **/
-    update(mapModel, position, playerDirection, ) {
+    update(playerModel, mapModel, position, playerDirection, ) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
-        if(this.spriteSheet) {
-            this.ctx.drawImage(this.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+        if(playerModel.spriteSheet) {
+            this.ctx.drawImage(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
         }
 
         if(this.chestArmorView && this.legsArmorView && this.footArmorView) {

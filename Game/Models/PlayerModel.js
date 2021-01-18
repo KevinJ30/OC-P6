@@ -40,7 +40,7 @@ export class PlayerModel {
      **/
     constructor (receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
-        this.image = image;
+        this.spriteSheet = image;
         this.mapModel = mapModel;
         this.selectedPlayer = true;
         this.size = { x: sizeX, y: sizeY };

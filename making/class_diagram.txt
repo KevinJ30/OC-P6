@@ -1,8 +1,7 @@
 @startuml Game
     /' Class Game '/
     class PlayerModel {
-        +ctx: CanvasRenderingContext2D
-        +image: Image
+        +spriteSheet: Image
         +size: Object
         +health: int
         +velocity: int
@@ -15,9 +14,7 @@
     }
 
     class MapModel {
-        +ctx: CanvasRenderingContext2D
-        +srcImage: string
-        +spritesheet: Image
+        +spriteSheet: Image
         +maxTileX: int
         +maxTileY: int
         +map: Array
@@ -52,29 +49,20 @@
 
     class ArmorModel {
         +armor: int
+        +spritesheet: Image
     }
 
-    class Armor { 
-        +spriteSheet : Image 
-    }
+    class PlayerView {}
 
-
-    class Player {
-        +spriteSheet : HTMLImageElement
-        +context : CanvasRenderingContext2D
-    }
-
-    class MapView {
-
-    }
+    class MapView {}
 
     class WeaponModel {
         +damage: int
+        +spritesheet: Image
     }
 
-    class Weapon {
-        +spritesheet: Image
-        +damage: int
+    class GameView {
+        +context: CanvasRenderingContext2D
     }
         
     PlayerModel o-- WeaponModel
@@ -84,10 +72,9 @@
 
     GameController *-- PlayerModel
     GameController *-- MapModel
-    GameController *-- MapView
-    GameController *-- Player
-    Player "3" *-- "1" Armor
-    Player *-- Weapon
+    GameView <|-- MapView
+    GameView <|-- PlayerView
+    GameController *-- GameView
 
     /' class Observer '/
     class Observer {
@@ -97,7 +84,7 @@
     GameController "1" *-- "many" Observer
     MapView o-- Observer
     PlayerModel o-- Observer
-    Player o-- Observer
+    PlayerView o-- Observer
     MapModel o-- Observer
     
     /' Application stores '/
@@ -107,7 +94,7 @@
     }
 
     GameController o-- GameStore
-    InputController o-- GameStore
+    InputController ..> GameStore 
     HUDController o-- GameStore
     GameStore <|-- Observer
 

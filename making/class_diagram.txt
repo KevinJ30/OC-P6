@@ -32,14 +32,8 @@
     }
 
     class GameController {
-        +map : Map
-        +ctx: CanvasRenderingContext2D
-        +players: Array<Player>
-        +input: InputController
-        +playerView : Player
-        +roundObserver : Observer
-        +dropItemObserver : Observer
-        +receiveDamageObserver : Observer
+        +gameView: GameView
+        +gameModel: gameModel
     }
 
     class ArmorModel {
@@ -83,24 +77,40 @@
     MapModel o-- Observer
     
     /' Application stores '/
-    class GameStore {
-        +instance: static
-        state: Object
+    class GameModel {
+        +observers: Array
+        +map : Map
+        +ctx: CanvasRenderingContext2D
+        +players: Array<Player>
+        +input: InputController
+        +playerView : Player
+        +roundObserver : Observer
+        +dropItemObserver : Observer
+        +receiveDamageObserver : Observer
+        +playerSelected: int
+        +players: Array
     }
 
-    GameController o-- GameStore
-    HUDController o-- GameStore
-    GameStore <|-- Observer
+    GameController *-- GameModel
+    HUDController ..> GameModel
+    GameModel <|-- Observer
 
     class HUDController {
-        +viewHUD: HUDView
+        +hudView: HUDView
+        +hudModel: HUDModel
+        +gameModel: GameModel
     }
 
-    class HUDModel {
-        +gameStore : GameStore
-    }
+    class HUDModel {}
 
-    class HUDView {}
+    class HUDView {
+        +HUDContainer: HTMLDivElement
+        +HUDContainerPlayerOne: HTMLDivElement
+        +HUDContainerPlayerTwo: HTMLDivElement
+        +HUDPlayerOneName: HTMLParagraphElement
+        +HUDPlayerTwoName: HTMLParagraphElement
+        +HUDPlayerOneProgressElement: HTMLProgressElement
+    }
 
     HUDController *-- HUDView
     HUDController *-- HUDModel

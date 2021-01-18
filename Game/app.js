@@ -22,6 +22,8 @@ document.getElementById('screen').addEventListener('click', (event) => {
     player.model.moveTarget(event.offsetX, event.offsetY);
 });
 
+console.log(gameController.store)
+
 const render = (timestamp) => {
     if(!gameController.update()) {
         return cancelAnimationFrame(this);

@@ -3,7 +3,6 @@ export class HUDView {
     constructor() {
         this.HUDContainer = $('.js-HUD');
 
-
         this.HUDContainerPlayerOne = $('<div></div>').addClass('player-hud js-player-hud-1').append('<p></p>');
         this.HUDContainerPlayerTwo = $('<div></div>').addClass('player-hud js-player-hud-2').append('<p></p>');
         this.playerOneNameElement = this.HUDContainerPlayerOne.children().addClass('player-name js-player1-name');

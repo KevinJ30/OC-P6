@@ -12,12 +12,11 @@ export class MapModel {
 
     /**
      * Constructor
-     * 
-     * @param {string} image
-     * @param {Object} tileImg 
-     * @param {number} tileSize 
-     * @param {number} maxTileX 
-     * @param {number} maxTileY 
+     *
+     * @param {number} tileSize
+     * @param {number} maxTileX
+     * @param {number} maxTileY
+     * @param {Observer} dropItemObserver
      */
     constructor(tileSize, maxTileX, maxTileY, dropItemObserver) {
         this.spriteSheet = new Image();

@@ -10,11 +10,17 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
  * Boucle de jeu
  **/
 let gameController = new GameController(ScreenRenderer)
+gameController.start();
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.store, '', menuView);
 
 let HUDCtrl = new HUDController(gameController.store);
+
+document.getElementById('screen').addEventListener('click', (event) => {
+    let player = gameController.store.getState().players[gameController.store.getState().playerSelected];
+    player.model.moveTarget(event.offsetX, event.offsetY);
+});
 
 const render = (timestamp) => {
     if(!gameController.update()) {

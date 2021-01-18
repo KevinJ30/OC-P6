@@ -68,31 +68,32 @@ export class PlayerView extends GameView {
 
     /**
      * Animate player when receive damage
+     * @param {PlayerModel} playerModel
      **/
-    animateDamage() {
+    animateDamage(playerModel) {
         let i = 0;
-        let lastImagePlayer = this.spriteSheet;
+        let lastImagePlayer = playerModel.spriteSheet;
 
-        let lastChestImage = this.chestArmorView.spritesheet;
-        let lastLegsImage = this.legsArmorView.spritesheet;
-        let lastFootImage = this.footArmorView.spritesheet;
+        let lastChestImage = playerModel.chest.spritesheet;
+        let lastLegsImage = playerModel.legs.spritesheet;
+        let lastFootImage = playerModel.foot.spritesheet;
 
         // Animation disparition player
         let animation = setInterval(() => {
             this.spriteSheet = this.spriteSheet === null ? lastImagePlayer : null;
-            this.chestArmorView.spritesheet = this.chestArmorView.spritesheet === null ? lastChestImage : null;
-            this.legsArmorView.spritesheet = this.legsArmorView.spritesheet === null ? lastLegsImage : null;
-            this.footArmorView.spritesheet = this.footArmorView.spritesheet === null ? lastFootImage : null;
+            playerModel.chest.spritesheet = playerModel.chest.spritesheet === null ? lastChestImage : null;
+            playerModel.legs.spritesheet = playerModel.legs.spritesheet === null ? lastLegsImage : null;
+            playerModel.foot.spritesheet = playerModel.foot.spritesheet === null ? lastFootImage : null;
             if(i > 4) {
                 clearInterval(animation);
             }
             i++;
         }, 250)
 
-        this.spriteSheet = lastImagePlayer;
-        this.chestArmorView.spritesheet = lastChestImage;
-        this.legsArmorView.spritesheet = lastLegsImage;
-        this.footArmorView.spritesheet = lastFootImage;
+        playerModel.spriteSheet = lastImagePlayer;
+        playerModel.chest.spritesheet = lastChestImage;
+        playerModel.legs.spritesheet = lastLegsImage;
+        playerModel.foot.spritesheet = lastFootImage;
     }
 
     /**

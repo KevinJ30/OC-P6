@@ -10,6 +10,7 @@ import { Generator } from '../Map/Generator.js';
 import {MapView} from "../Views/MapView.js";
 import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
+import {GameView} from "../Views/GameView.js";
 
 /**
  * @property {Map} map
@@ -32,6 +33,7 @@ export class GameController {
         this.mapModel.build();
 
         this.mapView = new MapView(this.ctx);
+        this.gameView = new GameView(context);
 
         /**
          * Bind method
@@ -43,8 +45,7 @@ export class GameController {
          **/
         this.store = new GameStore();
         this.loadPlayer(2)
-        this.store.notify('111');
-        this.input = new InputController(this.store, document.getElementById('screen'));
+        this.store.notify();
     }
 
     /**
@@ -72,7 +73,6 @@ export class GameController {
         // subscribe observer player
         this.store.getState().playerSelected = 0;
         this.roundObsever.subscribe(this.changeRound)
-        this.input.init();
     }
 
     /**

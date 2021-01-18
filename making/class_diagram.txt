@@ -42,11 +42,6 @@
         +receiveDamageObserver : Observer
     }
 
-    class InputController {
-        +player: Player
-        +map: Map
-    }
-
     class ArmorModel {
         +armor: int
         +spritesheet: Image
@@ -94,7 +89,6 @@
     }
 
     GameController o-- GameStore
-    InputController ..> GameStore 
     HUDController o-- GameStore
     GameStore <|-- Observer
 

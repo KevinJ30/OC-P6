@@ -34,7 +34,6 @@
     class GameController {
         +gameView: GameView
         +gameModel: gameModel
-        +playerView: PlayerView
         +mapView: MapView
         +dropItemObserver: Observer
         +roundObserver: Observer
@@ -52,7 +51,9 @@
 
     class PlayerView {}
 
-    class MapView {}
+    class MapView {
+        +spriteSheet: Image
+    }
 
     class WeaponModel {
         +damage: int
@@ -88,7 +89,7 @@
         +playerSelected: int
         +isStarted: boolean
         +isFight : boolean
-    }
+    }  
 
     GameController *-- GameModel
     HUDController ..> GameModel

@@ -1,10 +1,7 @@
 export class GameView {
 
-    /**
-     * @param {CanvasRenderingContext2D} context
-     **/
-    constructor(context) {
-        this.ctx = context
+    constructor() {
+        this.ctx = $('#screen')[0].getContext('2d');
     }
 
     draw(spriteSheet, sourceX, sourceY, sourceW, sourceH, destinationX, destinationY, destinationW, destinationH){

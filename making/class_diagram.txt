@@ -34,11 +34,20 @@
     class GameController {
         +gameView: GameView
         +gameModel: gameModel
+        +playerView: PlayerView
+        +mapView: MapView
+        +dropItemObserver: Observer
+        +roundObserver: Observer
+        +receiveDamageObserver: Observer
     }
 
     class ArmorModel {
         +armor: int
         +spritesheet: Image
+    }
+
+     class GameView {
+        +context: CanvasRenderingContext2D
     }
 
     class PlayerView {}
@@ -49,10 +58,6 @@
         +damage: int
         +spritesheet: Image
     }
-
-    class GameView {
-        +context: CanvasRenderingContext2D
-    }
         
     PlayerModel o-- WeaponModel
     PlayerModel o-- MapModel
@@ -61,8 +66,8 @@
 
     GameController *-- PlayerModel
     GameController *-- MapModel
-    GameView <|-- MapView
-    GameView <|-- PlayerView
+    GameController o-- MapView
+    GameController o-- PlayerView
     GameController *-- GameView
 
     /' class Observer '/
@@ -80,13 +85,9 @@
     class GameModel {
         +map : Map
         +players: Array<Player>
-        +input: InputController
-        +playerView : Player
-        +roundObserver : Observer
-        +dropItemObserver : Observer
-        +receiveDamageObserver : Observer
         +playerSelected: int
-        +players: Array
+        +isStarted: boolean
+        +isFight : boolean
     }
 
     GameController *-- GameModel

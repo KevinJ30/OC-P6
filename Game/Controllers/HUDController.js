@@ -3,16 +3,25 @@ import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 
-    constructor(gameStore) {
+    constructor(gameModel) {
         this.HUDView = new HUDView();
         this.HUDModel = new HUDModel();
-        this.gameStore = gameStore;
+        this.gameModel = gameModel;
 
-        this.gameStore.subscribe(this.handleUpdateGameStore)
-        this.gameStore.notify()
+        this.bindingMethodOfClass();
+        this.allSubscribeToObserver();
+        this.gameModel.notify()
     }
 
-    handleUpdateGameStore = () => {
-        this.HUDView.updateDisplay(this.gameStore);
+    bindingMethodOfClass() {
+        this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
+    }
+
+    allSubscribeToObserver() {
+        this.gameModel.subscribe(this.handleUpdateGameStore)
+    }
+
+    handleUpdateGameStore () {
+        this.HUDView.updateDisplay(this.gameModel);
     }
 }

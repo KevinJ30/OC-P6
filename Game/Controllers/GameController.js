@@ -131,15 +131,15 @@ export class GameController {
      * Configure the change of a round game
      **/
     changeRoundEvent() {
-        const player1 = this.store.getPlayerSelected();
-        const player2 = this.store.getNotSelectedPlayer();
+        const player1 = this.gameModel.getPlayerSelected();
+        const player2 = this.gameModel.getPlayerNotSelected();
 
         /**
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
             // le second personnage recoit les degât
-            this.gameModel.getNotSelectedPlayer().model.receiveDamage(player1.model.getDamage())
+            this.gameModel.getPlayerNotSelected().model.receiveDamage(player1.model.getDamage())
             this.gameModel.notify();
 
             /**
@@ -149,11 +149,11 @@ export class GameController {
             console.log('Name of player : ' + this.gameModel.getPlayerIndex(1).model.username + ' health : ' + this.gameModel.getPlayerIndex(1).model.health);
         }
 
-        if(this.gameModel.getState().playerSelected === 0) {
-            this.gameModel.getState().playerSelected = 1
+        if(this.gameModel.playerSelected === 0) {
+            this.gameModel.playerSelected = 1
         }
         else {
-            this.gameModel.getState().playerSelected = 0
+            this.gameModel.playerSelected = 0
         }
     }
 
@@ -163,7 +163,7 @@ export class GameController {
      **/
     update() {
         let players = this.gameModel.getPlayers();
-        let playerSelected = this.gameModel.getState().playerSelected;
+        let playerSelected = this.gameModel.playerSelected;
 
         this.mapView.draw(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
         this.mapView.drawEvents(this.mapModel.spriteSheet, this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);

@@ -72,6 +72,14 @@ export class GameModel extends Observer {
     }
 
     /**
+     * Return model with player selected index
+     * @param index
+     **/
+    getPlayerModelWithIndex(index) {
+        return this.players[index].model;
+    }
+
+    /**
      * Return the game started
      * @returns {boolean}
      **/

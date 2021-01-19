@@ -13,12 +13,12 @@ let gameController = new GameController(ScreenRenderer)
 gameController.start();
 
 let menuView = new MenuView();
-let menuController = new MenuController(gameController.store, '', menuView);
+let menuController = new MenuController(gameController.gameModel, '', menuView);
 
-let HUDCtrl = new HUDController(gameController.store);
+let HUDCtrl = new HUDController(gameController.gameModel);
 
 document.getElementById('screen').addEventListener('click', (event) => {
-    let player = gameController.store.getState().players[gameController.store.getState().playerSelected];
+    let player = gameController.gameModel.players[gameController.gameModel.playerSelected];
     player.model.moveTarget(event.offsetX, event.offsetY);
 });
 

@@ -17,12 +17,12 @@ export class HUDView {
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
     }
 
-    updateDisplay(gameStore) {
-        this.playerOneNameElement.text(gameStore.getState().players[0].model.username + ' ' + gameStore.getState().players[0].model.health);
-        this.playerTwoNameElement.text(gameStore.getState().players[1].model.username + ' ' + gameStore.getState().players[1].model.health);
+    updateDisplay(gameModel) {
+        this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
+        this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
 
         // Connect value progress bar
-        this.playerOneProgressElement.val(gameStore.getState().players[0].model.health);
-        this.playerTwoProgressElement.val(gameStore.getState().players[1].model.health);
+        this.playerOneProgressElement.val(gameModel.players[0].model.health);
+        this.playerTwoProgressElement.val(gameModel.players[1].model.health);
     }
 }

@@ -111,6 +111,82 @@ export class PlayerView extends GameView {
         this.ctx.fill();
     }
 
+    addGridLeftToPlayer(mapModel, position) {
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
+
+            if(positionGrid >= 0) {
+                if(!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+                    this.addCaseToGrid(position, positionGrid, true);
+                }
+                else {
+                    break;
+                }
+            }
+            else{
+                break;
+            }
+
+        }
+    }
+
+    addGridRigthToPlayer(mapModel, position) {
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = position.x + Config.TILE_SIZE * (i + 1);
+
+            if(positionGrid < Config.MAP_MAX_X * 32) {
+                if(!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+                    this.addCaseToGrid(position, positionGrid, true);
+                }
+                else {
+                    break;
+                }
+            }
+            else{
+                break;
+            }
+
+        }
+    }
+
+    addGridUpToPlayer(mapModel, position) {
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (position.y - Config.TILE_SIZE * (i + 1));
+
+            if(positionGrid >= 0) {
+                if(!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+                    this.addCaseToGrid(position, positionGrid, false);
+                }
+                else {
+                    break;
+                }
+            }
+            else{
+                break;
+            }
+
+        }
+    }
+
+    addGridDownToPlayer(mapModel, position) {
+        for(let i = 0; i < 3; i++) {
+            let positionGrid = (position.y + Config.TILE_SIZE * (i + 1));
+
+            if(positionGrid < Config.MAP_MAX_Y * 32) {
+                if(!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+                    this.addCaseToGrid(position, positionGrid, false);
+                }
+                else {
+                    break;
+                }
+            }
+            else{
+                break;
+            }
+
+        }
+    }
+
     /**
      * Add Grid highlight to the player
      *
@@ -118,65 +194,70 @@ export class PlayerView extends GameView {
      **/
     addGridToPlayer(mapModel, position) {
         // Add grid to the right player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = position.x + Config.TILE_SIZE * (i + 1);
+        this.addGridLeftToPlayer(mapModel, position);
+        this.addGridRigthToPlayer(mapModel, position);
+        this.addGridUpToPlayer(mapModel, position);
+        this.addGridDownToPlayer(mapModel, position)
 
-            if(mapModel.collideIsEdgeMap(position.x + Config.TILE_SIZE, position.y)) {
-                if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
-                    this.addCaseToGrid(position, positionGrid, true);
-                } else {
-                    break;
-                }
-            }
-            else {
-                break;
-            }
-        }
+        // for(let i = 0; i < 3; i++) {
+        //     let positionGrid = position.x + Config.TILE_SIZE * (i + 1);
+        //
+        //     if(mapModel.collideIsEdgeMap(position.x + Config.TILE_SIZE, position.y)) {
+        //         if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+        //             this.addCaseToGrid(position, positionGrid, true);
+        //         } else {
+        //             break;
+        //         }
+        //     }
+        //     else {
+        //         break;
+        //     }
+        // }
 
         // Add grid to the left player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
-
-            if(position.x > 0 && position.x / 32 + 1 < Config.MAP_MAX_X && position.y > 0 && (position.y / 32) < Config.MAP_MAX_Y) {
-                if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
-                    this.addCaseToGrid(position, positionGrid, true);
-                } else {
-                    break;
-                }
-            }
-            else {
-                break;
-            }
-        }
+        // for(let i = 0; i < 3; i++) {
+        //     let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
+        //
+        //     if(position.x > 0 && position.x / 32 + 1 < Config.MAP_MAX_X && position.y > 0 && (position.y / 32) < Config.MAP_MAX_Y) {
+        //         if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
+        //             this.addCaseToGrid(position, positionGrid, true);
+        //         } else {
+        //             break;
+        //         }
+        //     }
+        //     else {
+        //         break;
+        //     }
+        // }
 
         // Add grid to the up player
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = (position.y + Config.TILE_SIZE * (i + 1));
-
-            if(position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
-                if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
-                    this.addCaseToGrid(position, positionGrid, false);
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
-
-        for(let i = 0; i < 3; i++) {
-            let positionGrid = (position.y  - Config.TILE_SIZE * (i + 1));
-
-            if(positionGrid > (0 - 1) && position.y / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
-                if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
-                    this.addCaseToGrid(position, positionGrid, false);
-                } else {
-                    break;
-                }
-            } else {
-                break;
-            }
-        }
+        // for(let i = 0; i < 3; i++) {
+        //     let positionGrid = (position.y + Config.TILE_SIZE * (i + 1));
+        //
+        //     if(position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
+        //         if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+        //             this.addCaseToGrid(position, positionGrid, false);
+        //         } else {
+        //             break;
+        //         }
+        //     } else {
+        //         break;
+        //     }
+        // }
+        //
+        // for(let i = 0; i < 3; i++) {
+        //     let positionGrid = (position.y  - Config.TILE_SIZE * (i + 1));
+        //
+        //     if(positionGrid > (0 - 1) && position.y / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
+        //         if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
+        //             this.addCaseToGrid(position, positionGrid, false);
+        //         } else {
+        //             break;
+        //         }
+        //     } else {
+        //         break;
+        //     }
+        // }
     }
 
 }

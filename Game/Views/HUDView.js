@@ -20,6 +20,21 @@ export class HUDView {
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
     }
 
+    bindButtonAttack(handler) {
+        this.buttonAttackElement.click((event) => {
+            event.preventDefault();
+            handler();
+        })
+    }
+
+    bindButtonDefend(handler) {
+        this.buttonDefendElement.click((event) => {
+            event.preventDefault();
+            handler();
+        })
+    }
+
+
     drawHudFight() {
         this.HUDFightContainer = $('<div></div>').addClass('HUD-fight');
         this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')

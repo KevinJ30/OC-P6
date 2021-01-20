@@ -1,6 +1,5 @@
 import { Utils } from '../Utils.js';
 import { Config } from "../config/Config.js";
-import {GameStore} from "../stores/GameStore.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {InputController} from "./InputController.js";
@@ -24,11 +23,13 @@ export class GameController {
     /**
      * @param {CanvasRenderingContext2D} context
      **/
-    constructor(context) {
+    constructor(context, attackEvent, defendEvent) {
         this.dropItemObserver = new Observer();
         this.roundObserver = new Observer();
         this.receiveDamageObserver = new Observer();
+        this.defendObserver = defendEvent;
 
+        this.attackEvent = attackEvent;
         this.gameView = new GameView();
         this.gameModel = new GameModel();
         this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
@@ -44,11 +45,15 @@ export class GameController {
     bindingMethodOfClass() {
         this.changeRoundEvent = this.changeRoundEvent.bind(this);
         this.dropItemEvent = this.dropItemEvent.bind(this);
+        this.attackEventPlayer = this.attackEventPlayer.bind(this)
+        this.defendEventPlayer = this.defendEventPlayer.bind(this);
     }
 
     allSubscribeToObserver() {
         this.roundObserver.subscribe(this.changeRoundEvent);
         this.dropItemObserver.subscribe(this.dropItemEvent);
+        this.attackEvent.subscribe(this.attackEventPlayer);
+        this.defendObserver.subscribe(this.defendEventPlayer);
     }
 
     dropItemEvent() {
@@ -97,6 +102,21 @@ export class GameController {
         }
 
         return players;
+    }
+
+    attackEventPlayer (){
+        let playerNotSelected = this.gameModel.getPlayerNotSelected();
+        let playerSelected = this.gameModel.getPlayerSelected();
+
+        playerNotSelected.model.receiveDamage(playerSelected.model.getDamage());
+        this.roundObserver.notify();
+        this.gameModel.notify();
+    }
+
+    defendEventPlayer() {
+        this.gameModel.getPlayerSelected().model.defend = true;
+        this.roundObserver.notify();
+        this.gameModel.notify();
     }
 
     /**
@@ -193,8 +213,6 @@ export class GameController {
     }
 
     updateFight() {
-        //this.gameView.resetCanvas(0, 0, Config.MAP_MAX_X * 32,  Config.MAP_MAX_Y * 32);
-
         this.gameView.drawFight(this.background);
 
         // Change position player

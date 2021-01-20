@@ -11,6 +11,7 @@ export class MenuController {
     bindEventHandler() {
         this.view.bindButtonStartGame(this.handleButtonStartGame);
     }
+
     handleButtonStartGame = () => {
         this.gameModel.players[0].model.username = this.view.fieldPlayerOneNameElement.val();
         this.gameModel.players[1].model.username = this.view.fieldPlayerTwoNameElement.val();

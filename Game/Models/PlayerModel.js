@@ -54,6 +54,7 @@ export class PlayerModel {
         this.weapon = null;
         this.damage = 5;
         this.username = "No Player Name"
+        this.defend = false;
 
         /**
         /**
@@ -87,7 +88,7 @@ export class PlayerModel {
      * @param {number} quantity
      **/
     receiveDamage(quantity) {
-        this.health -= quantity;
+        this.health -= !this.defend ? quantity : quantity / 2;
 
         // Notifier la vue pour animer le personnage
         //this.animateDamage();
@@ -109,12 +110,6 @@ export class PlayerModel {
     isDead() {
         return this.health <= 0;
     }
-
-    /**
-     * Update player
-     * @param {Object} position
-     **/
-    update(position) {}
 
     /**
      * Player Control

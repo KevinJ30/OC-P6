@@ -10,10 +10,11 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
  * Boucle de jeu
  **/
 let gameController = new GameController(ScreenRenderer)
-gameController.start();
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.gameModel, '', menuView);
+
+gameController.start();
 
 let HUDCtrl = new HUDController(gameController.gameModel);
 

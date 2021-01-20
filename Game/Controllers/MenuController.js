@@ -1,18 +1,20 @@
 export class MenuController {
     
-    constructor (gameStore, model, view) {
+    constructor (gameModel, model, view) {
         this.model = model;
         this.view = view;
-        this.gameStore = gameStore;
+        this.gameModel = gameModel;
 
-        /**
-         * Bind handle
-         **/
-        this.view.bindButtonStartGame(this.handleButtonStartGame);
+        this.bindEventHandler();
     }
 
+    bindEventHandler() {
+        this.view.bindButtonStartGame(this.handleButtonStartGame);
+    }
     handleButtonStartGame = () => {
-        console.log(this.gameStore);
+        this.gameModel.players[0].model.username = this.view.fieldPlayerOneNameElement.val();
+        this.gameModel.players[1].model.username = this.view.fieldPlayerTwoNameElement.val();
+        this.gameModel.notify();
         this.view.displayMenu();
     }
 

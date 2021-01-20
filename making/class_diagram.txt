@@ -92,7 +92,6 @@
     }  
 
     GameController *-- GameModel
-    HUDController ..> GameModel
     GameModel <|-- Observer
 
     class HUDController {
@@ -112,7 +111,25 @@
         +HUDPlayerOneProgressElement: HTMLProgressElement
     }
 
+
+    class MenuController {
+        +menuModel: MenuModel
+        +menuView: MenuView
+    }
+
+    class MenuModel {
+        +gameModel: GameModel
+
+    }
+    
+    class MenuView {
+        +buttonElement: HTMLButtonElement
+    }
+
     HUDController *-- HUDView
     HUDController *-- HUDModel
-
+    HUDController ..> GameModel
+    MenuController ..> GameModel
+    MenuController *-- MenuView
+    MenuController *-- MenuModel    
 @enduml

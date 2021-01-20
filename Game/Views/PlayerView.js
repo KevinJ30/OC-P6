@@ -1,5 +1,4 @@
 import {Config} from "../config/Config.js";
-import {Armor} from "./Armor/Armor.js";
 import {WeaponView} from "./Weapon/WeaponView.js";
 import {GameView} from "./GameView.js";
 
@@ -198,66 +197,6 @@ export class PlayerView extends GameView {
         this.addGridRigthToPlayer(mapModel, position);
         this.addGridUpToPlayer(mapModel, position);
         this.addGridDownToPlayer(mapModel, position)
-
-        // for(let i = 0; i < 3; i++) {
-        //     let positionGrid = position.x + Config.TILE_SIZE * (i + 1);
-        //
-        //     if(mapModel.collideIsEdgeMap(position.x + Config.TILE_SIZE, position.y)) {
-        //         if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
-        //             this.addCaseToGrid(position, positionGrid, true);
-        //         } else {
-        //             break;
-        //         }
-        //     }
-        //     else {
-        //         break;
-        //     }
-        // }
-
-        // Add grid to the left player
-        // for(let i = 0; i < 3; i++) {
-        //     let positionGrid = position.x - Config.TILE_SIZE * (i + 1);
-        //
-        //     if(position.x > 0 && position.x / 32 + 1 < Config.MAP_MAX_X && position.y > 0 && (position.y / 32) < Config.MAP_MAX_Y) {
-        //         if (!mapModel.collide(Math.floor(positionGrid / 32), Math.floor(position.y / 32))) {
-        //             this.addCaseToGrid(position, positionGrid, true);
-        //         } else {
-        //             break;
-        //         }
-        //     }
-        //     else {
-        //         break;
-        //     }
-        // }
-
-        // Add grid to the up player
-        // for(let i = 0; i < 3; i++) {
-        //     let positionGrid = (position.y + Config.TILE_SIZE * (i + 1));
-        //
-        //     if(position.y > 0 && positionGrid / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
-        //         if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
-        //             this.addCaseToGrid(position, positionGrid, false);
-        //         } else {
-        //             break;
-        //         }
-        //     } else {
-        //         break;
-        //     }
-        // }
-        //
-        // for(let i = 0; i < 3; i++) {
-        //     let positionGrid = (position.y  - Config.TILE_SIZE * (i + 1));
-        //
-        //     if(positionGrid > (0 - 1) && position.y / 32 < Config.MAP_MAX_Y && position.x > 0 && (position.x / 32) < Config.MAP_MAX_X) {
-        //         if (!mapModel.collide(Math.floor(position.x / 32), Math.floor(positionGrid / 32))) {
-        //             this.addCaseToGrid(position, positionGrid, false);
-        //         } else {
-        //             break;
-        //         }
-        //     } else {
-        //         break;
-        //     }
-        // }
     }
 
 }

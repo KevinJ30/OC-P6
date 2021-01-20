@@ -1,7 +1,10 @@
 export class HUDView {
 
     constructor() {
+        this.gameContainer = $('.game_screen');
         this.HUDContainer = $('.js-HUD');
+
+        this.drawHudFight()
 
         this.HUDContainerPlayerOne = $('<div></div>').addClass('player-hud js-player-hud-1').append('<p></p>');
         this.HUDContainerPlayerTwo = $('<div></div>').addClass('player-hud js-player-hud-2').append('<p></p>');
@@ -15,6 +18,18 @@ export class HUDView {
 
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
+    }
+
+    drawHudFight() {
+        this.HUDFightContainer = $('<div></div>').addClass('HUD-fight');
+        this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')
+        this.buttonAttackElement = $('<button>Attaquer</button>').addClass('HUD-fight__button');
+        this.buttonDefendElement = $('<button>Se défendre</button>').addClass('HUD-fight__button');
+
+        this.HUDFightContainer.append(this.buttonAttackElement);
+        this.HUDFightContainer.append(this.buttonDefendElement);
+        this.gameContainer.append(this.HUDFightContainer);
+        this.gameContainer.append(this.HUDFightSelectedContainer);
     }
 
     updateDisplay(gameModel) {

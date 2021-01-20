@@ -19,13 +19,20 @@ gameController.start();
 let HUDCtrl = new HUDController(gameController.gameModel);
 
 document.getElementById('screen').addEventListener('click', (event) => {
-    let player = gameController.gameModel.players[gameController.gameModel.playerSelected];
-    player.model.moveTarget(event.offsetX, event.offsetY);
+    if(!gameController.gameModel.isFight) {
+        let player = gameController.gameModel.players[gameController.gameModel.playerSelected];
+        player.model.moveTarget(event.offsetX, event.offsetY);
+    }
 });
 
 const render = (timestamp) => {
-    if(!gameController.update()) {
-        return cancelAnimationFrame(this);
+    if(!gameController.gameModel.isFight) {
+        if(!gameController.update()) {
+            return cancelAnimationFrame(this);
+        }
+    }
+    else {
+        gameController.updateFight();
     }
 
     window.requestAnimationFrame(render);

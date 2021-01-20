@@ -34,6 +34,9 @@ export class GameController {
         this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
         this.mapView = new MapView(this.gameView.ctx);
 
+        this.background = new Image();
+        this.background.src = './ressources/background_fight.png';
+
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
     }
@@ -63,7 +66,7 @@ export class GameController {
 
         // initialise value of the model
         this.gameModel.isStarted = true;
-        this.gameModel.isFight = false;
+        this.gameModel.isFight = true;
         this.gameModel.playerSelected = 0;
         this.gameModel.players = this.createPlayers(2);
         this.gameModel.notify();
@@ -138,15 +141,17 @@ export class GameController {
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
-            // le second personnage recoit les degât
-            this.gameModel.getPlayerNotSelected().model.receiveDamage(player1.model.getDamage())
-            this.gameModel.notify();
+            // // le second personnage recoit les degât
+            // this.gameModel.getPlayerNotSelected().model.receiveDamage(player1.model.getDamage())
+            // this.gameModel.notify();
+            //
+            // /**
+            //  * Draw information all player in the console navagator
+            //  **/
+            // console.log('Name of player : ' + this.gameModel.getPlayerIndex(0).model.username + ' health : ' + this.gameModel.getPlayerIndex(0).model.health);
+            // console.log('Name of player : ' + this.gameModel.getPlayerIndex(1).model.username + ' health : ' + this.gameModel.getPlayerIndex(1).model.health);
 
-            /**
-             * Draw information all player in the console navagator
-             **/
-            console.log('Name of player : ' + this.gameModel.getPlayerIndex(0).model.username + ' health : ' + this.gameModel.getPlayerIndex(0).model.health);
-            console.log('Name of player : ' + this.gameModel.getPlayerIndex(1).model.username + ' health : ' + this.gameModel.getPlayerIndex(1).model.health);
+            this.gameModel.isFight = true;
         }
 
         if(this.gameModel.playerSelected === 0) {
@@ -165,15 +170,17 @@ export class GameController {
         let players = this.gameModel.getPlayers();
         let playerSelected = this.gameModel.playerSelected;
 
+        // On affiche la map que si les joueurs peuvent ce déplacer sur la map
         this.mapView.draw(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
         this.mapView.drawEvents(this.mapModel.spriteSheet, this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
+
+        // Affiche la grille pour le joueur selectionné
+        this.gameModel.getPlayerSelected().view.addGridToPlayer(this.mapModel, this.gameModel.getPlayerSelected().model.position);
+
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
             this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection);
         }
-
-        // Affiche la grille pour le joueur selectionné
-        this.gameModel.getPlayerSelected().view.addGridToPlayer(this.mapModel, this.gameModel.getPlayerSelected().model.position);
 
         // Si le player est mort on ecrit dans la console
         if(this.gameOver())
@@ -182,6 +189,27 @@ export class GameController {
             return false;
         }
 
+        return true;
+    }
+
+    updateFight() {
+        //this.gameView.resetCanvas(0, 0, Config.MAP_MAX_X * 32,  Config.MAP_MAX_Y * 32);
+
+        this.gameView.drawFight(this.background);
+
+        // Change position player
+        this.gameModel.players[0].model.position.x = 80;
+        this.gameModel.players[0].model.position.y = 220;
+        this.gameModel.players[0].model.playerDirection = PlayerSprite.RIGHT;
+
+        this.gameModel.players[1].model.position.x = 480;
+        this.gameModel.players[1].model.position.y = 220;
+        this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
+
+        // Affichage des deux joueur
+        for(let i = 0; i < this.gameModel.countPlayer(); i++) {
+            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5);
+        }
         return true;
     }
 

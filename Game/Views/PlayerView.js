@@ -40,25 +40,26 @@ export class PlayerView extends GameView {
      * @param {MapModel} mapModel
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
+     * @param {number} [scale]
      **/
-    update(playerModel, mapModel, position, playerDirection, ) {
+    update(playerModel, mapModel, position, playerDirection, scale) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         if(playerModel.spriteSheet) {
-            this.draw(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+            this.draw(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
         if(playerModel.chest && playerModel.legs && playerModel.foot) {
-            this.draw(playerModel.chest.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-            this.draw(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
-            this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE, Config.TILE_SIZE);
+            this.draw(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
-
-        if(this.weapon) {
-            this.weapon.draw(this.ctx, sourceX, sourceY, position.x, position.y);
+        console.log(this.weapon)
+        if(playerModel.weapon && this.weaponView) {
+            this.weaponView.draw(this.ctx, sourceX, sourceY, position.x, position.y, scale);
         }
 
         //this.isDead();

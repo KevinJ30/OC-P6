@@ -62,6 +62,15 @@ html, body {
     display:none;
 }
 
+
+.HUD-fight.hidden {
+    display:none!important;
+}
+
+.HUD-fight__selected.hidden {
+    display:none!important;
+}
+
 .HUD-fight {
     display:flex;
     position: absolute;
@@ -94,12 +103,24 @@ html, body {
 }
 
 .HUD-fight__selected {
+    display:flex;
     position: absolute;
     top: 100px; left: 245px;
-    width:150px;
-    height:130px;
+    width:150px;height:130px;
+
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+
     background:url('../ressources/ui_selected_panel.png');
     background-size:150px 130px;
+}
+
+.HUD-fight__selected-text {
+    width:70%;
+    text-align: center;
+    color:#fff;
+    font-family: 'Potta One', cursive;
 }
 
 /**

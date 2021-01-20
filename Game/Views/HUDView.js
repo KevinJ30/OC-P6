@@ -25,9 +25,15 @@ export class HUDView {
         this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')
         this.buttonAttackElement = $('<button>Attaquer</button>').addClass('HUD-fight__button');
         this.buttonDefendElement = $('<button>Se défendre</button>').addClass('HUD-fight__button');
+        this.textSelectedElement = $('<span></span>').addClass('HUD-fight__selected-text');
+        this.imgWeaponElement = $('<img />');
+        this.imgWeaponElement.attr('src', './ressources/ui-dragonspear.png');
 
+        this.HUDFightSelectedContainer.append(this.textSelectedElement);
+        this.HUDFightSelectedContainer.append(this.imgWeaponElement);
         this.HUDFightContainer.append(this.buttonAttackElement);
         this.HUDFightContainer.append(this.buttonDefendElement);
+
         this.gameContainer.append(this.HUDFightContainer);
         this.gameContainer.append(this.HUDFightSelectedContainer);
     }
@@ -35,6 +41,8 @@ export class HUDView {
     updateDisplay(gameModel) {
         this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
         this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
+        this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
+
 
         // Connect value progress bar
         this.playerOneProgressElement.val(gameModel.players[0].model.health);

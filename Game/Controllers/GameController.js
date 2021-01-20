@@ -179,7 +179,7 @@ export class GameController {
 
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection);
+            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1);
         }
 
         // Si le player est mort on ecrit dans la console

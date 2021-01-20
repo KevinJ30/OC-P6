@@ -57,7 +57,6 @@ export class PlayerView extends GameView {
             this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
-        console.log(this.weapon)
         if(playerModel.weapon && this.weaponView) {
             this.weaponView.draw(this.ctx, sourceX, sourceY, position.x, position.y, scale);
         }

@@ -60,6 +60,8 @@ export class MapModel {
     build() {
         this.map = this.generator.generatedEmptyMap();
         this.map = this.generator.generatedWallInMap(10);
+        this.map = this.generator.generatePath(3);
+
         this.mapCollision = this.generator.getCollisionMap();
         this.mapEvents = this.generateEventsMap();
 

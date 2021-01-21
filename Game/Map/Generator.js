@@ -23,8 +23,44 @@ export class Generator {
         this.mapCollision = [];
     }
 
-    getInstance() {
+    /**
+     * 
+     * @param {number} humanDrunkerMax 
+     **/
+    generatePath(humanDrunkerMax) {
+        const startDrunkX = Utils.randomNumber(0, this.maxTileX);
+        const startDrunkY = Utils.randomNumber(0, this.maxTileY);
+        const drunkLifeDuration = Utils.randomNumber(0, this.maxTileX * this.maxTileY);
+        let currentPositionDrunkX = startDrunkX;
+        let currentPositionDrunkY = startDrunkY;
+        let currentDirectionDrunk = 0;
 
+        console.log(startDrunkX, startDrunkY);
+
+        for(let i = 0; i < drunkLifeDuration; i++) {
+            this.map[currentPositionDrunkY][currentPositionDrunkX] = 17;
+            
+            if(currentDirectionDrunk === 0) {
+                let newPosition = currentPositionDrunkX + 1;
+                
+                if(newPosition <= this.maxTileX - 1) {
+                    currentPositionDrunkX = newPosition;
+                }
+                else {
+                    currentDirectionDrunk = 1;
+                }
+            }
+
+            if(currentDirectionDrunk === 1){
+                let newPosition = currentPositionDrunkY + 1;
+                console.log(currentPositionDrunkX);
+                if(newPosition <= this.maxTileY - 1){
+                    currentPositionDrunkY = newPosition;
+                }
+            }
+        }
+
+        return this.map;
     }
 
     /**

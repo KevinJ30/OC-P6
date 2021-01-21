@@ -18,11 +18,11 @@ export class PlayerView {
     constructor(receiveDamageObserver, context, spriteSheetSrc) {
         this.receiveDamageObserver = receiveDamageObserver;
 
-        this.weaponView = new WeaponView('./ressources/dragonspear.png');
+        this.weaponView = null;
         this.ctx = context;
 
         this.animateDamage = this.animateDamage.bind(this);
-        this.receiveDamageObserver.subscribe(this.animateDamage);
+        //this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
     /**
@@ -30,7 +30,7 @@ export class PlayerView {
      * @param {WeaponView} weapon
      **/
     setWeapon(weapon) {
-        this.weapon = weapon;
+        this.weaponView = weapon;
     }
 
     /**
@@ -57,27 +57,27 @@ export class PlayerView {
         }
 
         // Affichage de l'arme
-
-        const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
-        const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
-
-        if(this.weaponView.spriteSheet) {
+        if(this.weaponView) {
+            const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
+            const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
             this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
         }
     }
 
     animateAttack(weaponSprite, position, scale) {
-        const spriteSelectedBuffer = this.weaponView.spriteSelected;
-        let i = 0;
+        if(this.weaponView){
+            const spriteSelectedBuffer = this.weaponView.spriteSelected;
+            let i = 0;
 
-        let animation = setInterval(() => {
-            this.weaponView.spriteSelected  += 1;
-            i++;
-            if(i >= 8) {
-                this.weaponView.spriteSelected = spriteSelectedBuffer;
-                clearInterval(animation);
-            }
-        }, 50)
+            let animation = setInterval(() => {
+                this.weaponView.spriteSelected  += 1;
+                i++;
+                if(i >= 8) {
+                    this.weaponView.spriteSelected = spriteSelectedBuffer;
+                    clearInterval(animation);
+                }
+            }, 50)
+        }
     }
 
     /**
@@ -91,21 +91,28 @@ export class PlayerView {
         let chestSpriteBuffer = playerModel.chest.spriteSheet;
         let legsSpriteBuffer = playerModel.legs.spriteSheet;
         let footSpriteBuffer = playerModel.foot.spriteSheet;
-        let weaponSpriteBuffer = this.weaponView.spriteSheet;
+        let weaponSpriteBuffer = this.weaponView !== null ? this.weaponView.spriteSheet : null;
 
         let animation = setInterval(() => {
             playerModel.spriteSheet = null;
             playerModel.chest.spriteSheet = null;
             playerModel.legs.spriteSheet = null;
             playerModel.foot.spriteSheet = null;
-            this.weaponView.spriteSheet = null;
+
+            if(this.weaponView) {
+                this.weaponView.spriteSheet = null;
+            }
+
             i++;
             if(i > 1) {
                 playerModel.spriteSheet = playerSpriteBuffer;
                 playerModel.chest.spriteSheet = chestSpriteBuffer;
                 playerModel.legs.spriteSheet = legsSpriteBuffer;
                 playerModel.foot.spriteSheet = footSpriteBuffer;
-                this.weaponView.spriteSheet = weaponSpriteBuffer;
+
+                if(this.weaponView) {
+                    this.weaponView.spriteSheet = weaponSpriteBuffer;
+                }
                 clearInterval(animation);
             }
         }, 250)

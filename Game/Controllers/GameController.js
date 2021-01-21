@@ -80,12 +80,10 @@ export class GameController {
 
         // initialise value of the model
         this.gameModel.isStarted = true;
-        this.gameModel.isFight = true;
+        this.gameModel.isFight = false;
         this.gameModel.playerSelected = 0;
         this.gameModel.players = this.createPlayers(2);
         this.gameModel.notify();
-
-        this.enterFightEvent();
     }
 
     /**
@@ -116,13 +114,13 @@ export class GameController {
     }
 
     attackEventPlayer (){
-        let playerNotSelected = this.gameModel.getPlayerNotSelected();
+        /**let playerNotSelected = this.gameModel.getPlayerNotSelected();
         let playerSelected = this.gameModel.getPlayerSelected();
 
         playerNotSelected.model.receiveDamage(playerSelected.model.getDamage());
         playerSelected.view.animateAttack(playerSelected.model, playerSelected.model.position, 2.5);
         this.roundObserver.notify();
-        this.gameModel.notify();
+        this.gameModel.notify();**/
     }
 
     defendEventPlayer() {
@@ -139,13 +137,17 @@ export class GameController {
         this.gameModel.players[0].model.position.x = 80;
         this.gameModel.players[0].model.position.y = 220;
         this.gameModel.players[0].model.playerDirection = PlayerSprite.RIGHT;
-        this.gameModel.players[0].view.weaponView.spriteSelected = PlayerSprite.RIGHT;
+        if(this.gameModel.players[0].model.weapon && this.gameModel.players[0].view.weaponView){
+            this.gameModel.players[0].view.weaponView.spriteSelected = PlayerSprite.RIGHT;
+        }
 
 
         this.gameModel.players[1].model.position.x = 480;
         this.gameModel.players[1].model.position.y = 220;
         this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
-        this.gameModel.players[1].view.weaponView.spriteSelected = PlayerSprite.LEFT;
+        if(this.gameModel.players[1].model.weapon && this.gameModel.players[0].view.weaponView){
+            this.gameModel.players[1].view.weaponView.spriteSelected = PlayerSprite.LEFT;
+        }
     }
 
     /**
@@ -190,16 +192,7 @@ export class GameController {
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
-            // // le second personnage recoit les degât
-            // this.gameModel.getPlayerNotSelected().model.receiveDamage(player1.model.getDamage())
-            // this.gameModel.notify();
-            //
-            // /**
-            //  * Draw information all player in the console navagator
-            //  **/
-            // console.log('Name of player : ' + this.gameModel.getPlayerIndex(0).model.username + ' health : ' + this.gameModel.getPlayerIndex(0).model.health);
-            // console.log('Name of player : ' + this.gameModel.getPlayerIndex(1).model.username + ' health : ' + this.gameModel.getPlayerIndex(1).model.health);
-
+            this.enterFightObserver.notify()
             this.gameModel.isFight = true;
         }
 
@@ -225,7 +218,6 @@ export class GameController {
 
         // Affiche la grille pour le joueur selectionné
         this.gameModel.getPlayerSelected().view.addGridToPlayer(this.mapModel, this.gameModel.getPlayerSelected().model.position);
-
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
             this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1);

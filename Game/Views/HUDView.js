@@ -40,6 +40,9 @@ export class HUDView {
     drawHudFight() {
         this.HUDFightContainer = $('<div></div>').addClass('HUD-fight');
         this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')
+        this.HUDFightContainer.addClass('hidden');
+        this.HUDFightSelectedContainer.addClass('hidden');
+
         this.buttonAttackElement = $('<button>Attaquer</button>').addClass('HUD-fight__button');
         this.buttonDefendElement = $('<button>Se défendre</button>').addClass('HUD-fight__button');
         this.textSelectedElement = $('<span></span>').addClass('HUD-fight__selected-text');
@@ -68,5 +71,10 @@ export class HUDView {
 
     displayGameOver() {
         this.HUDGameOverElement.toggleClass('hidden');
+    }
+
+    displayFightHUD() {
+        this.HUDFightContainer.toggleClass('hidden');
+        this.HUDFightSelectedContainer.toggleClass('hidden');
     }
 }

@@ -52,7 +52,6 @@ export class GameController {
     bindingMethodOfClass() {
         this.changeRoundEvent = this.changeRoundEvent.bind(this);
         this.dropItemEvent = this.dropItemEvent.bind(this);
-        this.attackEventPlayer = this.attackEventPlayer.bind(this)
         this.defendEventPlayer = this.defendEventPlayer.bind(this);
         this.enterFightEvent = this.enterFightEvent.bind(this);
     }
@@ -113,16 +112,6 @@ export class GameController {
         return players;
     }
 
-    attackEventPlayer (){
-        /**let playerNotSelected = this.gameModel.getPlayerNotSelected();
-        let playerSelected = this.gameModel.getPlayerSelected();
-
-        playerNotSelected.model.receiveDamage(playerSelected.model.getDamage());
-        playerSelected.view.animateAttack(playerSelected.model, playerSelected.model.position, 2.5);
-        this.roundObserver.notify();
-        this.gameModel.notify();**/
-    }
-
     defendEventPlayer() {
         this.gameModel.getPlayerSelected().model.defend = true;
         this.roundObserver.notify();
@@ -141,10 +130,10 @@ export class GameController {
             this.gameModel.players[0].view.weaponView.spriteSelected = PlayerSprite.RIGHT;
         }
 
-
         this.gameModel.players[1].model.position.x = 480;
         this.gameModel.players[1].model.position.y = 220;
         this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
+
         if(this.gameModel.players[1].model.weapon && this.gameModel.players[0].view.weaponView){
             this.gameModel.players[1].view.weaponView.spriteSelected = PlayerSprite.LEFT;
         }
@@ -194,6 +183,7 @@ export class GameController {
         if(this.detectPlayerConflict(player1, player2)) {
             this.enterFightObserver.notify()
             this.gameModel.isFight = true;
+            return true;
         }
 
         if(this.gameModel.playerSelected === 0) {

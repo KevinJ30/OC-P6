@@ -12,8 +12,9 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
  **/
 let attackEvent = new Observer();
 let defendEvent = new Observer();
+let enterFightObserver = new Observer();
 
-let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent)
+let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent, enterFightObserver);
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.gameModel, '', menuView);

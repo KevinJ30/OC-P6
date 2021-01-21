@@ -51,7 +51,7 @@ export class PlayerModel {
         this.chest = new ArmorModel(30, './ressources/chestArmor.png');
         this.legs = new ArmorModel(15, './ressources/legsArmor.png');
         this.foot = new ArmorModel(10, './ressources/footArmor.png');
-        this.weapon = null;
+        this.weapon = new WeaponModel(15);
         this.damage = 5;
         this.username = "No Player Name"
         this.defend = false;

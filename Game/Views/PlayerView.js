@@ -7,7 +7,7 @@ import {GameView} from "./GameView.js";
  *
  * @property {HTMLImageElement} spriteSheet
  **/
-export class PlayerView extends GameView {
+export class PlayerView {
 
     /**
      *
@@ -16,11 +16,10 @@ export class PlayerView extends GameView {
      * @param {string} spriteSheetSrc
      */
     constructor(receiveDamageObserver, context, spriteSheetSrc) {
-        super(context);
         this.receiveDamageObserver = receiveDamageObserver;
 
-        this.weaponView = null;
-
+        this.weaponView = new WeaponView('./ressources/dragonspear.png');
+        this.ctx = context;
         // Bind method
         this.animateDamage = this.animateDamage.bind(this);
         this.receiveDamageObserver.subscribe(this.animateDamage);
@@ -48,21 +47,40 @@ export class PlayerView extends GameView {
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         if(playerModel.spriteSheet) {
-            this.draw(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
         if(playerModel.chest && playerModel.legs && playerModel.foot) {
-            this.draw(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.draw(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
+
+        // Affichage de l'arme
+
+        const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
+        const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
 
         if(playerModel.weapon && this.weaponView) {
-            this.weaponView.draw(this.ctx, sourceX, sourceY, position.x, position.y, scale);
+            this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
         }
+    }
 
-        //this.isDead();
+    animateAttack(weaponSprite, position, scale) {
+        const spriteSelectedBuffer = this.weaponView.spriteSelected;
+        let i = 0;
 
+        console.log(this.weaponView.spriteSelected);
+
+        let animation = setInterval(() => {
+            this.weaponView.spriteSelected  += 1;
+            console.log(this.weaponView.spriteSelected + i);
+            i++;
+            if(i >= 8) {
+                this.weaponView.spriteSelected = spriteSelectedBuffer;
+                clearInterval(animation);
+            }
+        }, 50)
     }
 
     /**

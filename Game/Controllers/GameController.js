@@ -22,12 +22,16 @@ export class GameController {
 
     /**
      * @param {CanvasRenderingContext2D} context
+     * @param attackEvent
+     * @param defendEvent
+     * @param enterFighObserver
      **/
-    constructor(context, attackEvent, defendEvent) {
+    constructor(context, attackEvent, defendEvent, enterFightObserver) {
         this.dropItemObserver = new Observer();
         this.roundObserver = new Observer();
         this.receiveDamageObserver = new Observer();
         this.defendObserver = defendEvent;
+        this.enterFightObserver = enterFightObserver;
 
         this.attackEvent = attackEvent;
         this.gameView = new GameView();
@@ -47,6 +51,7 @@ export class GameController {
         this.dropItemEvent = this.dropItemEvent.bind(this);
         this.attackEventPlayer = this.attackEventPlayer.bind(this)
         this.defendEventPlayer = this.defendEventPlayer.bind(this);
+        this.enterFightEvent = this.enterFightEvent.bind(this);
     }
 
     allSubscribeToObserver() {
@@ -54,6 +59,7 @@ export class GameController {
         this.dropItemObserver.subscribe(this.dropItemEvent);
         this.attackEvent.subscribe(this.attackEventPlayer);
         this.defendObserver.subscribe(this.defendEventPlayer);
+        this.enterFightObserver.subscribe(this.enterFightEvent);
     }
 
     dropItemEvent() {
@@ -75,6 +81,8 @@ export class GameController {
         this.gameModel.playerSelected = 0;
         this.gameModel.players = this.createPlayers(2);
         this.gameModel.notify();
+
+        this.enterFightEvent();
     }
 
     /**
@@ -94,7 +102,7 @@ export class GameController {
 
             players.push({
                 model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
-                view : new PlayerView(this.receiveDamageObserver, this.ctx, "./ressources/player.png")
+                view : new PlayerView(this.receiveDamageObserver, this.gameView.ctx, "./ressources/player.png")
             });
 
             // Init default name players
@@ -109,6 +117,7 @@ export class GameController {
         let playerSelected = this.gameModel.getPlayerSelected();
 
         playerNotSelected.model.receiveDamage(playerSelected.model.getDamage());
+        playerSelected.view.animateAttack(playerSelected.model, playerSelected.model.position, 2.5);
         this.roundObserver.notify();
         this.gameModel.notify();
     }
@@ -117,6 +126,23 @@ export class GameController {
         this.gameModel.getPlayerSelected().model.defend = true;
         this.roundObserver.notify();
         this.gameModel.notify();
+    }
+
+    /**
+     * Event player enter the fight
+     **/
+    enterFightEvent() {
+        // Change position player
+        this.gameModel.players[0].model.position.x = 80;
+        this.gameModel.players[0].model.position.y = 220;
+        this.gameModel.players[0].model.playerDirection = PlayerSprite.RIGHT;
+        this.gameModel.players[0].view.weaponView.spriteSelected = PlayerSprite.RIGHT;
+
+
+        this.gameModel.players[1].model.position.x = 480;
+        this.gameModel.players[1].model.position.y = 220;
+        this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
+        this.gameModel.players[1].view.weaponView.spriteSelected = PlayerSprite.LEFT;
     }
 
     /**
@@ -214,15 +240,6 @@ export class GameController {
 
     updateFight() {
         this.gameView.drawFight(this.background);
-
-        // Change position player
-        this.gameModel.players[0].model.position.x = 80;
-        this.gameModel.players[0].model.position.y = 220;
-        this.gameModel.players[0].model.playerDirection = PlayerSprite.RIGHT;
-
-        this.gameModel.players[1].model.position.x = 480;
-        this.gameModel.players[1].model.position.y = 220;
-        this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
 
         // Affichage des deux joueur
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {

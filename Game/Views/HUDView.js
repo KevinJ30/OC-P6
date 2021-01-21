@@ -18,6 +18,8 @@ export class HUDView {
 
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
+
+        this.HUDGameOverElement = $('.HUD__game-over');
     }
 
     bindButtonAttack(handler) {
@@ -62,5 +64,9 @@ export class HUDView {
         // Connect value progress bar
         this.playerOneProgressElement.val(gameModel.players[0].model.health);
         this.playerTwoProgressElement.val(gameModel.players[1].model.health);
+    }
+
+    displayGameOver() {
+        this.HUDGameOverElement.toggleClass('hidden');
     }
 }

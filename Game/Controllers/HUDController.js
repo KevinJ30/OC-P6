@@ -3,12 +3,13 @@ import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 
-    constructor(gameModel, attackEvent, defendEvent) {
+    constructor(gameModel, attackEvent, defendEvent, gameOverObserver) {
         this.HUDView = new HUDView();
         this.HUDModel = new HUDModel();
         this.gameModel = gameModel;
         this.attackEvent = attackEvent;
         this.defendEvent = defendEvent;
+        this.gameOverObserver = gameOverObserver;
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
@@ -22,10 +23,12 @@ export class HUDController {
         this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
         this.handleAttackPlayer = this.handleAttackPlayer.bind(this);
         this.handleDefendPlayer = this.handleDefendPlayer.bind(this);
+        this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
     }
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
+        this.gameOverObserver.subscribe(this.handleGameOverEvent);
     }
 
     handleUpdateGameStore () {
@@ -38,5 +41,9 @@ export class HUDController {
 
     handleDefendPlayer() {
         this.defendEvent.notify();
+    }
+
+    handleGameOverEvent() {
+        this.HUDView.displayGameOver();
     }
 }

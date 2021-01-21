@@ -162,3 +162,17 @@ html, body {
     border-radius: 10px;
     background-size: 35px 20px, 100% 100%, 100% 100%;
 }
+
+.HUD__game-over {
+    display:block;
+    position: absolute;
+    top: 100px; left: 0;
+    width:640px; height:480px;
+    background:url('../ressources/game_over_screen.png');
+    background-size:640px 480px;
+    z-index:1000;
+}
+
+.HUD__game-over.hidden {
+    display:none;
+}

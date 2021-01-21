@@ -20,6 +20,7 @@ export class GameModel extends Observer {
         this.playerSelected = 0;
         this.isStarted = false;
         this.isFight = false;
+        this.gameOver = false;
     }
 
     /**

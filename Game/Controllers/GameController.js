@@ -22,14 +22,17 @@ export class GameController {
 
     /**
      * @param {CanvasRenderingContext2D} context
-     * @param attackEvent
-     * @param defendEvent
-     * @param enterFighObserver
+     * @param {Observer} attackEvent
+     * @param {Observer} defendEvent
+     * @param {Observer} enterFightObserver
+     * @param gameOverObserver
      **/
-    constructor(context, attackEvent, defendEvent, enterFightObserver) {
+    constructor(context, attackEvent, defendEvent, enterFightObserver, gameOverObserver) {
         this.dropItemObserver = new Observer();
         this.roundObserver = new Observer();
         this.receiveDamageObserver = new Observer();
+        this.gameOverObserver = new Observer()
+
         this.defendObserver = defendEvent;
         this.enterFightObserver = enterFightObserver;
 
@@ -228,13 +231,6 @@ export class GameController {
             this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1);
         }
 
-        // Si le player est mort on ecrit dans la console
-        if(this.gameOver())
-        {
-            console.log('end game....');
-            return false;
-        }
-
         return true;
     }
 
@@ -245,6 +241,14 @@ export class GameController {
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {
             this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5);
         }
+
+        // Si le player est mort on ecrit dans la console
+        if(this.gameOver() && !this.gameModel.gameOver)
+        {
+            this.gameModel.gameOver = true;
+            this.gameOverObserver.notify();
+        }
+
         return true;
     }
 

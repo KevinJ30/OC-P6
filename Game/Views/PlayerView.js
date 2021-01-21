@@ -20,7 +20,7 @@ export class PlayerView {
 
         this.weaponView = new WeaponView('./ressources/dragonspear.png');
         this.ctx = context;
-        // Bind method
+
         this.animateDamage = this.animateDamage.bind(this);
         this.receiveDamageObserver.subscribe(this.animateDamage);
     }
@@ -50,10 +50,13 @@ export class PlayerView {
             this.ctx.drawImage(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
-        if(playerModel.chest && playerModel.legs && playerModel.foot) {
+        if(playerModel.chest.spriteSheet && playerModel.legs.spriteSheet && playerModel.foot.spriteSheet) {
             this.ctx.drawImage(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.ctx.drawImage(playerModel.legs.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.ctx.drawImage(playerModel.foot.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.legs.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.ctx.drawImage(playerModel.foot.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+        }
+        else {
+            console.log(1111);
         }
 
         // Affichage de l'arme
@@ -61,7 +64,7 @@ export class PlayerView {
         const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
         const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
 
-        if(playerModel.weapon && this.weaponView) {
+        if(this.weaponView.spriteSheet) {
             this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
         }
     }
@@ -74,7 +77,6 @@ export class PlayerView {
 
         let animation = setInterval(() => {
             this.weaponView.spriteSelected  += 1;
-            console.log(this.weaponView.spriteSelected + i);
             i++;
             if(i >= 8) {
                 this.weaponView.spriteSelected = spriteSelectedBuffer;
@@ -89,28 +91,29 @@ export class PlayerView {
      **/
     animateDamage(playerModel) {
         let i = 0;
-        let lastImagePlayer = playerModel.spriteSheet;
+        let playerSpriteBuffer = playerModel.spriteSheet;
 
-        let lastChestImage = playerModel.chest.spritesheet;
-        let lastLegsImage = playerModel.legs.spritesheet;
-        let lastFootImage = playerModel.foot.spritesheet;
+        let chestSpriteBuffer = playerModel.chest.spriteSheet;
+        let legsSpriteBuffer = playerModel.legs.spriteSheet;
+        let footSpriteBuffer = playerModel.foot.spriteSheet;
+        let weaponSpriteBuffer = this.weaponView.spriteSheet;
 
-        // Animation disparition player
         let animation = setInterval(() => {
-            this.spriteSheet = this.spriteSheet === null ? lastImagePlayer : null;
-            playerModel.chest.spritesheet = playerModel.chest.spritesheet === null ? lastChestImage : null;
-            playerModel.legs.spritesheet = playerModel.legs.spritesheet === null ? lastLegsImage : null;
-            playerModel.foot.spritesheet = playerModel.foot.spritesheet === null ? lastFootImage : null;
-            if(i > 4) {
+            playerModel.spriteSheet = null;
+            playerModel.chest.spriteSheet = null;
+            playerModel.legs.spriteSheet = null;
+            playerModel.foot.spriteSheet = null;
+            this.weaponView.spriteSheet = null;
+            i++;
+            if(i > 1) {
+                playerModel.spriteSheet = playerSpriteBuffer;
+                playerModel.chest.spriteSheet = chestSpriteBuffer;
+                playerModel.legs.spriteSheet = legsSpriteBuffer;
+                playerModel.foot.spriteSheet = footSpriteBuffer;
+                this.weaponView.spriteSheet = weaponSpriteBuffer;
                 clearInterval(animation);
             }
-            i++;
         }, 250)
-
-        playerModel.spriteSheet = lastImagePlayer;
-        playerModel.chest.spritesheet = lastChestImage;
-        playerModel.legs.spritesheet = lastLegsImage;
-        playerModel.foot.spritesheet = lastFootImage;
     }
 
     /**

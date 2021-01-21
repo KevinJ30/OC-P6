@@ -7,8 +7,8 @@ export class MenuView {
     drawView() {
         this.menuContainer = $('#menu_game');
 
-        this.fieldPlayerOneNameElement = this.createField('text', 'playerNameOne', 'Joueur 1', 'js-playerFieldNameOne');
-        this.fieldPlayerTwoNameElement = this.createField('text', 'playerNameTwo', 'Joueur 2', 'js-playerFieldNameTwo');
+        this.fieldPlayerOneNameElement = this.createField('text', 'playerNameOne', 'Joueur 1', 'input js-playerFieldNameOne');
+        this.fieldPlayerTwoNameElement = this.createField('text', 'playerNameTwo', 'Joueur 2', 'input js-playerFieldNameTwo');
         this.buttonStartElement = this.createButton('Démarrer le jeu', 'btn btn-primary');
 
         this.menuContainer.append(this.fieldPlayerOneNameElement)

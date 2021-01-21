@@ -55,9 +55,6 @@ export class PlayerView {
             this.ctx.drawImage(playerModel.legs.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
             this.ctx.drawImage(playerModel.foot.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
-        else {
-            console.log(1111);
-        }
 
         // Affichage de l'arme
 
@@ -72,8 +69,6 @@ export class PlayerView {
     animateAttack(weaponSprite, position, scale) {
         const spriteSelectedBuffer = this.weaponView.spriteSelected;
         let i = 0;
-
-        console.log(this.weaponView.spriteSelected);
 
         let animation = setInterval(() => {
             this.weaponView.spriteSelected  += 1;

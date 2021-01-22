@@ -5,10 +5,8 @@ export class HUDController {
 
     constructor(gameModel, roundObserver, attackEvent, defendEvent, gameOverObserver, enterFightObserver) {
         this.HUDView = new HUDView();
-        this.HUDModel = new HUDModel();
         this.gameModel = gameModel;
         this.roundObserver = roundObserver;
-        this.attackEvent = attackEvent;
         this.defendEvent = defendEvent;
         this.gameOverObserver = gameOverObserver;
         this.enterFightObserver = enterFightObserver;

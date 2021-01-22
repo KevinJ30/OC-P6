@@ -47,6 +47,10 @@ export class HUDController {
         playerSelected.view.animateAttack(playerSelected.model, playerSelected.model.position, 2.5);
         playerNotSelected.view.animateDamage(playerNotSelected.model);
 
+        if(playerNotSelected.model.defend) {
+            playerNotSelected.model.defend = !playerNotSelected.model.defend;
+        }
+
         this.roundObserver.notify();
         this.gameModel.notify();
     }

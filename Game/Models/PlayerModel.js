@@ -91,7 +91,6 @@ export class PlayerModel {
         this.health -= !this.defend ? quantity : quantity / 2;
 
         // Notifier la vue pour animer le personnage
-        //this.animateDamage();
         this.receiveDamageObserver.notify(this);
 
        if(this.health <= 0) {

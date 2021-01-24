@@ -5,10 +5,8 @@ export class HUDController {
 
     constructor(gameModel, roundObserver, attackEvent, defendEvent, gameOverObserver, enterFightObserver) {
         this.HUDView = new HUDView();
-        this.HUDModel = new HUDModel();
         this.gameModel = gameModel;
         this.roundObserver = roundObserver;
-        this.attackEvent = attackEvent;
         this.defendEvent = defendEvent;
         this.gameOverObserver = gameOverObserver;
         this.enterFightObserver = enterFightObserver;
@@ -46,6 +44,10 @@ export class HUDController {
         playerNotSelected.model.receiveDamage(playerSelected.model.getDamage());
         playerSelected.view.animateAttack(playerSelected.model, playerSelected.model.position, 2.5);
         playerNotSelected.view.animateDamage(playerNotSelected.model);
+
+        if(playerNotSelected.model.defend) {
+            playerNotSelected.model.defend = !playerNotSelected.model.defend;
+        }
 
         this.roundObserver.notify();
         this.gameModel.notify();

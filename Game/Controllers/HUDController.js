@@ -25,12 +25,23 @@ export class HUDController {
         this.handleDefendPlayer = this.handleDefendPlayer.bind(this);
         this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
         this.handleEnterFightEvent = this.handleEnterFightEvent.bind(this);
+        this.startGameEvent = this.startGameEvent.bind(this);
     }
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
         this.gameOverObserver.subscribe(this.handleGameOverEvent);
         this.enterFightObserver.subscribe(this.handleEnterFightEvent);
+        this.gameModel.subscribe(this.startGameEvent);
+    }
+
+    startGameEvent() {
+        console.log(this.gameModel.isStarted, this.gameModel.gameOver)
+        if(this.gameModel.isStarted && this.gameModel.gameOver !== false) {
+            // On affiche la game screen
+            this.HUDView.HUDContainer.addClass('hidden');
+            console.log('startGame');
+        }
     }
 
     handleUpdateGameStore () {

@@ -19,9 +19,6 @@ let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.gameModel, '', menuView);
-
-gameController.start();
-
 let HUDCtrl = new HUDController(gameController.gameModel, gameController.roundObserver, attackEvent, defendEvent, gameController.gameOverObserver, gameController.enterFightObserver);
 
 document.getElementById('screen').addEventListener('click', (event) => {
@@ -32,13 +29,15 @@ document.getElementById('screen').addEventListener('click', (event) => {
 });
 
 const render = (timestamp) => {
-    if(!gameController.gameModel.isFight) {
-        if(!gameController.update()) {
-            return cancelAnimationFrame(this);
+    if(gameController.gameModel.isStarted) {
+        if(!gameController.gameModel.isFight) {
+            if(!gameController.update()) {
+                return cancelAnimationFrame(this);
+            }
         }
-    }
-    else {
-        gameController.updateFight();
+        else {
+            gameController.updateFight();
+        }
     }
 
     window.requestAnimationFrame(render);

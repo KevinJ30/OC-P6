@@ -41,7 +41,7 @@ export class GameController {
         this.gameModel = new GameModel();
         this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
         this.mapView = new MapView(this.gameView.ctx);
-
+        console.log(this.gameModel)
         this.background = new Image();
         this.background.src = './ressources/background_fight.png';
 
@@ -79,7 +79,6 @@ export class GameController {
 
         // initialise value of the model
         this.gameModel.isStarted = true;
-        this.gameModel.isFight = false;
         this.gameModel.playerSelected = 0;
         this.gameModel.players = this.createPlayers(2);
         this.gameModel.notify();

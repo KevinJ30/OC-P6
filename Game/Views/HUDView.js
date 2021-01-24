@@ -4,6 +4,8 @@ export class HUDView {
         this.gameContainer = $('.game_screen');
         this.HUDContainer = $('.js-HUD');
 
+        this.gameContainer.addClass('hidden');
+
         this.drawHudFight()
 
         this.HUDContainerPlayerOne = $('<div></div>').addClass('player-hud js-player-hud-1').append('<p></p>');
@@ -59,14 +61,17 @@ export class HUDView {
     }
 
     updateDisplay(gameModel) {
-        this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
-        this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
-        this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
-
-
-        // Connect value progress bar
-        this.playerOneProgressElement.val(gameModel.players[0].model.health);
-        this.playerTwoProgressElement.val(gameModel.players[1].model.health);
+        // Affiche les informations du player que si ils existe
+        if(gameModel.players.length > 0) {
+            this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
+            this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
+            this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
+    
+    
+            // Connect value progress bar
+            this.playerOneProgressElement.val(gameModel.players[0].model.health);
+            this.playerTwoProgressElement.val(gameModel.players[1].model.health);
+        }
     }
 
     displayGameOver() {

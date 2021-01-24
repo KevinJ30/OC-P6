@@ -10,6 +10,10 @@ html, body {
     border:1px solid black;
 }
 
+.game_screen.hidden {
+    display:none;
+}
+
 #screen {
     position:relative;
     background-color:#000;
@@ -42,8 +46,6 @@ html, body {
 
 
 #menu_game {
-    position:absolute;
-    top: 102px; left: 0;
     background:url('../ressources/background_fight.png');
     background-size:640px 480px;
     width: 640px; height:480px;
@@ -52,7 +54,6 @@ html, body {
     justify-content: center;
     align-content: center;
     align-items: center;
-    z-index:10000;
     font-family: "Potta One", cursive;
     font-size:1.5em;
     color:#fff;

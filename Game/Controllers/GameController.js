@@ -11,6 +11,7 @@ import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
 import {GameView} from "../Views/GameView.js";
 import {GameModel} from "../Models/GameModel.js";
+import {ArmorModel} from "../Models/Armors/ArmorModel.js";
 
 /**
  * @property {Map} map
@@ -85,17 +86,38 @@ export class GameController {
      **/
     createPlayers(numberPlayer) {
         let players = [];
-        let PlayerSprite = new Image();
-        PlayerSprite.src = "./ressources/player.png";
+        let spriteSheet_player1 = './ressources/player.png';
+        let spriteSheet_player2 = './ressources/skeleton.png';
+
+        let playersInfo = [
+            {
+                spriteSheet: './ressources/player.png',
+                chest: new ArmorModel(30, './ressources/chestArmor1.png'),
+                legs: new ArmorModel(15, './ressources/legsArmor1.png'),
+                foot: new ArmorModel(10, './ressources/footArmor1.png'),
+            },
+            {
+                spriteSheet: './ressources/skeleton.png',
+                chest: new ArmorModel(30, './ressources/chestArmor2.png'),
+                legs: new ArmorModel(15, './ressources/legsArmor2.png'),
+                foot: new ArmorModel(10, './ressources/footArmor2.png'),
+            },
+        ]
 
         for(let i = 0; i < numberPlayer; i++) {
             // Generate position
             let positionPlayer = this.generatePositionPlayer();
+            let playerSprite = new Image();
+            playerSprite.src = playersInfo[i].spriteSheet;
 
             players.push({
-                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
-                view : new PlayerView(this.receiveDamageObserver, this.gameView.ctx, "./ressources/player.png")
+                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, playerSprite, this.mapModel, positionPlayer),
+                view : new PlayerView(this.gameView.ctx, '')
             });
+
+            players[i].model.chest = playersInfo[i].chest;
+            players[i].model.legs = playersInfo[i].legs;
+            players[i].model.foot = playersInfo[i].foot;
 
             // Init default name players
             players[i].model.setName('Player ' + i);

@@ -15,14 +15,11 @@ export class PlayerView {
      * @param {CanvasRenderingContext2D} context
      * @param {string} spriteSheetSrc
      */
-    constructor(receiveDamageObserver, context, spriteSheetSrc) {
-        this.receiveDamageObserver = receiveDamageObserver;
-
+    constructor(context, spriteSheetSrc) {
         this.weaponView = null;
         this.ctx = context;
 
         this.animateDamage = this.animateDamage.bind(this);
-        //this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
     /**

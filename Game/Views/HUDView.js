@@ -60,8 +60,8 @@ export class HUDView {
     }
 
     updateDisplay(gameModel) {
-        this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
-        this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
+        this.playerOneNameElement.text(gameModel.players[0].model.username);
+        this.playerTwoNameElement.text(gameModel.players[1].model.username);
         this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
 
 

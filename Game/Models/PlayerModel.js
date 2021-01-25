@@ -49,9 +49,9 @@ export class PlayerModel {
         this.health = 100;
         this.velocity = 4;
         this.playerDirection = PlayerSprite.LEFT;
-        this.chest = new ArmorModel(30, './ressources/chestArmor.png');
-        this.legs = new ArmorModel(15, './ressources/legsArmor.png');
-        this.foot = new ArmorModel(10, './ressources/footArmor.png');
+        this.chest = null;
+        this.legs = null;
+        this.foot = null;
         this.weapon = null;
         this.damage = 5;
         this.username = "No Player Name"

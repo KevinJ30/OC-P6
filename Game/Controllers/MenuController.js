@@ -1,10 +1,10 @@
 export class MenuController {
     
-    constructor (gameModel, model, view) {
+    constructor (eventManager, gameModel, model, view) {
         this.model = model;
         this.view = view;
         this.gameModel = gameModel;
-
+        this.eventManager = eventManager;
         this.bindEventHandler();
     }
 
@@ -17,6 +17,8 @@ export class MenuController {
         this.gameModel.players[1].model.username = this.view.fieldPlayerTwoNameElement.val();
         this.gameModel.notify();
         this.view.displayMenu();
+        this.eventManager.trigger('game.startGameEvent');
+
     }
 
 }

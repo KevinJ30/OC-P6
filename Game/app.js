@@ -21,7 +21,7 @@ let gameOverObserver = new Observer();
 let gameController = new GameController(ScreenRenderer, eventManager);
 
 let menuView = new MenuView();
-let menuController = new MenuController(gameController.gameModel, '', menuView);
+let menuController = new MenuController(eventManager, gameController.gameModel, '', menuView);
 
 gameController.start();
 

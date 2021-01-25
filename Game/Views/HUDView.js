@@ -2,6 +2,7 @@ export class HUDView {
 
     constructor() {
         this.gameContainer = $('.game_screen');
+        this.gameContainer.addClass('hidden');
         this.HUDContainer = $('.js-HUD');
 
         this.drawHudFight()
@@ -69,7 +70,13 @@ export class HUDView {
         this.playerTwoProgressElement.val(gameModel.players[1].model.health);
     }
 
+    displayGameScreen() {
+        console.log(111)
+        this.gameContainer.toggleClass('hidden');
+    }
+
     displayGameOver() {
+        this.gameContainer.toggleClass('hidden');
         this.HUDGameOverElement.toggleClass('hidden');
     }
 

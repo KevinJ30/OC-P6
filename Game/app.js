@@ -4,18 +4,21 @@ import {MenuController} from './Controllers/MenuController.js';
 import {GameController} from "./Controllers/GameController.js";
 import {HUDController} from "./Controllers/HUDController.js";
 import {Observer} from "./Observer/Observer.js";
+import {EventManager} from "./EventManager.js";
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
 /**
  * Boucle de jeu
  **/
+let eventManager = new EventManager();
+
 let attackEvent = new Observer();
 let defendEvent = new Observer();
 let enterFightObserver = new Observer();
 let gameOverObserver = new Observer();
 
-let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent, enterFightObserver, gameOverObserver);
+let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent, enterFightObserver, gameOverObserver, eventManager);
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.gameModel, '', menuView);

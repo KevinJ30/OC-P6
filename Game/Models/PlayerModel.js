@@ -28,6 +28,7 @@ export class PlayerModel {
     /**
      * Constructor.
      *
+     * @param {EventManager} eventManager
      * @param {Observer} receiveDamageObserver
      * @param {Observer} dropItemObserver
      * @param {Observer} roundObserver
@@ -38,7 +39,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
+    constructor (eventManager, receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
         this.spriteSheet = image;
         this.mapModel = mapModel;
@@ -55,6 +56,7 @@ export class PlayerModel {
         this.damage = 5;
         this.username = "No Player Name"
         this.defend = false;
+        this.eventManager = eventManager;
 
         /**
         /**
@@ -176,6 +178,13 @@ export class PlayerModel {
         }
     }
 
+    dropItem() {
+        if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
+            this.weapon = new WeaponModel(10);
+            this.dropItemObserver.notify(this.position);
+        }
+    }
+
     /**
      * Move left player
      * @return void
@@ -193,17 +202,11 @@ export class PlayerModel {
                 this.dropItem();
 
                 this.playerDirection = PlayerSprite.LEFT;
-                this.roundObserver.notify()
+                //this.roundObserver.notify()
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);
-    }
-
-    dropItem() {
-        if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
-            this.weapon = new WeaponModel(10);
-            this.dropItemObserver.notify(this.position);
-        }
     }
 
     /**
@@ -223,7 +226,7 @@ export class PlayerModel {
             else{
                 this.dropItem();
                 this.playerDirection = PlayerSprite.RIGHT;
-                this.roundObserver.notify()
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16)
@@ -246,7 +249,7 @@ export class PlayerModel {
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.UP;
-                this.roundObserver.notify()
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);
@@ -271,7 +274,7 @@ export class PlayerModel {
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.DOWN;
-                this.roundObserver.notify()
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);

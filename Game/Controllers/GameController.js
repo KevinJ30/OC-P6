@@ -26,17 +26,18 @@ export class GameController {
      * @param {Observer} defendEvent
      * @param {Observer} enterFightObserver
      * @param gameOverObserver
+     * @param {EventManager} eventManager
      **/
-    constructor(context, attackEvent, defendEvent, enterFightObserver, gameOverObserver) {
+    constructor(context, attackEvent, defendEvent, enterFightObserver, gameOverObserver, eventManager) {
         this.dropItemObserver = new Observer();
         this.roundObserver = new Observer();
         this.receiveDamageObserver = new Observer();
         this.gameOverObserver = new Observer()
+        this.eventManager = eventManager;
 
         this.defendObserver = defendEvent;
         this.enterFightObserver = enterFightObserver;
 
-        this.attackEvent = attackEvent;
         this.gameView = new GameView();
         this.gameModel = new GameModel();
         this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
@@ -57,7 +58,8 @@ export class GameController {
     }
 
     allSubscribeToObserver() {
-        this.roundObserver.subscribe(this.changeRoundEvent);
+        this.eventManager.attach('game.changeRoundEvent', this.changeRoundEvent, 0);
+        //this.roundObserver.subscribe(this.changeRoundEvent);
         this.dropItemObserver.subscribe(this.dropItemEvent);
         this.defendObserver.subscribe(this.defendEventPlayer);
         this.enterFightObserver.subscribe(this.enterFightEvent);
@@ -100,7 +102,7 @@ export class GameController {
             let positionPlayer = this.generatePositionPlayer();
 
             players.push({
-                model : new PlayerModel(this.receiveDamageObserver, this.dropItemObserver, this.roundObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
+                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.dropItemObserver, this.roundObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
                 view : new PlayerView(this.receiveDamageObserver, this.gameView.ctx, "./ressources/player.png")
             });
 

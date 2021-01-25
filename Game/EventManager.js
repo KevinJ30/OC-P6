@@ -10,7 +10,7 @@ export class EventManager {
      * attaches a listeners to an event
      * 
      * @param {string} event 
-     * @param {callback} callback 
+     * @param { function } callback
      * @param {number} priority 
      */
     attach(event, callback, priority) {

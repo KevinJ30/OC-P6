@@ -39,7 +39,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (eventManager, receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
+    constructor (eventManager, receiveDamageObserver, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
         this.spriteSheet = image;
         this.mapModel = mapModel;
@@ -63,8 +63,6 @@ export class PlayerModel {
          * Observer
          * @type {Observer}
          **/
-        this.roundObserver = roundObserver;
-        this.dropItemObserver = dropItemObserver;
         this.receiveDamageObserver = receiveDamageObserver;
     }
 
@@ -181,7 +179,7 @@ export class PlayerModel {
     dropItem() {
         if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
             this.weapon = new WeaponModel(10);
-            this.dropItemObserver.notify(this.position);
+            this.eventManager.trigger('game.dropItemEvent', null, [this.position]);
         }
     }
 

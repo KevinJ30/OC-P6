@@ -22,25 +22,17 @@ export class GameController {
 
     /**
      * @param {CanvasRenderingContext2D} context
-     * @param {Observer} attackEvent
-     * @param {Observer} defendEvent
-     * @param {Observer} enterFightObserver
-     * @param gameOverObserver
      * @param {EventManager} eventManager
      **/
-    constructor(context, attackEvent, defendEvent, enterFightObserver, gameOverObserver, eventManager) {
+    constructor(context, eventManager) {
         this.dropItemObserver = new Observer();
-        this.roundObserver = new Observer();
         this.receiveDamageObserver = new Observer();
         this.gameOverObserver = new Observer()
         this.eventManager = eventManager;
 
-        this.defendObserver = defendEvent;
-        this.enterFightObserver = enterFightObserver;
-
         this.gameView = new GameView();
         this.gameModel = new GameModel();
-        this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver);
+        this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver, this.eventManager);
         this.mapView = new MapView(this.gameView.ctx);
 
         this.background = new Image();
@@ -53,16 +45,15 @@ export class GameController {
     bindingMethodOfClass() {
         this.changeRoundEvent = this.changeRoundEvent.bind(this);
         this.dropItemEvent = this.dropItemEvent.bind(this);
-        this.defendEventPlayer = this.defendEventPlayer.bind(this);
+        this.defendPlayerEvent = this.defendPlayerEvent.bind(this);
         this.enterFightEvent = this.enterFightEvent.bind(this);
     }
 
     allSubscribeToObserver() {
         this.eventManager.attach('game.changeRoundEvent', this.changeRoundEvent, 0);
-        //this.roundObserver.subscribe(this.changeRoundEvent);
-        this.dropItemObserver.subscribe(this.dropItemEvent);
-        this.defendObserver.subscribe(this.defendEventPlayer);
-        this.enterFightObserver.subscribe(this.enterFightEvent);
+        this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0);
+        this.eventManager.attach('game.defendPlayerEvent', this.defendPlayerEvent, 0);
+        this.eventManager.attach('game.enterFightEvent', this.enterFightEvent, 0);
     }
 
     dropItemEvent() {
@@ -102,7 +93,7 @@ export class GameController {
             let positionPlayer = this.generatePositionPlayer();
 
             players.push({
-                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.dropItemObserver, this.roundObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
+                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, PlayerSprite, this.mapModel, positionPlayer),
                 view : new PlayerView(this.receiveDamageObserver, this.gameView.ctx, "./ressources/player.png")
             });
 
@@ -113,9 +104,9 @@ export class GameController {
         return players;
     }
 
-    defendEventPlayer() {
+    defendPlayerEvent() {
         this.gameModel.getPlayerSelected().model.defend = true;
-        this.roundObserver.notify();
+        this.eventManager.trigger('game.changeRoundEvent');
         this.gameModel.notify();
     }
 
@@ -182,7 +173,7 @@ export class GameController {
          * Detect player conflict
          **/
         if(this.detectPlayerConflict(player1, player2)) {
-            this.enterFightObserver.notify()
+            this.eventManager.trigger('game.enterFightEvent');
             this.gameModel.isFight = true;
             return true;
         }
@@ -229,7 +220,8 @@ export class GameController {
         if(this.gameOver() && !this.gameModel.gameOver)
         {
             this.gameModel.gameOver = true;
-            this.gameOverObserver.notify();
+            //this.gameOverObserver.notify();
+            this.eventManager.trigger('game.gameOverEvent');
         }
 
         return true;

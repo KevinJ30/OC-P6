@@ -17,8 +17,9 @@ export class MapModel {
      * @param {number} maxTileX
      * @param {number} maxTileY
      * @param {Observer} dropItemObserver
+     * @param {EventManager} eventManager
      */
-    constructor(tileSize, maxTileX, maxTileY, dropItemObserver) {
+    constructor(tileSize, maxTileX, maxTileY, dropItemObserver, eventManager) {
         this.spriteSheet = new Image();
         this.spriteSheet.src = './ressources/tile_map.png';
         this.tileSize = tileSize;
@@ -29,10 +30,12 @@ export class MapModel {
         this.mapEvents = [];
         this.generator = null;
         this.dropItemObserver = dropItemObserver;
+        this.eventManager = eventManager;
 
         // Bind this to the method
-        this.dropItemSubscribe = this.dropItemSubscribe.bind(this);
-        this.dropItemObserver.subscribe(this.dropItemSubscribe);
+        this.dropItemEvent = this.dropItemEvent.bind(this);
+        this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0)
+        //this.dropItemObserver.subscribe(this.dropItemSubscribe);
 
         this.loadWeapon();
     }
@@ -45,7 +48,7 @@ export class MapModel {
         this.generator = generator;
     }
 
-    dropItemSubscribe(position) {
+    dropItemEvent(position) {
         this.mapEvents[position.y / 32][position.x / 32] = 0;
     }
 

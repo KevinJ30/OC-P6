@@ -3,13 +3,10 @@ import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 
-    constructor(gameModel, roundObserver, attackEvent, defendEvent, gameOverObserver, enterFightObserver) {
+    constructor(eventManager, gameModel, defendEvent, enterFightObserver) {
         this.HUDView = new HUDView();
         this.gameModel = gameModel;
-        this.roundObserver = roundObserver;
-        this.defendEvent = defendEvent;
-        this.gameOverObserver = gameOverObserver;
-        this.enterFightObserver = enterFightObserver;
+        this.eventManager = eventManager;
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
@@ -29,8 +26,8 @@ export class HUDController {
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
-        this.gameOverObserver.subscribe(this.handleGameOverEvent);
-        this.enterFightObserver.subscribe(this.handleEnterFightEvent);
+        this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
+        this.eventManager.attach('game.enterFightEvent', this.handleEnterFightEvent, 0);
     }
 
     handleUpdateGameStore () {
@@ -49,12 +46,12 @@ export class HUDController {
             playerNotSelected.model.defend = !playerNotSelected.model.defend;
         }
 
-        this.roundObserver.notify();
+        this.eventManager.trigger('game.changeRoundEvent');
         this.gameModel.notify();
     }
 
     handleDefendPlayer() {
-        this.defendEvent.notify();
+        this.eventManager.trigger('game.defendPlayerEvent');
     }
 
     handleGameOverEvent() {

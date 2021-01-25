@@ -18,14 +18,14 @@ let defendEvent = new Observer();
 let enterFightObserver = new Observer();
 let gameOverObserver = new Observer();
 
-let gameController = new GameController(ScreenRenderer, attackEvent, defendEvent, enterFightObserver, gameOverObserver, eventManager);
+let gameController = new GameController(ScreenRenderer, eventManager);
 
 let menuView = new MenuView();
 let menuController = new MenuController(gameController.gameModel, '', menuView);
 
 gameController.start();
 
-let HUDCtrl = new HUDController(gameController.gameModel, gameController.roundObserver, attackEvent, defendEvent, gameController.gameOverObserver, gameController.enterFightObserver);
+let HUDCtrl = new HUDController(eventManager, gameController.gameModel, defendEvent, gameController.gameOverObserver);
 
 document.getElementById('screen').addEventListener('click', (event) => {
     if(!gameController.gameModel.isFight) {

@@ -59,7 +59,6 @@ export class GameController {
     allSubscribeToObserver() {
         this.roundObserver.subscribe(this.changeRoundEvent);
         this.dropItemObserver.subscribe(this.dropItemEvent);
-        this.attackEvent.subscribe(this.attackEventPlayer);
         this.defendObserver.subscribe(this.defendEventPlayer);
         this.enterFightObserver.subscribe(this.enterFightEvent);
     }

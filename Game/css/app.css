@@ -2,12 +2,23 @@ html, body {
     font-family: sans-serif;
 }
 
+.container {
+    height:100vh;
+    display: flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
 .game_screen {
-    margin:0 auto;
-    margin-top:130px;
     position: relative;
-    width:640px; height:582px;
+    width:640px; height:580px;
     border:1px solid black;
+}
+
+.game_screen.hidden {
+    display:none;
 }
 
 #screen {
@@ -41,9 +52,7 @@ html, body {
 }
 
 
-#menu_game {
-    position:absolute;
-    top: 102px; left: 0;
+.menu_game {
     background:url('../ressources/background_fight.png');
     background-size:640px 480px;
     width: 640px; height:480px;
@@ -56,10 +65,11 @@ html, body {
     font-family: "Potta One", cursive;
     font-size:1.5em;
     color:#fff;
+    border:1px solid black;
 }
 
-#menu_game.hidden {
-    display:none;
+.menu_game.hidden {
+    display:none!important;
 }
 
 

@@ -6,11 +6,11 @@ export class GameOverController {
         this.gameOverView = gameOverView;
         this.handleDisplay = this.handleDisplay.bind(this);
         this.eventManager.attach('game.gameOverEvent', this.handleDisplay, 0);
-        this.gameOverView.toggleDisplay(this.gameOverModel.hidden);
     }
 
-    handleDisplay() {
+    handleDisplay(playerDead) {
         this.gameOverView.toggleDisplay(this.gameOverModel.hidden);
+        this.gameOverView.updateUsername(playerDead)
     }
 
 }

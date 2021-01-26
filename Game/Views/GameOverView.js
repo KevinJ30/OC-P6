@@ -5,6 +5,7 @@ export class GameOverView {
     constructor() {
         this.HUDContainer = $('.HUD__game-over');
         this.HUDContainer.addClass('hidden');
+        this.usernameElement = $('.js-usernameElement');
         this.restartButtonElement = this.createRestartButtonElement();
 
         this.HUDContainer.append(this.restartButtonElement);
@@ -15,7 +16,10 @@ export class GameOverView {
     }
 
     toggleDisplay() {
-        console.log(this.HUDContainer);
         this.HUDContainer.toggleClass(GameOverView.CLASS_HIDDEN);
+    }
+
+    updateUsername(playerDead) {
+        this.usernameElement.text(playerDead);
     }
 }

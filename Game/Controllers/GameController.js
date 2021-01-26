@@ -242,7 +242,8 @@ export class GameController {
         if(this.gameOver() && !this.gameModel.gameOver)
         {
             this.gameModel.gameOver = true;
-            this.eventManager.trigger('game.gameOverEvent');
+            let playerDead = this.gameModel.players.filter( player => player.model.isDead());
+            this.eventManager.trigger('game.gameOverEvent', null, [playerDead[0].model.username]);
         }
 
         return true;

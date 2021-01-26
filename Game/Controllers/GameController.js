@@ -149,7 +149,7 @@ export class GameController {
         this.gameModel.players[1].model.position.y = 220;
         this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
         this.gameModel.players[1].model.weaponSpriteSelect = PlayerSprite.LEFT;
-        if(this.gameModel.players[1].model.weapon && this.gameModel.players[0].view.weaponView){
+        if(this.gameModel.players[1].model.weapon && this.gameModel.players[1].view.weaponView){
             this.gameModel.players[1].view.weaponView.spriteSelected = PlayerSprite.LEFT;
         }
     }
@@ -234,18 +234,14 @@ export class GameController {
     updateFight() {
         this.gameView.drawFight(this.background);
 
-        console.log(this.gameModel.players);
-
         // Affichage des deux joueur
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {
             this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
         }
 
-        // Si le player est mort on ecrit dans la console
         if(this.gameOver() && !this.gameModel.gameOver)
         {
             this.gameModel.gameOver = true;
-            //this.gameOverObserver.notify();
             this.eventManager.trigger('game.gameOverEvent');
         }
 

@@ -61,16 +61,15 @@ export class PlayerView {
         }
     }
 
-    animateAttack(weaponSprite, position, scale) {
+    animateAttack(playerModel, position, scale) {
         if(this.weaponView){
-            const spriteSelectedBuffer = this.weaponView.spriteSelected;
+            const spriteSelectedBuffer = playerModel.weaponSpriteSelect;
             let i = 0;
-
             let animation = setInterval(() => {
-                this.weaponView.spriteSelected  += 1;
+                playerModel.weaponSpriteSelect  += 1;
                 i++;
                 if(i >= 8) {
-                    this.weaponView.spriteSelected = spriteSelectedBuffer;
+                    playerModel.weaponSpriteSelect = spriteSelectedBuffer;
                     clearInterval(animation);
                 }
             }, 50)

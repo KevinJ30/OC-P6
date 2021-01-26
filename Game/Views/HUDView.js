@@ -71,7 +71,6 @@ export class HUDView {
     }
 
     displayGameScreen() {
-        console.log(111)
         this.gameContainer.toggleClass('hidden');
     }
 

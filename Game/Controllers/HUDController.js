@@ -20,16 +20,16 @@ export class HUDController {
         this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
         this.handleAttackPlayer = this.handleAttackPlayer.bind(this);
         this.handleDefendPlayer = this.handleDefendPlayer.bind(this);
-        this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
         this.handleEnterFightEvent = this.handleEnterFightEvent.bind(this);
         this.handleStartGameEvent = this.handleStartGameEvent.bind(this);
+        this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
     }
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
-        this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
         this.eventManager.attach('game.enterFightEvent', this.handleEnterFightEvent, 0);
         this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
+        this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
     }
 
     handleUpdateGameStore () {
@@ -60,11 +60,11 @@ export class HUDController {
         this.eventManager.trigger('game.defendPlayerEvent');
     }
 
-    handleGameOverEvent() {
-        this.HUDView.displayGameOver();
-    }
-
     handleEnterFightEvent() {
         this.HUDView.displayFightHUD();
+    }
+
+    handleGameOverEvent() {
+        this.HUDView.toggleGameScreen();
     }
 }

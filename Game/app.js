@@ -5,6 +5,9 @@ import {GameController} from "./Controllers/GameController.js";
 import {HUDController} from "./Controllers/HUDController.js";
 import {Observer} from "./Observer/Observer.js";
 import {EventManager} from "./EventManager.js";
+import {GameOverModel} from "./Models/GameOverModel.js";
+import {GameOverView} from "./Views/GameOverView.js";
+import {GameOverController} from "./Controllers/GameOverController.js";
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
@@ -22,6 +25,10 @@ let gameController = new GameController(ScreenRenderer, eventManager);
 
 let menuView = new MenuView();
 let menuController = new MenuController(eventManager, gameController.gameModel, '', menuView);
+
+let gameOverModel = new GameOverModel();
+let gameOverView = new GameOverView();
+let gameOverController = new GameOverController(eventManager, gameOverModel, gameOverView);
 
 gameController.start();
 

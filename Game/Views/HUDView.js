@@ -19,8 +19,6 @@ export class HUDView {
 
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
-
-        this.HUDGameOverElement = $('.HUD__game-over');
     }
 
     bindButtonAttack(handler) {
@@ -74,9 +72,8 @@ export class HUDView {
         this.gameContainer.toggleClass('hidden');
     }
 
-    displayGameOver() {
+    toggleGameScreen() {
         this.gameContainer.toggleClass('hidden');
-        this.HUDGameOverElement.toggleClass('hidden');
     }
 
     displayFightHUD() {

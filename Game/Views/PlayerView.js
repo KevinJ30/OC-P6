@@ -11,7 +11,6 @@ export class PlayerView {
 
     /**
      *
-     * @param {Observer} receiveDamageObserver
      * @param {CanvasRenderingContext2D} context
      * @param {string} spriteSheetSrc
      */
@@ -37,8 +36,9 @@ export class PlayerView {
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
      * @param {number} [scale]
+     * @param weaponSpriteSelect
      **/
-    update(playerModel, mapModel, position, playerDirection, scale) {
+    update(playerModel, mapModel, position, playerDirection, scale, weaponSpriteSelect) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
@@ -55,8 +55,8 @@ export class PlayerView {
 
         // Affichage de l'arme
         if(this.weaponView) {
-            const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
-            const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
+            const sourceXWeapon = Math.floor(weaponSpriteSelect % 9) * 64;
+            const sourceYWeapon = Math.floor((weaponSpriteSelect / 9)) *  64;
             this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
         }
     }

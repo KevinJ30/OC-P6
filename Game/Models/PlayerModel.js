@@ -57,6 +57,7 @@ export class PlayerModel {
         this.username = "No Player Name"
         this.defend = false;
         this.eventManager = eventManager;
+        this.weaponSpriteSelect = 0;
 
         /**
         /**
@@ -189,10 +190,13 @@ export class PlayerModel {
      */
     moveLeft(newPosition) {
         this.playerDirection = PlayerSprite.LEFT;
+        this.weaponSpriteSelect = PlayerSprite.LEFT;
+
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.LEFT;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.LEFT;
                 this.position.x -= this.velocity;
                 i++;
             }
@@ -200,7 +204,7 @@ export class PlayerModel {
                 this.dropItem();
 
                 this.playerDirection = PlayerSprite.LEFT;
-                //this.roundObserver.notify()
+                this.weaponSpriteSelect = PlayerSprite.LEFT;
                 this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
@@ -213,17 +217,20 @@ export class PlayerModel {
      **/
     moveRight(newPosition) {
         this.playerDirection = PlayerSprite.RIGHT;
+        this.weaponSpriteSelect = PlayerSprite.RIGHT;
 
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.RIGHT;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.RIGHT;
                 this.position.x += this.velocity;
                 i++;
             }
             else{
                 this.dropItem();
                 this.playerDirection = PlayerSprite.RIGHT;
+                this.weaponSpriteSelect = PlayerSprite.RIGHT;
                 this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
@@ -236,17 +243,20 @@ export class PlayerModel {
      **/
     moveUp(newPosition) {
         this.playerDirection = PlayerSprite.UP;
+        this.weaponSpriteSelect = PlayerSprite.UP;
 
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.UP;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.UP;
                 this.position.y -= this.velocity;
                 i++;
             }
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.UP;
+                this.weaponSpriteSelect = PlayerSprite.UP;
                 this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
@@ -260,18 +270,21 @@ export class PlayerModel {
      **/
     moveDown(newPosition) {
         this.playerDirection = PlayerSprite.DOWN;
+        this.weaponSpriteSelect = PlayerSprite.DOWN;
         let i = 0;
 
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 // Calculated playerDirection sprite
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.DOWN;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.DOWN;
                 this.position.y += this.velocity;
                 i++;
             }
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.DOWN;
+                this.weaponSpriteSelect = PlayerSprite.DOWN;
                 this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }

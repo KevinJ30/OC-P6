@@ -192,11 +192,31 @@ html, body {
 }
 
 .HUD__game-over {
-    display:block;
     width:640px; height:480px;
-    background:url('../ressources/game_over_screen.png');
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background:url('../ressources/background_fight.png');
     background-size:640px 480px;
     border:1px solid black;
+    font-family: "Potta One", cursive;
+    color:#fff;
+}
+
+.HUD__game-over h1 {
+    margin: 8px 0; padding:0;
+    font-weight:300;
+    font-size: 1.5em;
+}
+
+.HUD__game-over p {
+    margin: 0; padding: 0;
+    font-size:0.9em;
+}
+
+.HUD__game-over button {
+    margin:16px 0;
 }
 
 .HUD__game-over.hidden {

@@ -19,6 +19,13 @@ export class GameOverView {
         this.HUDContainer.toggleClass(GameOverView.CLASS_HIDDEN);
     }
 
+    bindButtonRestart(handler) {
+        this.restartButtonElement.click((event) => {
+            event.preventDefault();
+            handler();
+        })
+    }
+
     updateUsername(playerDead) {
         this.usernameElement.text(playerDead);
     }

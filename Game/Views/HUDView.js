@@ -80,4 +80,9 @@ export class HUDView {
         this.HUDFightContainer.toggleClass('hidden');
         this.HUDFightSelectedContainer.toggleClass('hidden');
     }
+
+    hiddenHUDFight() {
+        this.HUDFightContainer.addClass('hidden');
+        this.HUDFightSelectedContainer.addClass('hidden');
+    }
 }

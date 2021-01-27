@@ -39,8 +39,11 @@ export class GameController {
         this.background = new Image();
         this.background.src = './ressources/background_fight.png';
 
+
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
+
+        this.gameModel.players = this.createPlayers(2);
     }
 
     bindingMethodOfClass() {
@@ -48,6 +51,7 @@ export class GameController {
         this.dropItemEvent = this.dropItemEvent.bind(this);
         this.defendPlayerEvent = this.defendPlayerEvent.bind(this);
         this.enterFightEvent = this.enterFightEvent.bind(this);
+        this.restart = this.restart.bind(this);
     }
 
     allSubscribeToObserver() {
@@ -55,6 +59,7 @@ export class GameController {
         this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0);
         this.eventManager.attach('game.defendPlayerEvent', this.defendPlayerEvent, 0);
         this.eventManager.attach('game.enterFightEvent', this.enterFightEvent, 0);
+        this.eventManager.attach('game.restartGame', this.restart, 0);
     }
 
     dropItemEvent() {
@@ -70,12 +75,18 @@ export class GameController {
         this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.mapModel.build();
 
+        this.gameModel.players[0].model.position = this.generatePositionPlayer();
+        this.gameModel.players[1].model.position = this.generatePositionPlayer();
+
         // initialise value of the model
         this.gameModel.isStarted = true;
         this.gameModel.isFight = false;
         this.gameModel.playerSelected = 0;
-        this.gameModel.players = this.createPlayers(2);
         this.gameModel.notify();
+    }
+
+    restart() {
+        this.start();
     }
 
     /**
@@ -105,13 +116,11 @@ export class GameController {
         ]
 
         for(let i = 0; i < numberPlayer; i++) {
-            // Generate position
-            let positionPlayer = this.generatePositionPlayer();
             let playerSprite = new Image();
             playerSprite.src = playersInfo[i].spriteSheet;
 
             players.push({
-                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, playerSprite, this.mapModel, positionPlayer),
+                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, playerSprite, this.mapModel, {}),
                 view : new PlayerView(this.gameView.ctx, '')
             });
 

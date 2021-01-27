@@ -34,6 +34,10 @@ export class HUDController {
 
     handleUpdateGameStore () {
         this.HUDView.updateDisplay(this.gameModel);
+
+        if(!this.gameModel.isFight) {
+            this.HUDView.hiddenHUDFight();
+        }
     }
 
     handleStartGameEvent () {

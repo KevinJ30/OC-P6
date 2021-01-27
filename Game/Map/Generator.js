@@ -1,4 +1,5 @@
 import { Utils } from '../Utils.js';
+import {Config} from "../config/Config.js";
 
 /**
  * Created by Joudrier Kevin
@@ -73,6 +74,27 @@ export class Generator {
             this.map[randomY][randomX] = this.WALL_TILE;
             wallPosition.push({x: randomX, y: randomY});
             this.mapCollision[randomY][randomX] = 1;
+        }
+
+        return this.map;
+    }
+
+    generateStand(number) {
+        console.log(number)
+        // Generate aléatoire
+        for(let i = 0; i < number; i++) {
+            let startPositionX = Utils.randomNumber(0, Config.MAP_MAX_X)
+            let startPositionY = Utils.randomNumber(0, Config.MAP_MAX_Y)
+
+            for(let j = 0; j < 4; j++) {
+                if(j < 2) {
+                    this.map[startPositionY][startPositionX + j] = Config.STAND_TILES[j];
+                }
+                else
+                {
+                    this.map[startPositionY + 1][startPositionX + (j - 2)] = Config.STAND_TILES[j];
+                }
+            }
         }
 
         return this.map;

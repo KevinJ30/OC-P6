@@ -2,7 +2,7 @@ export class HUDView {
 
     constructor() {
         this.gameContainer = $('.game_screen');
-        this.gameContainer.addClass('hidden');
+        //this.gameContainer.addClass('hidden');
         this.HUDContainer = $('.js-HUD');
 
         this.drawHudFight()

@@ -35,7 +35,6 @@ export class MapModel {
         // Bind this to the method
         this.dropItemEvent = this.dropItemEvent.bind(this);
         this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0)
-        //this.dropItemObserver.subscribe(this.dropItemSubscribe);
 
         this.loadWeapon();
     }
@@ -62,7 +61,8 @@ export class MapModel {
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
-        this.map = this.generator.generatedWallInMap(10);
+        //this.map = this.generator.generatedWallInMap(10);
+        this.map = this.generator.generateStand(20);
         this.mapCollision = this.generator.getCollisionMap();
         this.mapEvents = this.generateEventsMap();
 

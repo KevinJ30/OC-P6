@@ -42,15 +42,13 @@ document.getElementById('screen').addEventListener('click', (event) => {
 });
 
 const render = (timestamp) => {
-    if(gameController.gameModel.isStarted) {
-        if(!gameController.gameModel.isFight) {
-            if(!gameController.update()) {
-                return cancelAnimationFrame(this);
-            }
+    if(!gameController.gameModel.isFight) {
+        if(!gameController.update()) {
+            return cancelAnimationFrame(this);
         }
-        else {
-            gameController.updateFight();
-        }
+    }
+    else {
+        gameController.updateFight();
     }
 
     window.requestAnimationFrame(render);

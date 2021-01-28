@@ -23,10 +23,6 @@ html, body {
     display:none;
 }
 
-.game_screen.hidden {
-    display:none;
-}
-
 #screen {
     position:relative;
     background-color:#000;
@@ -68,6 +64,7 @@ html, body {
     justify-content: center;
     align-content: center;
     align-items: center;
+    z-index:10000;
     font-family: "Potta One", cursive;
     font-size:1.5em;
     color:#fff;

@@ -126,10 +126,26 @@
         +buttonElement: HTMLButtonElement
     }
 
+    class GameOverController {
+        +gameOverModel: GameOverModel
+        +gameOverView: GameOverView
+    }
+
+    class GameOverModel {
+        +hidden: boolean
+    }
+
+    class GameOverView {
+        +HUDContainer: HTMLElement
+    }
+
     HUDController *-- HUDView
     HUDController *-- HUDModel
     HUDController ..> GameModel
     MenuController ..> GameModel
     MenuController *-- MenuView
-    MenuController *-- MenuModel    
+    MenuController *-- MenuModel
+
+    GameOverController ..> GameOverModel
+    GameOverController ..> GameOverView
 @enduml

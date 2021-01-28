@@ -3,13 +3,10 @@ import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 
-    constructor(gameModel, roundObserver, attackEvent, defendEvent, gameOverObserver, enterFightObserver) {
+    constructor(eventManager, gameModel, defendEvent, enterFightObserver) {
         this.HUDView = new HUDView();
         this.gameModel = gameModel;
-        this.roundObserver = roundObserver;
-        this.defendEvent = defendEvent;
-        this.gameOverObserver = gameOverObserver;
-        this.enterFightObserver = enterFightObserver;
+        this.eventManager = eventManager;
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
@@ -23,29 +20,28 @@ export class HUDController {
         this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
         this.handleAttackPlayer = this.handleAttackPlayer.bind(this);
         this.handleDefendPlayer = this.handleDefendPlayer.bind(this);
-        this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
         this.handleEnterFightEvent = this.handleEnterFightEvent.bind(this);
-        this.startGameEvent = this.startGameEvent.bind(this);
+        this.handleStartGameEvent = this.handleStartGameEvent.bind(this);
+        this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
     }
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
-        this.gameOverObserver.subscribe(this.handleGameOverEvent);
-        this.enterFightObserver.subscribe(this.handleEnterFightEvent);
-        this.gameModel.subscribe(this.startGameEvent);
-    }
-
-    startGameEvent() {
-        console.log(this.gameModel.isStarted, this.gameModel.gameOver)
-        if(this.gameModel.isStarted && this.gameModel.gameOver !== false) {
-            // On affiche la game screen
-            this.HUDView.HUDContainer.addClass('hidden');
-            console.log('startGame');
-        }
+        this.eventManager.attach('game.enterFightEvent', this.handleEnterFightEvent, 0);
+        this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
+        this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
     }
 
     handleUpdateGameStore () {
         this.HUDView.updateDisplay(this.gameModel);
+
+        if(!this.gameModel.isFight) {
+            this.HUDView.hiddenHUDFight();
+        }
+    }
+
+    handleStartGameEvent () {
+        this.HUDView.displayGameScreen();
     }
 
     handleAttackPlayer() {
@@ -60,19 +56,19 @@ export class HUDController {
             playerNotSelected.model.defend = !playerNotSelected.model.defend;
         }
 
-        this.roundObserver.notify();
+        this.eventManager.trigger('game.changeRoundEvent');
         this.gameModel.notify();
     }
 
     handleDefendPlayer() {
-        this.defendEvent.notify();
-    }
-
-    handleGameOverEvent() {
-        this.HUDView.displayGameOver();
+        this.eventManager.trigger('game.defendPlayerEvent');
     }
 
     handleEnterFightEvent() {
         this.HUDView.displayFightHUD();
+    }
+
+    handleGameOverEvent() {
+        this.HUDView.toggleGameScreen();
     }
 }

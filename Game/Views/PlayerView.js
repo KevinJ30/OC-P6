@@ -11,18 +11,14 @@ export class PlayerView {
 
     /**
      *
-     * @param {Observer} receiveDamageObserver
      * @param {CanvasRenderingContext2D} context
      * @param {string} spriteSheetSrc
      */
-    constructor(receiveDamageObserver, context, spriteSheetSrc) {
-        this.receiveDamageObserver = receiveDamageObserver;
-
+    constructor(context, spriteSheetSrc) {
         this.weaponView = null;
         this.ctx = context;
 
         this.animateDamage = this.animateDamage.bind(this);
-        //this.receiveDamageObserver.subscribe(this.animateDamage);
     }
 
     /**
@@ -40,8 +36,9 @@ export class PlayerView {
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
      * @param {number} [scale]
+     * @param weaponSpriteSelect
      **/
-    update(playerModel, mapModel, position, playerDirection, scale) {
+    update(playerModel, mapModel, position, playerDirection, scale, weaponSpriteSelect) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
@@ -58,22 +55,21 @@ export class PlayerView {
 
         // Affichage de l'arme
         if(this.weaponView) {
-            const sourceXWeapon = Math.floor(this.weaponView.spriteSelected % 9) * 64;
-            const sourceYWeapon = Math.floor((this.weaponView.spriteSelected / 9)) *  64;
+            const sourceXWeapon = Math.floor(weaponSpriteSelect % 9) * 64;
+            const sourceYWeapon = Math.floor((weaponSpriteSelect / 9)) *  64;
             this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
         }
     }
 
-    animateAttack(weaponSprite, position, scale) {
+    animateAttack(playerModel, position, scale) {
         if(this.weaponView){
-            const spriteSelectedBuffer = this.weaponView.spriteSelected;
+            const spriteSelectedBuffer = playerModel.weaponSpriteSelect;
             let i = 0;
-
             let animation = setInterval(() => {
-                this.weaponView.spriteSelected  += 1;
+                playerModel.weaponSpriteSelect  += 1;
                 i++;
                 if(i >= 8) {
-                    this.weaponView.spriteSelected = spriteSelectedBuffer;
+                    playerModel.weaponSpriteSelect = spriteSelectedBuffer;
                     clearInterval(animation);
                 }
             }, 50)

@@ -2,9 +2,8 @@ export class HUDView {
 
     constructor() {
         this.gameContainer = $('.game_screen');
+        //this.gameContainer.addClass('hidden');
         this.HUDContainer = $('.js-HUD');
-
-        this.gameContainer.addClass('hidden');
 
         this.drawHudFight()
 
@@ -20,8 +19,6 @@ export class HUDView {
 
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
-
-        this.HUDGameOverElement = $('.HUD__game-over');
     }
 
     bindButtonAttack(handler) {
@@ -61,25 +58,31 @@ export class HUDView {
     }
 
     updateDisplay(gameModel) {
-        // Affiche les informations du player que si ils existe
-        if(gameModel.players.length > 0) {
-            this.playerOneNameElement.text(gameModel.players[0].model.username + ' ' + gameModel.players[0].model.health);
-            this.playerTwoNameElement.text(gameModel.players[1].model.username + ' ' + gameModel.players[1].model.health);
-            this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
-    
-    
-            // Connect value progress bar
-            this.playerOneProgressElement.val(gameModel.players[0].model.health);
-            this.playerTwoProgressElement.val(gameModel.players[1].model.health);
-        }
+        this.playerOneNameElement.text(gameModel.players[0].model.username);
+        this.playerTwoNameElement.text(gameModel.players[1].model.username);
+        this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
+
+
+        // Connect value progress bar
+        this.playerOneProgressElement.val(gameModel.players[0].model.health);
+        this.playerTwoProgressElement.val(gameModel.players[1].model.health);
     }
 
-    displayGameOver() {
-        this.HUDGameOverElement.toggleClass('hidden');
+    displayGameScreen() {
+        this.gameContainer.toggleClass('hidden');
+    }
+
+    toggleGameScreen() {
+        this.gameContainer.toggleClass('hidden');
     }
 
     displayFightHUD() {
         this.HUDFightContainer.toggleClass('hidden');
         this.HUDFightSelectedContainer.toggleClass('hidden');
+    }
+
+    hiddenHUDFight() {
+        this.HUDFightContainer.addClass('hidden');
+        this.HUDFightSelectedContainer.addClass('hidden');
     }
 }

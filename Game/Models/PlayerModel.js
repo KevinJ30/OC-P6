@@ -28,6 +28,7 @@ export class PlayerModel {
     /**
      * Constructor.
      *
+     * @param {EventManager} eventManager
      * @param {Observer} receiveDamageObserver
      * @param {Observer} dropItemObserver
      * @param {Observer} roundObserver
@@ -38,7 +39,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (receiveDamageObserver, dropItemObserver, roundObserver, context, sizeX, sizeY, image, mapModel, position) {
+    constructor (eventManager, receiveDamageObserver, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
         this.spriteSheet = image;
         this.mapModel = mapModel;
@@ -48,21 +49,21 @@ export class PlayerModel {
         this.health = 100;
         this.velocity = 4;
         this.playerDirection = PlayerSprite.LEFT;
-        this.chest = new ArmorModel(30, './ressources/chestArmor.png');
-        this.legs = new ArmorModel(15, './ressources/legsArmor.png');
-        this.foot = new ArmorModel(10, './ressources/footArmor.png');
+        this.chest = null;
+        this.legs = null;
+        this.foot = null;
         this.weapon = null;
         this.damage = 5;
         this.username = "No Player Name"
         this.defend = false;
+        this.eventManager = eventManager;
+        this.weaponSpriteSelect = 0;
 
         /**
         /**
          * Observer
          * @type {Observer}
          **/
-        this.roundObserver = roundObserver;
-        this.dropItemObserver = dropItemObserver;
         this.receiveDamageObserver = receiveDamageObserver;
     }
 
@@ -176,16 +177,26 @@ export class PlayerModel {
         }
     }
 
+    dropItem() {
+        if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
+            this.weapon = new WeaponModel(10);
+            this.eventManager.trigger('game.dropItemEvent', null, [this.position]);
+        }
+    }
+
     /**
      * Move left player
      * @return void
      */
     moveLeft(newPosition) {
         this.playerDirection = PlayerSprite.LEFT;
+        this.weaponSpriteSelect = PlayerSprite.LEFT;
+
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.LEFT;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.LEFT;
                 this.position.x -= this.velocity;
                 i++;
             }
@@ -193,17 +204,11 @@ export class PlayerModel {
                 this.dropItem();
 
                 this.playerDirection = PlayerSprite.LEFT;
-                this.roundObserver.notify()
+                this.weaponSpriteSelect = PlayerSprite.LEFT;
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);
-    }
-
-    dropItem() {
-        if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
-            this.weapon = new WeaponModel(10);
-            this.dropItemObserver.notify(this.position);
-        }
     }
 
     /**
@@ -212,18 +217,21 @@ export class PlayerModel {
      **/
     moveRight(newPosition) {
         this.playerDirection = PlayerSprite.RIGHT;
+        this.weaponSpriteSelect = PlayerSprite.RIGHT;
 
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.RIGHT;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.RIGHT;
                 this.position.x += this.velocity;
                 i++;
             }
             else{
                 this.dropItem();
                 this.playerDirection = PlayerSprite.RIGHT;
-                this.roundObserver.notify()
+                this.weaponSpriteSelect = PlayerSprite.RIGHT;
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16)
@@ -235,18 +243,21 @@ export class PlayerModel {
      **/
     moveUp(newPosition) {
         this.playerDirection = PlayerSprite.UP;
+        this.weaponSpriteSelect = PlayerSprite.UP;
 
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.UP;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.UP;
                 this.position.y -= this.velocity;
                 i++;
             }
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.UP;
-                this.roundObserver.notify()
+                this.weaponSpriteSelect = PlayerSprite.UP;
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);
@@ -259,19 +270,22 @@ export class PlayerModel {
      **/
     moveDown(newPosition) {
         this.playerDirection = PlayerSprite.DOWN;
+        this.weaponSpriteSelect = PlayerSprite.DOWN;
         let i = 0;
 
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 // Calculated playerDirection sprite
                 this.playerDirection = Math.floor(i % 9) + PlayerSprite.DOWN;
+                this.weaponSpriteSelect = Math.floor(i % 9) + PlayerSprite.DOWN;
                 this.position.y += this.velocity;
                 i++;
             }
             else {
                 this.dropItem();
                 this.playerDirection = PlayerSprite.DOWN;
-                this.roundObserver.notify()
+                this.weaponSpriteSelect = PlayerSprite.DOWN;
+                this.eventManager.trigger('game.changeRoundEvent');
                 clearInterval(animate);
             }
         }, 16);

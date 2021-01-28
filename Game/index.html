@@ -9,12 +9,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="game_screen">
-        <div class="hud js-HUD"></div>
-        <canvas id="screen" width="640" height="480"></canvas>
-    </div>
-    <div id="menu_game">
-        <p>Start Game</p>
+    <div class="container">
+        <div class="menu_game" >
+            <p>Start Game</p>
+        </div>
+        <div class="game_screen">
+            <div class="hud js-HUD"></div>
+            <canvas id="screen" width="640" height="480"></canvas>
+        </div>
+        <div class="HUD__game-over">
+            <h1>Game Over</h1>
+            <p>Le joueur <span class="js-usernameElement">...</span> est mort pendant la partie.</p>
+        </div>
     </div>
     <script
   src="https://code.jquery.com/jquery-3.5.1.min.js"

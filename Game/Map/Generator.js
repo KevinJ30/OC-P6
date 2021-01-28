@@ -1,4 +1,5 @@
 import { Utils } from '../Utils.js';
+import {Config} from "../config/Config.js";
 
 /**
  * Created by Joudrier Kevin
@@ -24,46 +25,6 @@ export class Generator {
     }
 
     /**
-     * 
-     * @param {number} humanDrunkerMax 
-     **/
-    generatePath(humanDrunkerMax) {
-        const startDrunkX = Utils.randomNumber(0, this.maxTileX);
-        const startDrunkY = Utils.randomNumber(0, this.maxTileY);
-        const drunkLifeDuration = Utils.randomNumber(0, this.maxTileX * this.maxTileY);
-        let currentPositionDrunkX = startDrunkX;
-        let currentPositionDrunkY = startDrunkY;
-        let currentDirectionDrunk = 0;
-
-        console.log(startDrunkX, startDrunkY);
-
-        for(let i = 0; i < drunkLifeDuration; i++) {
-            this.map[currentPositionDrunkY][currentPositionDrunkX] = 17;
-            
-            if(currentDirectionDrunk === 0) {
-                let newPosition = currentPositionDrunkX + 1;
-                
-                if(newPosition <= this.maxTileX - 1) {
-                    currentPositionDrunkX = newPosition;
-                }
-                else {
-                    currentDirectionDrunk = 1;
-                }
-            }
-
-            if(currentDirectionDrunk === 1){
-                let newPosition = currentPositionDrunkY + 1;
-                console.log(currentPositionDrunkX);
-                if(newPosition <= this.maxTileY - 1){
-                    currentPositionDrunkY = newPosition;
-                }
-            }
-        }
-
-        return this.map;
-    }
-
-    /**
      * Generate empty map
      *
      * @returns {Array} map
@@ -75,7 +36,7 @@ export class Generator {
             let colsCollision = [];
 
             for(let j = 0; j < this.maxTileX; j++) {
-                row.push(this.BLANK_TILE);
+                row.push(Config.GRASS_TILE);
                 colsCollision.push(0);
             }
             this.map.push(row);
@@ -114,6 +75,54 @@ export class Generator {
         return this.map;
     }
 
+    addStand(number) {
+        // Generate aléatoire
+        for(let i = 0; i < number; i++) {
+            let coordinates = this.generateCoordinates(2);
+
+            while(this.collisionStand(coordinates.x, coordinates.y)) {
+                coordinates = this.generateCoordinates(2);
+            }
+
+            this.generateStand(coordinates.x, coordinates.y);
+        }
+
+        return this.map;
+    }
+
+    generateStand(startX, startY) {
+        this.map[startY][startX] = Config.STAND_TILES[0];
+        this.map[startY][startX + 1] = Config.STAND_TILES[1];
+        this.map[startY + 1][startX] = Config.STAND_TILES[2];
+        this.map[startY + 1][startX + 1] = Config.STAND_TILES[3];
+    }
+
+    collisionStand(startX, startY) {
+        if(this.detectCollision(this.map[startY][startX]) || this.detectCollision(this.map[startY][startX + 1])
+            || this.detectCollision(this.map[startY + 1][startX]) || this.detectCollision(this.map[startY + 1][startX + 1])
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    detectCollision(tileNumberDetect) {
+        return tileNumberDetect === 14 || tileNumberDetect === 15 || tileNumberDetect === 30 || tileNumberDetect === 31;
+    }
+
+    /**
+     * Return new coordinates
+     * @param {number} offset
+     * @returns {{x: number, y: number}} : Vector 2D
+     **/
+    generateCoordinates(offset = 0) {
+        return {
+            x : Utils.randomNumber(0, Config.MAP_MAX_X - offset),
+            y : Utils.randomNumber(0, Config.MAP_MAX_Y - offset)
+        };
+    }
+
     /**
      * Return collition map
      *
@@ -121,5 +130,33 @@ export class Generator {
      **/
     getCollisionMap() {
         return this.mapCollision;
+    }
+
+    addWater(bulk) {
+        let coordinates = this.generateCoordinates();
+        let limit = bulk / 2;
+
+        // console.log(this.maxTileX - coordinates.x);
+        // console.log(this.maxTileY - coordinates.y);
+
+        for(let i = 0; i < limit; i++) {
+            for(let j = 0; j < limit; j++) {
+                if(this.maxTileX - coordinates.x >= bulk && this.maxTileY - coordinates.y >= bulk) {
+                    this.map[coordinates.y + i][coordinates.x + j] = Config.WATER_TILE;
+                }
+                else if(this.maxTileX - coordinates.x < bulk && this.maxTileY - coordinates.y < bulk){
+                    this.map[coordinates.y - i][coordinates.x - j] = Config.WATER_TILE;
+                }
+                else if(this.maxTileX - coordinates.x >= bulk && this.maxTileY - coordinates.y < bulk){
+                    this.map[coordinates.y - i][coordinates.x + j] = Config.WATER_TILE;
+                }
+                else {
+                    this.map[coordinates.y + i][coordinates.x - j] = Config.WATER_TILE;
+                }
+
+            }
+        }
+
+        return this.map;
     }
 }

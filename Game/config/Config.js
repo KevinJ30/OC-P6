@@ -9,5 +9,7 @@ export let Config = {
     BLANK_TILE: 17,
     WALL_TILE: 31,
     STAND_TILES: [14, 15, 30, 31],
-    STALL : [[14, 15], [29, 31]]
+    STALL : [[14, 15], [29, 31]],
+
+    STAND_NUMBER: 10
 }

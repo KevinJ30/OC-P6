@@ -24,10 +24,6 @@ export class Generator {
         this.mapCollision = [];
     }
 
-    getInstance() {
-
-    }
-
     /**
      * Generate empty map
      *
@@ -79,25 +75,52 @@ export class Generator {
         return this.map;
     }
 
-    generateStand(number) {
-        console.log(number)
+    addStand(number) {
         // Generate aléatoire
         for(let i = 0; i < number; i++) {
-            let startPositionX = Utils.randomNumber(0, Config.MAP_MAX_X)
-            let startPositionY = Utils.randomNumber(0, Config.MAP_MAX_Y)
+            let coordinates = this.generateCoordinates(2);
 
-            for(let j = 0; j < 4; j++) {
-                if(j < 2) {
-                    this.map[startPositionY][startPositionX + j] = Config.STAND_TILES[j];
-                }
-                else
-                {
-                    this.map[startPositionY + 1][startPositionX + (j - 2)] = Config.STAND_TILES[j];
-                }
+            while(this.collisionStand(coordinates.x, coordinates.y)) {
+                coordinates = this.generateCoordinates(2);
             }
+
+            this.generateStand(coordinates.x, coordinates.y);
         }
 
         return this.map;
+    }
+
+    generateStand(startX, startY) {
+        this.map[startY][startX] = Config.STAND_TILES[0];
+        this.map[startY][startX + 1] = Config.STAND_TILES[1];
+        this.map[startY + 1][startX] = Config.STAND_TILES[2];
+        this.map[startY + 1][startX + 1] = Config.STAND_TILES[3];
+    }
+
+    collisionStand(startX, startY) {
+        if(this.detectCollision(this.map[startY][startX]) || this.detectCollision(this.map[startY][startX + 1])
+            || this.detectCollision(this.map[startY + 1][startX]) || this.detectCollision(this.map[startY + 1][startX + 1])
+        ){
+            return true;
+        }
+
+        return false;
+    }
+
+    detectCollision(tileNumberDetect) {
+        return tileNumberDetect === 14 || tileNumberDetect === 15 || tileNumberDetect === 30 || tileNumberDetect === 31;
+    }
+
+    /**
+     * Return new coordinates
+     * @param {number} offset
+     * @returns {{x: number, y: number}} : Vector 2D
+     **/
+    generateCoordinates(offset = 0) {
+        return {
+            x : Utils.randomNumber(0, Config.MAP_MAX_X - offset),
+            y : Utils.randomNumber(0, Config.MAP_MAX_Y - offset)
+        };
     }
 
     /**

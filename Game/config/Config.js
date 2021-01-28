@@ -6,10 +6,9 @@ export let Config = {
     /**
      * Configuration du generateur
      **/
-    BLANK_TILE: 17,
-    WALL_TILE: 31,
+    GRASS_TILE: 177,
+    GROUND_TILE: 17,
     STAND_TILES: [14, 15, 30, 31],
-    STALL : [[14, 15], [29, 31]],
 
     STAND_NUMBER: 10
 }

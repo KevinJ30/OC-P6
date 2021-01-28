@@ -36,7 +36,7 @@ export class Generator {
             let colsCollision = [];
 
             for(let j = 0; j < this.maxTileX; j++) {
-                row.push(this.BLANK_TILE);
+                row.push(Config.GRASS_TILE);
                 colsCollision.push(0);
             }
             this.map.push(row);

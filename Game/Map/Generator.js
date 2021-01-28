@@ -131,4 +131,32 @@ export class Generator {
     getCollisionMap() {
         return this.mapCollision;
     }
+
+    addWater(bulk) {
+        let coordinates = this.generateCoordinates();
+        let limit = bulk / 2;
+
+        // console.log(this.maxTileX - coordinates.x);
+        // console.log(this.maxTileY - coordinates.y);
+
+        for(let i = 0; i < limit; i++) {
+            for(let j = 0; j < limit; j++) {
+                if(this.maxTileX - coordinates.x >= bulk && this.maxTileY - coordinates.y >= bulk) {
+                    this.map[coordinates.y + i][coordinates.x + j] = Config.WATER_TILE;
+                }
+                else if(this.maxTileX - coordinates.x < bulk && this.maxTileY - coordinates.y < bulk){
+                    this.map[coordinates.y - i][coordinates.x - j] = Config.WATER_TILE;
+                }
+                else if(this.maxTileX - coordinates.x >= bulk && this.maxTileY - coordinates.y < bulk){
+                    this.map[coordinates.y - i][coordinates.x + j] = Config.WATER_TILE;
+                }
+                else {
+                    this.map[coordinates.y + i][coordinates.x - j] = Config.WATER_TILE;
+                }
+
+            }
+        }
+
+        return this.map;
+    }
 }

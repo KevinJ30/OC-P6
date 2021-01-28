@@ -9,6 +9,6 @@ export let Config = {
     GRASS_TILE: 177,
     GROUND_TILE: 17,
     STAND_TILES: [14, 15, 30, 31],
-
-    STAND_NUMBER: 10
+    WATER_TILE: 163,
+    STAND_NUMBER: 5
 }

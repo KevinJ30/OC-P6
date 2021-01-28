@@ -61,7 +61,7 @@ export class MapModel {
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
-        //this.map = this.generator.generatedWallInMap(10);
+        this.map = this.generator.addWater(10);
         this.map = this.generator.addStand(Config.STAND_NUMBER);
         this.mapCollision = this.generator.getCollisionMap();
         this.mapEvents = this.generateEventsMap();

@@ -6,8 +6,8 @@ export let Config = {
     /**
      * Configuration du generateur
      **/
-    GRASS_TILE: 177,
-    GROUND_TILE: 17,
+    WALL_TILE: 2,
+    GROUND_TILE: 1,
     STAND_TILES: [14, 15, 30, 31],
     WATER_TILE: 163,
     STAND_NUMBER: 5

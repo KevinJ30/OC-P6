@@ -38,8 +38,7 @@ export class Generator {
             for(let j = 0; j < this.maxTileX; j++) {
                 // genere un nombre aleatoire pour ajouter une tuile d'eau ou d'herbe
                 let randomWater = Utils.randomNumber(0, 3);
-                console.log(randomWater);
-                row.push(randomWater === 1 ? Config.GRASS_TILE : Config.GROUND_TILE);
+                row.push(Config.GROUND_TILE);
                 colsCollision.push(0);
             }
             this.map.push(row);
@@ -55,7 +54,7 @@ export class Generator {
      * @param {number} fillPourcentage : pourcent wall generate
      * @returns {Array} map
      **/
-    generatedWallInMap(fillPourcentage) {
+    generatedWallInMap(fillPourcentage = 30) {
         fillPourcentage = fillPourcentage === undefined ? 0 : fillPourcentage;
         let wallNumber = (this.maxTileY * this.maxTileX) * fillPourcentage / 100;
         let wallPosition = [];

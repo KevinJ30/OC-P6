@@ -1,5 +1,7 @@
 import { Utils } from '../Utils.js';
 import {Config} from "../config/Config.js";
+import {Drunken} from "./Drunken.js";
+import {DrunkenWalk} from "./DrunkenWalk.js"
 
 /**
  * Created by Joudrier Kevin
@@ -102,9 +104,11 @@ export class Generator {
      **/
     generateGround(coverage) {
         // Number of drunk that are used on the map   
-        const numberDrunks = 1;
+        let drunkenWalk = new DrunkenWalk(1);
+        drunkenWalk.init();
 
-        for(let i = 0; i < numberDrunks; i++) {
+        
+        /**for(let i = 0; i < numberDrunks; i++) {
             // lifetime drunk
             const lifetime_drunk = Utils.randomNumber(0, (this.maxTileX * this.maxTileY) - 1); 
 
@@ -115,52 +119,8 @@ export class Generator {
             }
 
             this.startDrunk(lifetime_drunk, position);
-        }
-
-        return this.map;
-    }
-
-    startDrunk(lifetime, position) {
-        console.log(lifetime)
-        let direction = 'LEFT';
-
-        for(let i = 0; i < lifetime; i++){
-            switch(direction) {
-                case 'LEFT':
-                    position.x--;
-                    break;
-
-                case 'RIGHT':
-                    position.x++;
-                    break;
-
-                case 'UP':
-                    position.y--;
-                    break;
-
-                case 'DOWN':
-                    position.y++;
-                    break;
-            }
-            
-            this.map[position.y][position.x] = Config.GROUND_TILE;
-            // if(position.x < this.maxTileX) {
-            //     position.x++;
-            //     this.map[position.y][position.x] = Config.GROUND_TILE;
-            // }else if(position.x > this.maxTileX) {
-            //     position.y++;
-            //     this.map[position.y][position.x] = Config.GROUND_TILE;
-            // }else if(position.y < this.maxTileY) {
-            //     position.x--;
-            //     this.map[position.y][position.x] = Config.GROUND_TILE;
-            // } else if(position.y > this.maxTileY) {
-            //     position.y--;
-            //     this.map[position.y][position.x] = Config.GROUND_TILE;
-            // }
-            // else {
-            //     console.log('nop')
-            // }
-        }
+        }**/
+        return drunkenWalk.startDrunk(this.map);
     }
 
     addStand(number) {

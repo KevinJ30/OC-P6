@@ -23,7 +23,7 @@ export class Drunken {
      * @property {{x, y}} position
      **/
     constructor() {
-        this.life = Utils.randomNumber(0, Config.MAP_MAX_X * Config.MAP_MAX_Y / 10);
+        this.life = Utils.randomNumber(0, Config.MAP_MAX_X * Config.MAP_MAX_Y / 5);
         
         this.direction = Utils.randomNumber(0, 3);
 

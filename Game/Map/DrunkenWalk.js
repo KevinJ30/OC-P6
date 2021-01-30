@@ -1,6 +1,6 @@
 import {Config} from '../config/Config.js';
 import {Drunken} from './Drunken.js';
-
+import {Utils} from '../Utils.js';
 
 export class DrunkenWalk {
 
@@ -19,7 +19,12 @@ export class DrunkenWalk {
         let drunken = new Drunken();
         let newMap = map;
 
+        console.log(drunken.life);
+
         for(let i = 0; i < drunken.life; i++){
+            // Changement de driection du drunk aleatoirement
+            drunken.direction = Utils.randomNumber(0, 3);
+
             if(drunken.direction === Drunken.MOVEMENT_LEFT) {
                 drunken.moveLeft();
             } else if(drunken.direction === Drunken.MOVEMENT_RIGHT) {
@@ -32,7 +37,7 @@ export class DrunkenWalk {
             
             newMap[drunken.position.y][drunken.position.x] = Config.GROUND_TILE;
         }
-
+        
         return newMap;
     }
 

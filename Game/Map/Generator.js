@@ -38,7 +38,7 @@ export class Generator {
             for(let j = 0; j < this.maxTileX; j++) {
                 // genere un nombre aleatoire pour ajouter une tuile d'eau ou d'herbe
                 let randomWater = Utils.randomNumber(0, 3);
-                row.push(Config.GROUND_TILE);
+                row.push(Config.WALL_TILE);
                 colsCollision.push(0);
             }
             this.map.push(row);
@@ -75,6 +75,92 @@ export class Generator {
         }
 
         return this.map;
+    }
+
+    /**
+     * ALGO : DRUNKEN WALK
+     * -------------------
+     * 
+     * Le sol de la map est générer avec l'algoritme appellé Drunken Walk
+     * Cette algo consiste a créer des objets fixtif qui vont parcourir la map avec une position de départ
+     * aléatoire. Une durée de vie est calculé pour detruire cette objet au bout d'un moment,
+     * dans notre cas on exprime la durée de vie en nombre de case de la map a parcourir.
+     * 
+     * Pendant sa phase de déplacement on va contrôler qu'il arrive pas sur les bords de la map
+     * Si cest le cas on lui fait changer de coté. Exp: si il était en train de déscendre on et qui touche un bord de la map
+     * on lui dit d'aller a gauche et ainsi de suite. 
+     * 
+     * En sachant que pendant sa phase de déplacement, on fait changer de sens aléatoirement pour qu'il ne garde pas cette aspect linéaire.
+     * 
+     * On pourra également en lancer plusieur les un après les autres, voirs en même temps ou en décalage.
+     **/
+
+    /**
+     * Generated ground on the map
+     * 
+     * @param {number} coverage : percentage coverage on the map 
+     **/
+    generateGround(coverage) {
+        // Number of drunk that are used on the map   
+        const numberDrunks = 1;
+
+        for(let i = 0; i < numberDrunks; i++) {
+            // lifetime drunk
+            const lifetime_drunk = Utils.randomNumber(0, (this.maxTileX * this.maxTileY) - 1); 
+
+            // Start position to the drunk
+            let position = {
+                x : Utils.randomNumber(0, this.maxTileX - 1),
+                y : Utils.randomNumber(0, this.maxTileY - 1)
+            }
+
+            this.startDrunk(lifetime_drunk, position);
+        }
+
+        return this.map;
+    }
+
+    startDrunk(lifetime, position) {
+        console.log(lifetime)
+        let direction = 'LEFT';
+
+        for(let i = 0; i < lifetime; i++){
+            switch(direction) {
+                case 'LEFT':
+                    position.x--;
+                    break;
+
+                case 'RIGHT':
+                    position.x++;
+                    break;
+
+                case 'UP':
+                    position.y--;
+                    break;
+
+                case 'DOWN':
+                    position.y++;
+                    break;
+            }
+            
+            this.map[position.y][position.x] = Config.GROUND_TILE;
+            // if(position.x < this.maxTileX) {
+            //     position.x++;
+            //     this.map[position.y][position.x] = Config.GROUND_TILE;
+            // }else if(position.x > this.maxTileX) {
+            //     position.y++;
+            //     this.map[position.y][position.x] = Config.GROUND_TILE;
+            // }else if(position.y < this.maxTileY) {
+            //     position.x--;
+            //     this.map[position.y][position.x] = Config.GROUND_TILE;
+            // } else if(position.y > this.maxTileY) {
+            //     position.y--;
+            //     this.map[position.y][position.x] = Config.GROUND_TILE;
+            // }
+            // else {
+            //     console.log('nop')
+            // }
+        }
     }
 
     addStand(number) {

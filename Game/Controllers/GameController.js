@@ -170,8 +170,8 @@ export class GameController {
      * @returns {{x: number, y: number}}
      **/
     generatePositionPlayer() {
-        let randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
-        let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
+        let randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);
+        let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y - 1);
 
         this.gameModel.getPlayers().forEach((player) => {
             let diffPlayerPosition = {

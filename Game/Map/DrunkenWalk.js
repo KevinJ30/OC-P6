@@ -16,29 +16,61 @@ export class DrunkenWalk {
     }
 
     startDrunk(map) {
-        let drunken = new Drunken();
         let newMap = map;
-
-        console.log(drunken.life);
-
-        for(let i = 0; i < drunken.life; i++){
-            // Changement de driection du drunk aleatoirement
-            drunken.direction = Utils.randomNumber(0, 3);
-
-            if(drunken.direction === Drunken.MOVEMENT_LEFT) {
-                drunken.moveLeft();
-            } else if(drunken.direction === Drunken.MOVEMENT_RIGHT) {
-                drunken.moveRight();
-            } else if(drunken.direction === Drunken.MOVEMENT_UP) {
-                drunken.moveUp();
-            } else if(drunken.direction === Drunken.MOVEMENT_DOWN) {
-                drunken.moveDown();
+        
+        let lastPosition = {
+            x: null,
+            y: null
+        };
+        
+        this.drunkens.forEach((drunken) => {
+            for(let i = 0; i < drunken.life; i++){                
+                drunken.move(drunken.position);
+                console.log(drunken.position.y, drunken.position.x);
+                newMap[drunken.position.y][drunken.position.x] = Config.GROUND_TILE;
             }
-            
-            newMap[drunken.position.y][drunken.position.x] = Config.GROUND_TILE;
+
+        });
+
+        return newMap;
+    }
+
+    
+
+    // Si il y a collision on change la direction au drunken
+    /**detectCollision(drunken, map) {
+        if(drunken.direction === Drunken.MOVEMENT_LEFT) {
+            if(drunken.position.x - 1 > 0) {
+                if(map[drunken.position.y][drunken.position.x - 1] === Config.GROUND_TILE) {
+                    return true;
+                }
+            }
+        } else if(drunken.direction === Drunken.MOVEMENT_RIGHT) {
+            if(drunken.position.x + 1 > Config.MAP_MAX_X) {
+                if(map[drunken.position.y][drunken.position.x + 1] === Config.GROUND_TILE) {
+                    return true;
+                }
+            }
+        } else if(drunken.direction === Drunken.MOVEMENT_UP) {
+            if(drunken.position.y - 1 > 0) {
+                if(map[drunken.position.y - 1][drunken.position.x] === Config.GROUND_TILE) {
+                    return true;
+                }
+            }
+        } else if(drunken.direction === Drunken.MOVEMENT_DOWN) {
+            if(drunken.position.y + 1 < Config.MAP_MAX_Y) {
+                if(map[drunken.position.y + 1][drunken.position.x] === Config.GROUND_TILE) {
+                    return true;
+                }
+            }
+
         }
         
-        return newMap;
+        return false;
+    }**/
+
+    randomDirection () {
+        return Utils.randomNumber(0, 3);
     }
 
 }

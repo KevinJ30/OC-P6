@@ -40,7 +40,7 @@ export class MapView {
                 const sourceY = Math.floor((a / 16)) *  tileSize;
 
                 this.context.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
-                this.context.strokeStyle = "rgba(0, 0, 0, 0.3)";
+                this.context.strokeStyle = "rgba(0, 0, 0, 0.7)";
                 this.context.strokeRect(positionTile.x, positionTile.y, tileSize, tileSize);
             }
         }

@@ -106,8 +106,10 @@ export class MapModel {
      * Add random weapon on the map
      **/
     addWeapon() {
-        let positionX = Utils.randomNumber(0, this.maxTileX);
-        let positionY = Utils.randomNumber(0, this.maxTileY);
+        let positionX = Utils.randomNumber(0, this.maxTileX - 1);
+        let positionY = Utils.randomNumber(0, this.maxTileY - 1);
+
+        console.log(positionX, positionY);
 
         // Genere une nouvelle position si il y a collision dans la map
         while(this.collide(positionX, positionY) || this.mapEvents[positionY][positionX] === MapModel.WEAPON_DRAGONSPEAR) {

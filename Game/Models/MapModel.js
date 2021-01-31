@@ -63,7 +63,7 @@ export class MapModel {
         this.map = this.generator.generatedEmptyMap();
         //this.map = this.generator.generatedWallInMap();
         this.map = this.generator.generateGround();
-        this.mapCollision = this.generator.getCollisionMap();
+        this.mapCollision = this.generator.generateMapCollision();
         this.mapEvents = this.generateEventsMap();
 
         // add four weapon on the map

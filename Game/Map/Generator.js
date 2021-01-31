@@ -109,6 +109,27 @@ export class Generator {
         return drunkenWalk.startDrunk(this.map);
     }
 
+    generateMapCollision() {
+        let map = this.map;
+
+        let mapCollision = [];
+        for(let i = 0; i < this.maxTileY; i++) {
+            let mapRow = [];
+            for(let j = 0; j < this.maxTileX; j++) {
+                if(map[i][j] === Config.WALL_TILE) {
+                    mapRow.push(1)
+                }
+                else {
+                    mapRow.push(0)
+                }
+            }
+          
+            mapCollision.push(mapRow);
+        }
+
+        return mapCollision;
+    }
+
     addStand(number) {
         // Generate aléatoire
         for(let i = 0; i < number; i++) {

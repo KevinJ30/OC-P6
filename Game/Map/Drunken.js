@@ -24,13 +24,14 @@ export class Drunken {
      **/
     constructor() {
         this.life = Utils.randomNumber(0, Config.MAP_MAX_X * Config.MAP_MAX_Y / 5);
-        this.life = 2;
+        this.life = 200;
         this.direction = Utils.randomNumber(0, 3);
 
         this.position = {
             x : Utils.randomNumber(0, Config.MAP_MAX_X - 1),
             y : Utils.randomNumber(0, Config.MAP_MAX_Y - 1)
         };
+
     }
 
     /**
@@ -42,12 +43,25 @@ export class Drunken {
     }
 
     move(destination) {
-        const direction = 0;
 
         // On teste si le move est valid
-        if(this.validMovement(this.position)) {
+        // Change la direction aléatoirement
+        const randomDir = Utils.randomNumber(0, 1);
+        if(randomDir) {
+            this.changeRandomDirection();
+        }
+
+
+        if(this.direction === Drunken.MOVEMENT_LEFT && this.position.x - 1 >= 0) {
+            this.position.x--;
+        } else if(this.direction === Drunken.MOVEMENT_RIGHT && this.position.x < Config.MAP_MAX_X - 1){
             this.position.x++;
+        } else if(this.direction === Drunken.MOVEMENT_UP && this.position.y - 1 >= 0) {
+            this.position.y--;
+        } else if(this.direction === Drunken.MOVEMENT_DOWN && this.position.y < Config.MAP_MAX_Y - 1) {
             this.position.y++;
+        } else {
+            this.changeRandomDirection();
         }
     }
 
@@ -55,11 +69,10 @@ export class Drunken {
      * Detect that there is no collision with the edges of the map
      * @param {{x: number, y: number}} destination 
      **/
-    validMovement(destination) {
-        if(destination.x - 2 < Config.MAP_MAX_X || destination.x + 1 > 0 ||
-            destination.y > 0 + 1 || destination.y - 2 < Config.MAP_MAX_Y) 
-        {
-            return true;
+    validMovement() {
+        if(this.position.x + 1 < Config.MAP_MAX_X - 1 && this.position.x - 1 >= 0 && 
+            this.position.y + 1 < Config.MAP_MAX_Y - 1 && this.position.y - 1 >= 0) {
+                return true;
         }
 
         return false;

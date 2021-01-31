@@ -104,22 +104,8 @@ export class Generator {
      **/
     generateGround(coverage) {
         // Number of drunk that are used on the map   
-        let drunkenWalk = new DrunkenWalk(1);
+        let drunkenWalk = new DrunkenWalk(3);
         drunkenWalk.init();
-
-        
-        /**for(let i = 0; i < numberDrunks; i++) {
-            // lifetime drunk
-            const lifetime_drunk = Utils.randomNumber(0, (this.maxTileX * this.maxTileY) - 1); 
-
-            // Start position to the drunk
-            let position = {
-                x : Utils.randomNumber(0, this.maxTileX - 1),
-                y : Utils.randomNumber(0, this.maxTileY - 1)
-            }
-
-            this.startDrunk(lifetime_drunk, position);
-        }**/
         return drunkenWalk.startDrunk(this.map);
     }
 

@@ -30,6 +30,7 @@ export class HUDController {
         this.eventManager.attach('game.enterFightEvent', this.handleEnterFightEvent, 0);
         this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
         this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
+        this.eventManager.attach('game.restartGame', this.handleGameOverEvent, 0);
     }
 
     handleUpdateGameStore () {

@@ -8,6 +8,7 @@ export class GameOverController {
         this.bindingMethodOfClass();
 
         this.eventManager.attach('game.gameOverEvent', this.handleDisplay, 0);
+        this.eventManager.attach('game.restartGame', this.handleDisplay, 0);
     }
 
     bindingMethodOfClass() {
@@ -17,12 +18,13 @@ export class GameOverController {
     }
 
     handleDisplay(playerDead) {
-        this.gameOverView.toggleDisplay(this.gameOverModel.hidden);
+        this.gameOverView.toggleDisplay();
         this.gameOverView.updateUsername(playerDead)
     }
 
     handleButtonRestart() {
         this.eventManager.trigger('game.restartGame');
+        //this.eventManager.trigger('game.startGameEvent');
     }
 
 }

@@ -3,11 +3,7 @@ import {Observer} from "../Observer/Observer.js";
 export class GameOverModel {
 
     constructor() {
-        this.hidden = false;
+        this.hiddenClass  = 'hidden';
     }
-
-    toggleDisplay() {
-        this.hidden = !this.hidden;
-    }
-
+    
 }

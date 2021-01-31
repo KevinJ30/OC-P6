@@ -2,7 +2,6 @@ import { Utils } from '../Utils.js';
 import { Config } from "../config/Config.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
-import {InputController} from "./InputController.js";
 import {PlayerView} from "../Views/PlayerView.js";
 import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
@@ -74,15 +73,30 @@ export class GameController {
         // Init your map
         this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.mapModel.build();
-
-        this.gameModel.players[0].model.position = this.generatePositionPlayer();
-        this.gameModel.players[1].model.position = this.generatePositionPlayer();
+        this.initPlayers();
+        
+        console.log(this.gameModel.players);
 
         // initialise value of the model
         this.gameModel.isStarted = true;
         this.gameModel.isFight = false;
+        this.gameModel.gameOver = false;
         this.gameModel.playerSelected = 0;
         this.gameModel.notify();
+    }
+
+    initPlayers() {
+        this.gameModel.players[0].selectedPlayer = true;
+
+        this.gameModel.players.forEach((player) => {
+            player.model.position = this.generatePositionPlayer();
+            player.model.health = 100;
+            player.model.weapon = null;
+            player.model.defend = false;
+            player.model.playerDirection = PlayerSprite.LEFT;
+            player.model.weaponSpriteSelect = 0;
+            player.view.weaponView = null;
+        });
     }
 
     restart() {

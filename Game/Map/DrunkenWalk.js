@@ -24,7 +24,7 @@ export class DrunkenWalk {
             }
 
             for(let i = 0; i < drunken.life; i++){                
-                drunken.move(drunken.position);
+                drunken.move();
                 newMap[drunken.position.y][drunken.position.x] = Config.GROUND_TILE;
             }
             

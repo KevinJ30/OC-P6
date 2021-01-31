@@ -36,8 +36,8 @@ export class MapView {
 
                 let a = map[i][j];
 
-                const sourceX = Math.floor(a % 16) * tileSize;
-                const sourceY = Math.floor((a / 16)) *  tileSize;
+                const sourceX = Math.floor(a % Config.MAX_NUMBER_TILESET) * tileSize;
+                const sourceY = Math.floor((a / Config.MAX_NUMBER_TILESET)) *  tileSize;
 
                 this.context.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
                 this.context.strokeStyle = "rgba(0, 0, 0, 0.7)";
@@ -65,9 +65,9 @@ export class MapView {
                         y : i * tileSize
                     }
 
-                    const a = 168;
-                    const sourceX = Math.floor(a % 16) * tileSize;
-                    const sourceY = Math.floor((a / 16)) *  tileSize;
+                    const a = Config.BOX_TILE;
+                    const sourceX = Math.floor(a % Config.MAX_NUMBER_TILESET) * tileSize;
+                    const sourceY = Math.floor((a / Config.MAX_NUMBER_TILESET)) *  tileSize;
 
                     this.context.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
                 }

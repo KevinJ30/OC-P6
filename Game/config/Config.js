@@ -2,6 +2,7 @@ export let Config = {
     MAP_MAX_X: 20,
     MAP_MAX_Y: 15,
     TILE_SIZE: 32,
+    MAX_NUMBER_TILESET: 14,
 
     /**
      * Configuration du generateur
@@ -11,6 +12,7 @@ export let Config = {
     STAND_TILES: [14, 15, 30, 31],
     WATER_TILE: 163,
     STAND_NUMBER: 5,
+    BOX_TILE : 26,
 
     DRUNKEN_LIFE_MIN: 50,
     DRUNKEN_LIFE_MAX: 350

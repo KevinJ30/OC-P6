@@ -42,8 +42,7 @@ export class Drunken {
         this.position = position;
     }
 
-    move(destination) {
-
+    move() {
         // On teste si le move est valid
         // Change la direction aléatoirement
         const randomDir = Utils.randomNumber(0, 1);

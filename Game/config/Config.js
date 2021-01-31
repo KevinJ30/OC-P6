@@ -10,5 +10,8 @@ export let Config = {
     GROUND_TILE: 1,
     STAND_TILES: [14, 15, 30, 31],
     WATER_TILE: 163,
-    STAND_NUMBER: 5
+    STAND_NUMBER: 5,
+
+    DRUNKEN_LIFE_MIN: 50,
+    DRUNKEN_LIFE_MAX: 350
 }

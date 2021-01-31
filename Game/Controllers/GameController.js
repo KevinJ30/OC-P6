@@ -173,6 +173,7 @@ export class GameController {
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);
         let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y - 1);
 
+        // Test si un player est déja placer a cette place
         this.gameModel.getPlayers().forEach((player) => {
             let diffPlayerPosition = {
                 x : Math.abs(player.model.position.x - randomX),
@@ -185,9 +186,10 @@ export class GameController {
             }
         })
 
+
         while(this.mapModel.collide(randomX, randomY)) {
-            randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
-            randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
+            randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);
+            randomY = Utils.randomNumber(0, Config.MAP_MAX_Y - 1);
         }
 
         return {x: randomX * 32, y:randomY * 32, numberTile: PlayerSprite.RIGHT};

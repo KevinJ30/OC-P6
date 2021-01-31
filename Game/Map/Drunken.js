@@ -24,7 +24,7 @@ export class Drunken {
      **/
     constructor() {
         this.life = Utils.randomNumber(0, Config.MAP_MAX_X * Config.MAP_MAX_Y / 5);
-        this.life = Utils.randomNumber(50, 300);
+        this.life = Utils.randomNumber(50, 60);
         this.direction = Utils.randomNumber(0, 3);
 
         this.position = {

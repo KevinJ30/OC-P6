@@ -3,14 +3,16 @@ import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 
-    constructor(eventManager, gameModel, defendEvent, enterFightObserver) {
+    constructor(eventManager, gameModel, HUDModel) {
         this.HUDView = new HUDView();
         this.gameModel = gameModel;
         this.eventManager = eventManager;
+        this.hudModel = HUDModel;
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
         this.gameModel.notify();
+        this.hudModel.notify();
 
         this.HUDView.bindButtonAttack(this.handleAttackPlayer);
         this.HUDView.bindButtonDefend(this.handleDefendPlayer);
@@ -23,26 +25,35 @@ export class HUDController {
         this.handleEnterFightEvent = this.handleEnterFightEvent.bind(this);
         this.handleStartGameEvent = this.handleStartGameEvent.bind(this);
         this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
+        this.handleRestartGame = this.handleRestartGame.bind(this);
+        this.updateView = this.updateView.bind(this);
     }
 
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
+        this.hudModel.subscribe(this.updateView);
         this.eventManager.attach('game.enterFightEvent', this.handleEnterFightEvent, 0);
-        this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
         this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
-        this.eventManager.attach('game.restartGame', this.handleGameOverEvent, 0);
+        this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
+        this.eventManager.attach('game.restartGame', this.handleRestartGame, 0);
     }
 
     handleUpdateGameStore () {
-        this.HUDView.updateDisplay(this.gameModel);
+        this.hudModel.update({
+            ...this.hudModel.state,
+            playerOneName: this.gameModel.players[0].model.username,
+            playerTwoName: this.gameModel.players[1].model.username,
+            playerSelectedUsername: this.gameModel.getPlayerSelected().model.username,
+            healthPlayerOne: this.gameModel.players[0].model.health,
+            healthPlayerTwo: this.gameModel.players[1].model.health,
+            gameStart: this.gameModel.isStarted
+        });
 
-        if(!this.gameModel.isFight) {
-            this.HUDView.hiddenHUDFight();
-        }
+        this.hudModel.notify();
     }
 
     handleStartGameEvent () {
-        this.HUDView.displayGameScreen();
+        this.hudModel.toggleDisplayGameContainer();
     }
 
     handleAttackPlayer() {
@@ -66,10 +77,19 @@ export class HUDController {
     }
 
     handleEnterFightEvent() {
-        this.HUDView.displayFightHUD();
+        this.hudModel.toggleIsFight();
     }
 
     handleGameOverEvent() {
-        this.HUDView.toggleGameScreen();
+        this.hudModel.toggleGameOverScreen();
+    }
+
+    handleRestartGame() {
+        console.log(111);
+        this.hudModel.toggleRestartGame();
+    }
+
+    updateView() {
+        this.HUDView.update(this.hudModel.state);
     }
 }

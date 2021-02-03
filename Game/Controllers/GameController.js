@@ -51,6 +51,7 @@ export class GameController {
         this.defendPlayerEvent = this.defendPlayerEvent.bind(this);
         this.enterFightEvent = this.enterFightEvent.bind(this);
         this.restart = this.restart.bind(this);
+        this.start = this.start.bind(this);
     }
 
     allSubscribeToObserver() {
@@ -59,6 +60,7 @@ export class GameController {
         this.eventManager.attach('game.defendPlayerEvent', this.defendPlayerEvent, 0);
         this.eventManager.attach('game.enterFightEvent', this.enterFightEvent, 0);
         this.eventManager.attach('game.restartGame', this.restart, 0);
+        this.eventManager.attach('game.startGameEvent', this.start, 0);
     }
 
     dropItemEvent() {
@@ -74,7 +76,7 @@ export class GameController {
         this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.mapModel.build();
         this.initPlayers();
-        
+        console.log(this.gameModel.isStarted);
         console.log(this.gameModel.players);
 
         // initialise value of the model

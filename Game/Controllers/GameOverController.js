@@ -24,7 +24,6 @@ export class GameOverController {
 
     handleButtonRestart() {
         this.eventManager.trigger('game.restartGame');
-        //this.eventManager.trigger('game.startGameEvent');
     }
 
 }

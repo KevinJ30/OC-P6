@@ -2,7 +2,6 @@ export class HUDView {
 
     constructor() {
         this.gameContainer = $('.game_screen');
-        this.gameContainer.addClass('hidden');
         this.HUDContainer = $('.js-HUD');
 
         this.drawHudFight()
@@ -41,8 +40,6 @@ export class HUDView {
     drawHudFight() {
         this.HUDFightContainer = $('<div></div>').addClass('HUD-fight');
         this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')
-        this.HUDFightContainer.addClass('hidden');
-        this.HUDFightSelectedContainer.addClass('hidden');
 
         this.buttonAttackElement = $('<button>Attaquer</button>').addClass('HUD-fight__button');
         this.buttonDefendElement = $('<button>Se défendre</button>').addClass('HUD-fight__button');
@@ -59,32 +56,58 @@ export class HUDView {
         this.gameContainer.append(this.HUDFightSelectedContainer);
     }
 
-    updateDisplay(gameModel) {
-        this.playerOneNameElement.text(gameModel.players[0].model.username);
-        this.playerTwoNameElement.text(gameModel.players[1].model.username);
-        this.textSelectedElement.text(gameModel.getPlayerSelected().model.username);
-
-
-        // Connect value progress bar
-        this.playerOneProgressElement.val(gameModel.players[0].model.health);
-        this.playerTwoProgressElement.val(gameModel.players[1].model.health);
-    }
-
-    displayGameScreen() {
-        this.gameContainer.toggleClass('hidden');
-    }
-
     toggleGameScreen() {
         this.gameContainer.toggleClass('hidden');
     }
 
-    displayFightHUD() {
-        this.HUDFightContainer.toggleClass('hidden');
-        this.HUDFightSelectedContainer.toggleClass('hidden');
-    }
+    // displayFightHUD() {
+    //     this.HUDFightContainer.toggleClass('hidden');
+    //     this.HUDFightSelectedContainer.toggleClass('hidden');
+    // }
 
-    hiddenHUDFight() {
+    /**hiddenHUDFight() {
         this.HUDFightContainer.addClass('hidden');
         this.HUDFightSelectedContainer.addClass('hidden');
+    }**/
+
+    update(hudState) {
+        console.log(hudState);
+        this.playerOneNameElement.text(hudState.playerOneName);
+        this.playerTwoNameElement.text(hudState.playerTwoName);
+        this.textSelectedElement.text(hudState.playerSelectedUsername);
+
+
+        // Connect value progress bar
+        this.playerOneProgressElement.val(hudState.healthPlayerOne);
+        this.playerTwoProgressElement.val(hudState.healthPlayerTwo);
+        
+        if(hudState.gameStart) {
+            this.gameContainer.removeClass('hidden');
+        } else {
+            this.gameContainer.addClass('hidden'); 
+        }
+
+        if(hudState.displayInformations) {
+            this.HUDContainerInformation.addClass('display');
+        }
+        else 
+        {
+            this.HUDContainerInformation.removeClass('display');
+        }
+
+        if(hudState.isFight) {
+            this.HUDFightContainer.removeClass('hidden');
+            this.HUDFightSelectedContainer.removeClass('hidden');
+        }
+        else {
+            this.HUDFightContainer.addClass('hidden');
+            this.HUDFightSelectedContainer.addClass('hidden');
+        }
+
+        if(hudState.displayGameContainer) {
+            this.gameContainer.removeClass('hidden');
+        } else {
+            this.gameContainer.addClass('hidden');
+        }
     }
 }

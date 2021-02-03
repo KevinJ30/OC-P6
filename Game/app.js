@@ -8,6 +8,7 @@ import {EventManager} from "./EventManager.js";
 import {GameOverModel} from "./Models/GameOverModel.js";
 import {GameOverView} from "./Views/GameOverView.js";
 import {GameOverController} from "./Controllers/GameOverController.js";
+import { HUDModel } from './Models/HUDModel.js';
 
 let ScreenRenderer = document.getElementById('screen').getContext('2d');
 
@@ -16,10 +17,7 @@ let ScreenRenderer = document.getElementById('screen').getContext('2d');
  **/
 let eventManager = new EventManager();
 
-let attackEvent = new Observer();
 let defendEvent = new Observer();
-let enterFightObserver = new Observer();
-let gameOverObserver = new Observer();
 
 let gameController = new GameController(ScreenRenderer, eventManager);
 
@@ -30,9 +28,8 @@ let gameOverModel = new GameOverModel();
 let gameOverView = new GameOverView();
 let gameOverController = new GameOverController(eventManager, gameOverModel, gameOverView);
 
-gameController.start();
-
-let HUDCtrl = new HUDController(eventManager, gameController.gameModel, defendEvent, gameController.gameOverObserver);
+let hudModel = new HUDModel();
+let HUDCtrl = new HUDController(eventManager, gameController.gameModel, hudModel);
 
 document.getElementById('screen').addEventListener('click', (event) => {
     if(!gameController.gameModel.isFight) {
@@ -42,15 +39,16 @@ document.getElementById('screen').addEventListener('click', (event) => {
 });
 
 const render = (timestamp) => {
-    if(!gameController.gameModel.isFight) {
-        if(!gameController.update()) {
-            return cancelAnimationFrame(this);
+    if(gameController.gameModel.isStarted) {
+        if(!gameController.gameModel.isFight) {
+            if(!gameController.update()) {
+                return cancelAnimationFrame(this);
+            }
+        }
+        else {
+            gameController.updateFight();
         }
     }
-    else {
-        gameController.updateFight();
-    }
-
     window.requestAnimationFrame(render);
 }
 

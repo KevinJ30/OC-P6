@@ -147,7 +147,13 @@ html, body {
     color:#fff;
     font-family: 'Potta One', cursive;
     z-index:1000;
+    display:none;
 }
+
+.HUD__container-informations.display {
+    display:flex;
+}
+
 
 .HUD__container-informations p {
     width:100%;

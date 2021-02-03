@@ -193,6 +193,11 @@ html, body {
     background-size:100%;
 }
 
+.player-hud.notSelected {
+    opacity:0.3;
+    transition:.3s opacity;
+}
+
 .player-hud .player-name {
     margin:0; padding:0.5em 0;
     text-align: center;

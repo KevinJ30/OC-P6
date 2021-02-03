@@ -17,8 +17,10 @@ export class HUDView {
         this.playerOneProgressElement = this.HUDContainerPlayerOne.children().last();
         this.playerTwoProgressElement = this.HUDContainerPlayerTwo.children().last();
 
+        this.HUDContainerInformation = $('<div></div>').addClass('HUD__container-informations').append('<p>1223222</p>');
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
+        this.HUDContainer.append(this.HUDContainerInformation);
     }
 
     bindButtonAttack(handler) {

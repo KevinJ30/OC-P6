@@ -27,6 +27,7 @@ export class HUDController {
         this.handleGameOverEvent = this.handleGameOverEvent.bind(this);
         this.handleRestartGame = this.handleRestartGame.bind(this);
         this.updateView = this.updateView.bind(this);
+        this.handleDropItem = this.handleDropItem.bind(this);
     }
 
     allSubscribeToObserver() {
@@ -36,6 +37,7 @@ export class HUDController {
         this.eventManager.attach('game.gameOverEvent', this.handleGameOverEvent, 0);
         this.eventManager.attach('game.startGameEvent', this.handleStartGameEvent, 0);
         this.eventManager.attach('game.restartGame', this.handleRestartGame, 0);
+        this.eventManager.attach('game.dropItemEvent', this.handleDropItem, 0)
     }
 
     handleUpdateGameStore () {
@@ -52,8 +54,9 @@ export class HUDController {
         this.hudModel.notify();
     }
 
-    handleStartGameEvent () {
+    handleStartGameEvent () { 
         this.hudModel.toggleDisplayGameContainer();
+        this.HUDView.drawInformation('Renforcer vous avant de vous battre !')
     }
 
     handleAttackPlayer() {
@@ -76,6 +79,10 @@ export class HUDController {
         this.eventManager.trigger('game.defendPlayerEvent');
     }
 
+    handleDropItem() {
+        this.HUDView.drawInformation('Vous avez découvert une arme dans le trésor que vous avez ramasser !')
+    }
+
     handleEnterFightEvent() {
         this.hudModel.toggleIsFight();
     }
@@ -85,7 +92,6 @@ export class HUDController {
     }
 
     handleRestartGame() {
-        console.log(111);
         this.hudModel.toggleRestartGame();
     }
 

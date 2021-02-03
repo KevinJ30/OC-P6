@@ -141,19 +141,24 @@ html, body {
     display:flex;
     flex-direction: column;
     justify-content: center;
-    top: 105px; left: 0;
+    top:102px; left: 0;
     width:642px; height:482px;
     background-color:rgba(0, 0, 0, 0.8);
     color:#fff;
     font-family: 'Potta One', cursive;
     z-index:1000;
-    display:none;
+    opacity: 0;
+    transition: .3s opacity;
+    animation-name:fadeOut;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
 }
 
 .HUD__container-informations.display {
-    display:flex;
+    animation-name:fadeIn;
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
 }
-
 
 .HUD__container-informations p {
     width:100%;
@@ -271,4 +276,35 @@ html, body {
 
 .btn:hover {
     background-color:rgba(234, 241, 228, 0.8);
+}
+
+/**
+ * Animations
+ **/
+
+.animation {
+    animation-duration: .3s;
+    animation-fill-mode: forwards;
+}
+
+.fadeIn { animation-name:fadeIn; }
+.fadeOut { animation-name:fadeOut; }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }

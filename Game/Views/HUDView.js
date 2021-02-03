@@ -16,7 +16,8 @@ export class HUDView {
         this.playerOneProgressElement = this.HUDContainerPlayerOne.children().last();
         this.playerTwoProgressElement = this.HUDContainerPlayerTwo.children().last();
 
-        this.HUDContainerInformation = $('<div></div>').addClass('HUD__container-informations').append('<p>1223222</p>');
+        this.HUDContainerInformation = $('<div></div>').addClass('HUD__container-informations').append('<p></p>');
+        this.textInformationsElement = this.HUDContainerInformation.children().last();
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
         this.HUDContainer.append(this.HUDContainerInformation);
@@ -60,18 +61,7 @@ export class HUDView {
         this.gameContainer.toggleClass('hidden');
     }
 
-    // displayFightHUD() {
-    //     this.HUDFightContainer.toggleClass('hidden');
-    //     this.HUDFightSelectedContainer.toggleClass('hidden');
-    // }
-
-    /**hiddenHUDFight() {
-        this.HUDFightContainer.addClass('hidden');
-        this.HUDFightSelectedContainer.addClass('hidden');
-    }**/
-
     update(hudState) {
-        console.log(hudState);
         this.playerOneNameElement.text(hudState.playerOneName);
         this.playerTwoNameElement.text(hudState.playerTwoName);
         this.textSelectedElement.text(hudState.playerSelectedUsername);
@@ -109,5 +99,26 @@ export class HUDView {
         } else {
             this.gameContainer.addClass('hidden');
         }
+    }
+
+    drawInformation(message) {
+        this.textInformationsElement.text(message);
+        this.HUDContainerInformation.css({visibility: 'visible'})
+        
+        if(this.HUDContainerInformation.hasClass('fadeOut')) {
+            this.HUDContainerInformation.removeClass('fadeOut');
+        }
+        
+        this.HUDContainerInformation.addClass('fadeIn');
+        
+        // Disparition message
+        setTimeout(() => {
+            this.HUDContainerInformation.removeClass('fadeIn');
+            this.HUDContainerInformation.addClass('fadeOut');
+
+            setTimeout(() => {
+                this.HUDContainerInformation.css({visibility:'hidden'});
+            }, 30);
+        }, 1000);
     }
 }

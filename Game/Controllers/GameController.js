@@ -188,7 +188,7 @@ export class GameController {
     generatePositionPlayer() {
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);
         let randomY = Utils.randomNumber(0, Config.MAP_MAX_Y - 1);
-
+        
         // Test si un player est déja placer a cette place
         this.gameModel.getPlayers().forEach((player) => {
             let diffPlayerPosition = {
@@ -196,12 +196,11 @@ export class GameController {
                 y : Math.abs(player.model.position.y - randomY)
             }
 
-            while(randomX === player.model.position.x && diffPlayerPosition.x < (32 * 3) &&  randomY === player.model.position.y && diffPlayerPosition.y < (32 * 3)) {
+            while(randomX === player.model.position.x && diffPlayerPosition.x < (32 * 3) &&  randomY === player.model.position.y && diffPlayerPosition.y < (32 * 3) &&  this.mapModel[randomY][randomX] === MapModel.WEAPON_DRAGONSPEAR) {
                 randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
                 randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
             }
-        })
-
+        });
 
         while(this.mapModel.collide(randomX, randomY)) {
             randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);

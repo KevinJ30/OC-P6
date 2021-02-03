@@ -119,6 +119,6 @@ export class HUDView {
             setTimeout(() => {
                 this.HUDContainerInformation.css({visibility:'hidden'});
             }, 30);
-        }, 1000);
+        }, 2000);
     }
 }

@@ -234,6 +234,8 @@ export class GameController {
         else {
             this.gameModel.playerSelected = 0
         }
+
+        this.gameModel.notify();
     }
 
     /**

@@ -48,7 +48,8 @@ export class HUDController {
             playerSelectedUsername: this.gameModel.getPlayerSelected().model.username,
             healthPlayerOne: this.gameModel.players[0].model.health,
             healthPlayerTwo: this.gameModel.players[1].model.health,
-            gameStart: this.gameModel.isStarted
+            gameStart: this.gameModel.isStarted,
+            playerSelectedNumber: this.gameModel.playerSelected
         });
 
         this.hudModel.notify();

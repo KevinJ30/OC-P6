@@ -66,7 +66,6 @@ export class HUDView {
         this.playerTwoNameElement.text(hudState.playerTwoName);
         this.textSelectedElement.text(hudState.playerSelectedUsername);
 
-
         // Connect value progress bar
         this.playerOneProgressElement.val(hudState.healthPlayerOne);
         this.playerTwoProgressElement.val(hudState.healthPlayerTwo);
@@ -98,6 +97,14 @@ export class HUDView {
             this.gameContainer.removeClass('hidden');
         } else {
             this.gameContainer.addClass('hidden');
+        }
+
+        if(hudState.playerSelectedNumber === 0) {
+            this.HUDContainerPlayerOne.removeClass('notSelected')
+            this.HUDContainerPlayerTwo.addClass('notSelected')
+        } else {
+            this.HUDContainerPlayerOne.addClass('notSelected')
+            this.HUDContainerPlayerTwo.removeClass('notSelected')
         }
     }
 

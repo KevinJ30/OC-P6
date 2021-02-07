@@ -6,10 +6,22 @@ export class HUDView {
 
         this.drawHudFight()
 
-        this.HUDContainerPlayerOne = $('<div></div>').addClass('player-hud js-player-hud-1').append('<p></p>');
-        this.HUDContainerPlayerTwo = $('<div></div>').addClass('player-hud js-player-hud-2').append('<p></p>');
-        this.playerOneNameElement = this.HUDContainerPlayerOne.children().addClass('player-name js-player1-name');
-        this.playerTwoNameElement = this.HUDContainerPlayerTwo.children().addClass('player-name js-player2-name');
+        this.HUDContainerPlayerOne = $('.js-player-hud-1');
+        this.HUDContainerPlayerTwo = $('.js-player-hud-2');
+        this.playerOneNameElement = $('.js-player1-name');
+        this.playerTwoNameElement = $('.js-player2-name');
+
+        this.playerInfoContainerOne = $('.player1__info');
+        this.playerOneInfoDefendText = this.playerInfoContainerOne.find('.info-defend hidden .text-info-player');
+        this.playerOneInfoAttackText = this.playerInfoContainerOne.find('.info-attack .text-info-player');
+        this.playerOneInfoAttackText.text(0)
+
+        this.playerInfoContainerTwo = $('.player2__info');
+        this.playerTwoInfoDefendText = this.playerInfoContainerTwo.find('.info-defend .text-info-player');
+        this.playerTwoInfoAttackText = this.playerInfoContainerTwo.find('.info-attack .text-info-player');
+        this.playerTwoInfoDefendText.text(0)
+
+
         this.HUDContainerPlayerOne.append('<progress class="health-bar js-hud__health-player1" value="0" max="100"></progress>')
         this.HUDContainerPlayerTwo.append('<progress class="health-bar js-hud__health-player1" value="0" max="100"></progress>')
 
@@ -21,6 +33,21 @@ export class HUDView {
         this.HUDContainer.append(this.HUDContainerPlayerOne);
         this.HUDContainer.append(this.HUDContainerPlayerTwo);
         this.HUDContainer.append(this.HUDContainerInformation);
+
+        this.createShieldElement();
+    }
+
+    createShieldElement() {
+        const shieldIcon = $('<span class="icon-shield></span')
+        const shieldText = $('<span class="text-info"></span>')
+        
+        let container = $('<p class="info info-defend"></p>')
+        container.append(shieldIcon);
+        container.append(shieldText);
+
+        this.infoplayerOneText = shieldText;
+
+        return container;
     }
 
     bindButtonAttack(handler) {
@@ -70,6 +97,21 @@ export class HUDView {
         this.playerOneProgressElement.val(hudState.healthPlayerOne);
         this.playerTwoProgressElement.val(hudState.healthPlayerTwo);
         
+        this.playerOneInfoAttackText.text(hudState.players[0].model.weapon ? hudState.players[0].model.weapon.damage : hudState.players[0].model.damage)
+        
+        if(hudState.players[0].model.defend) {
+            $('.player1__info .info-defend').removeClass('hidden');
+        } else {
+            $('.player1__info .info-defend').addClass('hidden');
+        }
+
+        if(hudState.players[1].model.defend) {
+            $('.player2__info .info-defend').removeClass('hidden');
+        } else {
+            $('.player2__info .info-defend').addClass('hidden');
+        }
+
+
         if(hudState.gameStart) {
             this.gameContainer.removeClass('hidden');
         } else {

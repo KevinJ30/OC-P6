@@ -199,7 +199,7 @@ html, body {
 }
 
 .player-hud .player-name {
-    margin:0; padding:0.5em 0;
+    margin:0; padding:0;
     text-align: center;
     font-family: "Potta One", cursive;
     color:#fff;
@@ -281,6 +281,44 @@ html, body {
 
 .btn:hover {
     background-color:rgba(234, 241, 228, 0.8);
+}
+
+.player-hud .player-hud__info-player{
+
+    display:flex;
+
+}
+
+.player-hud p {
+    padding: 0; margin: 0;
+}
+
+.player-hud .info {
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.icon-shield {
+    width: 30px; height: 30px;
+    position:relative;
+    content:'';
+    display:block;
+    background:url('../ressources/icon-shield.png')no-repeat;
+    background-size:30px 30px;
+}
+
+.icon-sword {
+    width: 30px; height: 30px;
+    position:relative;
+    content:'';
+    display:block;
+    background:url('../ressources/sword.png')no-repeat;
+    background-size:30px 30px;
+}
+
+.hidden {
+    display: none!important;
 }
 
 /**

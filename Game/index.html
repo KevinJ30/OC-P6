@@ -14,7 +14,36 @@
             <p>Start Game</p>
         </div>
         <div class="game_screen">
-            <div class="hud js-HUD"></div>
+            <div class="hud js-HUD">
+                <div class="player-hud js-player-hud-1">
+                    <p class="player-name js-player1-name"></p>
+                    <div class="player-hud__info-player player1__info">
+                        <p class="info info-defend">
+                            <span class="icon-shield"></span>
+                            <span class="text-info-player">0</span>
+                        </p>
+
+                        <p class="info info-attack">
+                            <span class="icon-sword"></span>
+                            <span class="text-info-player">0</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="player-hud js-player-hud-2">
+                    <p class="player-name js-player2-name"></p>
+                    <div class="player-hud__info-player player2__info">
+                        <p class="info info-defend">
+                            <span class="icon-shield"></span>
+                        </p>
+
+                        <p class="info info-attack">
+                            <span class="icon-sword"></span>
+                            <span class="text-info-player">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
             <canvas id="screen" width="640" height="480"></canvas>
         </div>
         <div class="HUD__game-over">

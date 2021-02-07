@@ -17,7 +17,8 @@ export class HUDModel extends Observer {
             textInformations : "Aucune information",
             isFight: false,
             gameStart: false,
-            playerSelectedNumber : 0
+            playerSelectedNumber : 0,
+            players: []
         }   
     }
 

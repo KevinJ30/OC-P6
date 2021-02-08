@@ -98,6 +98,7 @@ export class HUDView {
         this.playerTwoProgressElement.val(hudState.healthPlayerTwo);
         
         this.playerOneInfoAttackText.text(hudState.players[0].model.weapon ? hudState.players[0].model.weapon.damage : hudState.players[0].model.damage)
+        this.playerTwoInfoAttackText.text(hudState.players[1].model.weapon ? hudState.players[1].model.weapon.damage : hudState.players[1].model.damage)
         
         if(hudState.players[0].model.defend) {
             $('.player1__info .info-defend').removeClass('hidden');

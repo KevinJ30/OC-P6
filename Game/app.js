@@ -2,7 +2,6 @@ import {MenuView} from './Views/MenuView.js';
 import {MenuController} from './Controllers/MenuController.js';
 import {GameController} from "./Controllers/GameController.js";
 import {HUDController} from "./Controllers/HUDController.js";
-import {Observer} from "./Observer/Observer.js";
 import {EventManager} from "./EventManager.js";
 import {GameOverModel} from "./Models/GameOverModel.js";
 import {GameOverView} from "./Views/GameOverView.js";

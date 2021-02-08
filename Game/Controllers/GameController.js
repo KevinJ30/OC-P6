@@ -21,18 +21,14 @@ import {ArmorModel} from "../Models/Armors/ArmorModel.js";
 export class GameController {
 
     /**
-     * @param {CanvasRenderingContext2D} context
      * @param {EventManager} eventManager
      **/
-    constructor(context, eventManager) {
-        this.dropItemObserver = new Observer();
-        this.receiveDamageObserver = new Observer();
-        this.gameOverObserver = new Observer()
+    constructor(eventManager) {
         this.eventManager = eventManager;
 
         this.gameView = new GameView();
         this.gameModel = new GameModel();
-        this.mapModel = new MapModel(32, 20, 15, this.dropItemObserver, this.eventManager);
+        this.mapModel = new MapModel(32, 20, 15, this.eventManager);
         this.mapView = new MapView(this.gameView.ctx);
 
         this.background = new Image();
@@ -141,7 +137,7 @@ export class GameController {
             playerSprite.src = playersInfo[i].spriteSheet;
 
             players.push({
-                model : new PlayerModel(this.eventManager, this.receiveDamageObserver, this.ctx, 64, 64, playerSprite, this.mapModel, {}),
+                model : new PlayerModel(this.eventManager, this.ctx, 64, 64, playerSprite, this.mapModel, {}),
                 view : new PlayerView(this.gameView.ctx, '')
             });
 

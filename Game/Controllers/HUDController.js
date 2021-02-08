@@ -1,5 +1,4 @@
 import {HUDView} from "../Views/HUDView.js";
-import {HUDModel} from "../Models/HUDModel.js";
 
 export class HUDController {
 

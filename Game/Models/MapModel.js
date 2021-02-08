@@ -19,7 +19,7 @@ export class MapModel {
      * @param {Observer} dropItemObserver
      * @param {EventManager} eventManager
      */
-    constructor(tileSize, maxTileX, maxTileY, dropItemObserver, eventManager) {
+    constructor(tileSize, maxTileX, maxTileY, eventManager) {
         this.spriteSheet = new Image();
         this.spriteSheet.src = './ressources/tile_map_test.png';
         this.tileSize = tileSize;
@@ -29,7 +29,6 @@ export class MapModel {
         this.mapCollision = [];
         this.mapEvents = [];
         this.generator = null;
-        this.dropItemObserver = dropItemObserver;
         this.eventManager = eventManager;
 
         // Bind this to the method

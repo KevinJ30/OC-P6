@@ -39,7 +39,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (eventManager, receiveDamageObserver, context, sizeX, sizeY, image, mapModel, position) {
+    constructor (eventManager, context, sizeX, sizeY, image, mapModel, position) {
         this.ctx = context;
         this.spriteSheet = image;
         this.mapModel = mapModel;
@@ -59,13 +59,6 @@ export class PlayerModel {
         this.eventManager = eventManager;
         this.weaponSpriteSelect = 0;
         this.isMovement = false;
-
-        /**
-        /**
-         * Observer
-         * @type {Observer}
-         **/
-        this.receiveDamageObserver = receiveDamageObserver;
     }
 
     /**
@@ -91,9 +84,6 @@ export class PlayerModel {
      **/
     receiveDamage(quantity) {
         this.health -= !this.defend ? quantity : quantity / 2;
-
-        // Notifier la vue pour animer le personnage
-        this.receiveDamageObserver.notify(this);
 
        if(this.health <= 0) {
             this.health = 0;

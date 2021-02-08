@@ -113,8 +113,6 @@ export class GameController {
      **/
     createPlayers(numberPlayer) {
         let players = [];
-        let spriteSheet_player1 = './ressources/player.png';
-        let spriteSheet_player2 = './ressources/skeleton.png';
 
         let playersInfo = [
             {

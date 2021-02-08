@@ -65,7 +65,7 @@ export class GameController {
 
     dropItemEvent() {
         this.gameModel.getPlayerSelected().view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
-        this.gameModel.getPlayerSelected().model.setWeapon(new WeaponModel(10));
+        this.gameModel.getPlayerSelected().model.setWeapon(new WeaponModel(Utils.randomNumber(10, 35)));
     }
 
     /**

@@ -64,8 +64,15 @@ export class GameController {
     }
 
     dropItemEvent() {
+        let weapons = [
+            new WeaponModel("Epée rouillé", 10),
+            new WeaponModel("Sabre du desert", 15),
+            new WeaponModel("Lance affûté", 25),
+            new WeaponModel("Lance en fer forgé", 35)
+        ];
+
         this.gameModel.getPlayerSelected().view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
-        this.gameModel.getPlayerSelected().model.setWeapon(new WeaponModel(Utils.randomNumber(10, 35)));
+        this.gameModel.getPlayerSelected().model.setWeapon(weapons[Utils.randomNumber(0, 3)]);
     }
 
     /**

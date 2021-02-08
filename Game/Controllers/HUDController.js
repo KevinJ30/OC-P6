@@ -81,8 +81,9 @@ export class HUDController {
         this.eventManager.trigger('game.defendPlayerEvent');
     }
 
-    handleDropItem() {
-        this.HUDView.drawInformation('Vous avez découvert une arme dans le trésor que vous avez ramasser !')
+    handleDropItem(positionWeapon, player) {
+        const weapon = player.weapon;
+        this.HUDView.drawInformation('Vous venez de ramasser ' + weapon.name + '. Cette arme inflige ' + weapon.damage + ' dégats !');
     }
 
     handleEnterFightEvent() {

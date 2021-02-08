@@ -76,8 +76,6 @@ export class GameController {
         this.mapModel.addGenerator(new Generator(Config.MAP_MAX_X, Config.MAP_MAX_Y, Config.BLANK_TILE, Config.WALL_TILE));
         this.mapModel.build();
         this.initPlayers();
-        console.log(this.gameModel.isStarted);
-        console.log(this.gameModel.players);
 
         // initialise value of the model
         this.gameModel.isStarted = true;
@@ -99,6 +97,8 @@ export class GameController {
             player.model.weaponSpriteSelect = 0;
             player.view.weaponView = null;
         });
+
+        this.checkDistancePlayer(this.gameModel.players[0].model, this.gameModel.players[1].model);
     }
 
     restart() {
@@ -194,7 +194,7 @@ export class GameController {
                 y : Math.abs(player.model.position.y - randomY)
             }
 
-            while(randomX === player.model.position.x && diffPlayerPosition.x < (32 * 3) &&  randomY === player.model.position.y && diffPlayerPosition.y < (32 * 3) &&  this.mapModel[randomY][randomX] === MapModel.WEAPON_DRAGONSPEAR) {
+            while(randomX === player.model.position.x &&  randomY === player.model.position.y &&  this.mapModel[randomY][randomX] === MapModel.WEAPON_DRAGONSPEAR) {
                 randomX = Utils.randomNumber(0, Config.MAP_MAX_X);
                 randomY = Utils.randomNumber(0, Config.MAP_MAX_Y);
             }
@@ -206,6 +206,25 @@ export class GameController {
         }
 
         return {x: randomX * 32, y:randomY * 32, numberTile: PlayerSprite.RIGHT};
+    }
+
+    checkDistancePlayer(player1, player2) {
+        let positionPlayer1 = player1.position;
+        let positionPlayer2 = player2.position;
+
+        // On calcule la distance entre les deux personnage
+        let distanceX = positionPlayer1.x - positionPlayer2.x;
+        let distanceY = positionPlayer1.y - positionPlayer2.y;
+        let distance = (distanceX + distanceY) / 2;
+
+        while(Math.abs(Math.trunc(distance / 32)) < 3) {
+            positionPlayer1 = this.generatePositionPlayer();
+            distanceX = positionPlayer1.x - positionPlayer2.x;
+            distanceY = positionPlayer1.y - positionPlayer2.y;
+            distance = (distanceX + distanceY) / 2;
+        }
+
+        this.gameModel.players[0].model.position = positionPlayer1;
     }
 
 

@@ -23,7 +23,6 @@ export class Drunken {
      * @property {{x, y}} position
      **/
     constructor() {
-        console.log(Config.DRUNKEN_LIFE_MAX);
         this.life = Utils.randomNumber(Config.DRUNKEN_LIFE_MIN, Config.DRUNKEN_LIFE_MAX);
         this.direction = Utils.randomNumber(0, 3);
 

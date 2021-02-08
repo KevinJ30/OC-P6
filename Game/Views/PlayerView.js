@@ -81,38 +81,6 @@ export class PlayerView {
      * @param {PlayerModel} playerModel
      **/
     animateDamage(playerModel) {
-        // let i = 0;
-        // let playerSpriteBuffer = playerModel.spriteSheet;
-        //
-        // let chestSpriteBuffer = playerModel.chest.spriteSheet;
-        // let legsSpriteBuffer = playerModel.legs.spriteSheet;
-        // let footSpriteBuffer = playerModel.foot.spriteSheet;
-        // let weaponSpriteBuffer = this.weaponView !== null ? this.weaponView.spriteSheet : null;
-        //
-        // let animation = setInterval(() => {
-        //     playerModel.spriteSheet = null;
-        //     playerModel.chest.spriteSheet = null;
-        //     playerModel.legs.spriteSheet = null;
-        //     playerModel.foot.spriteSheet = null;
-        //
-        //     if(this.weaponView) {
-        //         this.weaponView.spriteSheet = null;
-        //     }
-        //
-        //     i++;
-        //     if(i > 1) {
-        //         playerModel.spriteSheet = playerSpriteBuffer;
-        //         playerModel.chest.spriteSheet = chestSpriteBuffer;
-        //         playerModel.legs.spriteSheet = legsSpriteBuffer;
-        //         playerModel.foot.spriteSheet = footSpriteBuffer;
-        //
-        //         if(this.weaponView) {
-        //             this.weaponView.spriteSheet = weaponSpriteBuffer;
-        //         }
-        //         clearInterval(animation);
-        //     }
-        // }, 250)
-
         const playerSpriteBuffer = playerModel.spriteSheet;
         const chestSpriteBuffer = playerModel.chest.spriteSheet;
         const legsSpriteBuffer = playerModel.legs.spriteSheet;

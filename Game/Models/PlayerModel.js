@@ -58,6 +58,7 @@ export class PlayerModel {
         this.defend = false;
         this.eventManager = eventManager;
         this.weaponSpriteSelect = 0;
+        this.isMovement = false;
 
         /**
         /**
@@ -147,8 +148,6 @@ export class PlayerModel {
                     /**
                      * Determined direction movement player
                      **/
-
-                    // Movement left Player
                     if(diffPositionX !== 0 && diffPositionY === 0 && diffPositionX < 0) {
                         this.moveLeft(this.position.x + diffPositionX * 32);
 
@@ -177,6 +176,10 @@ export class PlayerModel {
         }
     }
 
+    checkIsMovement() {
+        return this.isMovement;
+    }
+
     dropItem() {
         if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
             this.eventManager.trigger('game.dropItemEvent', null, [this.position, this]);
@@ -190,7 +193,7 @@ export class PlayerModel {
     moveLeft(newPosition) {
         this.playerDirection = PlayerSprite.LEFT;
         this.weaponSpriteSelect = PlayerSprite.LEFT;
-
+        this.isMovement = true;
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
@@ -200,8 +203,8 @@ export class PlayerModel {
                 i++;
             }
             else {
+                this.isMovement = false;
                 this.dropItem();
-
                 this.playerDirection = PlayerSprite.LEFT;
                 this.weaponSpriteSelect = PlayerSprite.LEFT;
                 this.eventManager.trigger('game.changeRoundEvent');
@@ -217,7 +220,7 @@ export class PlayerModel {
     moveRight(newPosition) {
         this.playerDirection = PlayerSprite.RIGHT;
         this.weaponSpriteSelect = PlayerSprite.RIGHT;
-
+        this.isMovement = true;
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.x) {
@@ -227,6 +230,7 @@ export class PlayerModel {
                 i++;
             }
             else{
+                this.isMovement = false;
                 this.dropItem();
                 this.playerDirection = PlayerSprite.RIGHT;
                 this.weaponSpriteSelect = PlayerSprite.RIGHT;
@@ -243,7 +247,7 @@ export class PlayerModel {
     moveUp(newPosition) {
         this.playerDirection = PlayerSprite.UP;
         this.weaponSpriteSelect = PlayerSprite.UP;
-
+        this.isMovement = true;
         let i = 0;
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
@@ -253,6 +257,7 @@ export class PlayerModel {
                 i++;
             }
             else {
+                this.isMovement = false;
                 this.dropItem();
                 this.playerDirection = PlayerSprite.UP;
                 this.weaponSpriteSelect = PlayerSprite.UP;
@@ -270,8 +275,8 @@ export class PlayerModel {
     moveDown(newPosition) {
         this.playerDirection = PlayerSprite.DOWN;
         this.weaponSpriteSelect = PlayerSprite.DOWN;
+        this.isMovement = true;
         let i = 0;
-
         let animate = setInterval(() => {
             if(newPosition !== this.position.y) {
                 // Calculated playerDirection sprite
@@ -281,6 +286,7 @@ export class PlayerModel {
                 i++;
             }
             else {
+                this.isMovement = false;
                 this.dropItem();
                 this.playerDirection = PlayerSprite.DOWN;
                 this.weaponSpriteSelect = PlayerSprite.DOWN;

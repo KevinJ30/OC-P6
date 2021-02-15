@@ -7,6 +7,7 @@ import {GameOverModel} from "./Models/GameOverModel.js";
 import {GameOverView} from "./Views/GameOverView.js";
 import {GameOverController} from "./Controllers/GameOverController.js";
 import { HUDModel } from './Models/HUDModel.js';
+import { HUDView } from './Views/HUDView.js';
 
 window.onload = () => {
     /**
@@ -15,14 +16,15 @@ window.onload = () => {
     let eventManager = new EventManager();
     let gameController = new GameController(eventManager);
     let menuView = new MenuView();
-    let menuController = new MenuController(eventManager, gameController.gameModel, '', menuView);
+    let menuController = new MenuController(eventManager, gameController.gameModel, menuView);
     
     let gameOverModel = new GameOverModel();
     let gameOverView = new GameOverView();
     let gameOverController = new GameOverController(eventManager, gameOverModel, gameOverView);
     
+    let hudView = new HUDView();
     let hudModel = new HUDModel();
-    let HUDCtrl = new HUDController(eventManager, gameController.gameModel, hudModel);
+    let HUDCtrl = new HUDController(eventManager, gameController.gameModel, hudModel, hudView);
     
     document.getElementById('screen').addEventListener('click', (event) => {
         if(!gameController.gameModel.isFight) {

@@ -1,7 +1,6 @@
 export class MenuController {
     
-    constructor (eventManager, gameModel, model, view) {
-        this.model = model;
+    constructor (eventManager, gameModel, view) {
         this.view = view;
         this.gameModel = gameModel;
         this.eventManager = eventManager;

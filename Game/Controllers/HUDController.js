@@ -2,8 +2,8 @@ import {HUDView} from "../Views/HUDView.js";
 
 export class HUDController {
 
-    constructor(eventManager, gameModel, HUDModel) {
-        this.HUDView = new HUDView();
+    constructor(eventManager, gameModel, HUDModel, HUDView) {
+        this.HUDView = HUDView;
         this.gameModel = gameModel;
         this.eventManager = eventManager;
         this.hudModel = HUDModel;

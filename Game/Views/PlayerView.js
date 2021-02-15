@@ -42,20 +42,20 @@ export class PlayerView extends CanvasView {
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
         if(playerModel.spriteSheet) {
-            this.ctx.drawImage(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.spriteSheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
         if(playerModel.chest.spriteSheet && playerModel.legs.spriteSheet && playerModel.foot.spriteSheet) {
-            this.ctx.drawImage(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.ctx.drawImage(playerModel.legs.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            this.ctx.drawImage(playerModel.foot.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.chest.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.legs.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            this.draw(playerModel.foot.spriteSheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
         // Affichage de l'arme
         if(this.weaponView) {
             const sourceXWeapon = Math.floor(weaponSpriteSelect % 9) * 64;
             const sourceYWeapon = Math.floor((weaponSpriteSelect / 9)) *  64;
-            this.weaponView.draw(this.ctx, sourceXWeapon, sourceYWeapon, position.x, position.y, scale);
+            this.draw(this.weaponView.spriteSheet, sourceXWeapon, sourceYWeapon, 64, 64, position.x, position.y, scale * 32, scale * 32);
         }
     }
 

@@ -1,5 +1,4 @@
 import { Config } from '../config/Config.js';
-import {ArmorModel} from "./Armors/ArmorModel.js";
 import {WeaponModel} from "./WeaponModel.js";
 
 export class PlayerSprite {
@@ -29,9 +28,6 @@ export class PlayerModel {
      * Constructor.
      *
      * @param {EventManager} eventManager
-     * @param {Observer} receiveDamageObserver
-     * @param {Observer} dropItemObserver
-     * @param {Observer} roundObserver
      * @param {CanvasRenderingContext2D} context
      * @param {number} sizeX
      * @param {number} sizeY

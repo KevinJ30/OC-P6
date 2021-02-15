@@ -16,6 +16,8 @@ export class Generator {
      * @param wallTileNumber
      **/
     constructor(maxTileX, maxTileY, blankTileNumber, wallTileNumber) {
+        this.drunkenWalk = new DrunkenWalk(3);
+
         this.maxTileX = maxTileX;
         this.maxTileY = maxTileY;
 
@@ -104,9 +106,8 @@ export class Generator {
      **/
     generateGround(coverage) {
         // Number of drunk that are used on the map   
-        let drunkenWalk = new DrunkenWalk(3);
-        drunkenWalk.init();
-        return drunkenWalk.startDrunk(this.map);
+        this.drunkenWalk.init();
+        return this.drunkenWalk.startDrunk(this.map);
     }
 
     generateMapCollision() {

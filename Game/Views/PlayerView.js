@@ -1,6 +1,5 @@
 import {Config} from "../config/Config.js";
 import {WeaponView} from "./Weapon/WeaponView.js";
-import {GameView} from "./GameView.js";
 
 /**
  * Class Player view

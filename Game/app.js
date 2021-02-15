@@ -8,13 +8,18 @@ import {GameOverView} from "./Views/GameOverView.js";
 import {GameOverController} from "./Controllers/GameOverController.js";
 import { HUDModel } from './Models/HUDModel.js';
 import { HUDView } from './Views/HUDView.js';
+import {GameModel} from './Models/GameModel.js'
+import {GameView} from './views/GameView.js'
 
 window.onload = () => {
     /**
      * Boucle de jeu
      **/
     let eventManager = new EventManager();
-    let gameController = new GameController(eventManager);
+
+    let gameModel = new GameModel();
+    let gameView = new GameView();
+    let gameController = new GameController(eventManager, gameModel, gameView);
     let menuView = new MenuView();
     let menuController = new MenuController(eventManager, gameController.gameModel, menuView);
     

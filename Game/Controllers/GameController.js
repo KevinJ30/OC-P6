@@ -3,13 +3,10 @@ import { Config } from "../config/Config.js";
 import {MapModel} from "../Models/MapModel.js";
 import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {PlayerView} from "../Views/PlayerView.js";
-import {Observer} from "../Observer/Observer.js";
 import { Generator } from '../Map/Generator.js';
 import {MapView} from "../Views/MapView.js";
 import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
-import {GameView} from "../Views/GameView.js";
-import {GameModel} from "../Models/GameModel.js";
 import {ArmorModel} from "../Models/Armors/ArmorModel.js";
 
 /**
@@ -23,11 +20,11 @@ export class GameController {
     /**
      * @param {EventManager} eventManager
      **/
-    constructor(eventManager) {
+    constructor(eventManager, gameModel, gameView) {
         this.eventManager = eventManager;
 
-        this.gameView = new GameView();
-        this.gameModel = new GameModel();
+        this.gameView = gameView;
+        this.gameModel = gameModel;
         this.mapModel = new MapModel(32, 20, 15, this.eventManager);
         this.mapView = new MapView(this.gameView.ctx);
 

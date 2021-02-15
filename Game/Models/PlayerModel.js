@@ -9,7 +9,6 @@ export class PlayerSprite {
 }
 
 /**
- * @property {CanvasRenderingContext2D} ctx
  * @property {HTMLImageElement} image
  * @property {Map} map
  * @property {boolean} selectedPlayer
@@ -35,8 +34,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (eventManager, context, sizeX, sizeY, image, mapModel, position) {
-        this.ctx = context;
+    constructor (eventManager, sizeX, sizeY, image, mapModel, position) {
         this.spriteSheet = image;
         this.mapModel = mapModel;
         this.selectedPlayer = true;

@@ -134,7 +134,7 @@ export class GameController {
             playerSprite.src = playersInfo[i].spriteSheet;
 
             players.push({
-                model : new PlayerModel(this.eventManager, this.ctx, 64, 64, playerSprite, this.mapModel, {}),
+                model : new PlayerModel(this.eventManager, 64, 64, playerSprite, this.mapModel, {}),
                 view : new PlayerView(this.gameView.ctx, '')
             });
 

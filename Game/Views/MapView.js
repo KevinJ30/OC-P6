@@ -1,10 +1,10 @@
-import {Config} from "../config/Config.js";
-import {GameView} from "./GameView.js";
+import {Config} from '../config/Config.js';
+import {CanvasView} from './CanvasView.js';
 
-export class MapView {
+export class MapView extends CanvasView {
 
-    constructor(context) {
-        this.context = context;
+    constructor() {
+        super();
     }
 
     addGridToMap() {
@@ -24,7 +24,7 @@ export class MapView {
      * @param {number} maxTileY
      * @param {number} maxTileX
      **/
-    draw(spriteSheet,map, maxTileX, maxTileY) {
+    drawMap(spriteSheet, map, maxTileX, maxTileY) {
         const tileSize = Config.TILE_SIZE;
 
         for(let i = 0; i < maxTileY; i++) {
@@ -39,9 +39,9 @@ export class MapView {
                 const sourceX = Math.floor(a % Config.MAX_NUMBER_TILESET) * tileSize;
                 const sourceY = Math.floor((a / Config.MAX_NUMBER_TILESET)) *  tileSize;
 
-                this.context.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
-                this.context.strokeStyle = "rgba(0, 0, 0, 0.7)";
-                this.context.strokeRect(positionTile.x, positionTile.y, tileSize, tileSize);
+                this.draw(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
+                this.ctx.strokeStyle = "rgba(0, 0, 0, 0.7)";
+                this.ctx.strokeRect(positionTile.x, positionTile.y, tileSize, tileSize);
             }
         }
     }
@@ -69,7 +69,7 @@ export class MapView {
                     const sourceX = Math.floor(a % Config.MAX_NUMBER_TILESET) * tileSize;
                     const sourceY = Math.floor((a / Config.MAX_NUMBER_TILESET)) *  tileSize;
 
-                    this.context.drawImage(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
+                    this.draw(spriteSheet, sourceX, sourceY, tileSize, tileSize, positionTile.x, positionTile.y, tileSize, tileSize);
                 }
             }
         }

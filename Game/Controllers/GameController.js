@@ -135,7 +135,7 @@ export class GameController {
 
             players.push({
                 model : new PlayerModel(this.eventManager, 64, 64, playerSprite, this.mapModel, {}),
-                view : new PlayerView(this.gameView.ctx, '')
+                view : new PlayerView('')
             });
 
             players[i].model.chest = playersInfo[i].chest;
@@ -263,7 +263,7 @@ export class GameController {
         let playerSelected = this.gameModel.playerSelected;
 
         // On affiche la map que si les joueurs peuvent ce déplacer sur la map
-        this.mapView.draw(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
+        this.mapView.drawMap(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
         this.mapView.drawEvents(this.mapModel.spriteSheet, this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
 
         // Affiche la grille pour le joueur selectionné
@@ -272,7 +272,7 @@ export class GameController {
         }
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.map, this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
+            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
         }
 
         return true;

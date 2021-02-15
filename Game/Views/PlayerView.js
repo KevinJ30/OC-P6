@@ -1,22 +1,22 @@
 import {Config} from "../config/Config.js";
 import {WeaponView} from "./Weapon/WeaponView.js";
+import {CanvasView} from "./CanvasView.js"
+
 
 /**
  * Class Player view
  *
  * @property {HTMLImageElement} spriteSheet
  **/
-export class PlayerView {
+export class PlayerView extends CanvasView {
 
     /**
-     *
-     * @param {CanvasRenderingContext2D} context
-     * @param {string} spriteSheetSrc
-     */
-    constructor(context, spriteSheetSrc) {
-        this.weaponView = null;
-        this.ctx = context;
+     * Constructor.
+     **/
+    constructor() {
+        super();
 
+        this.weaponView = null;
         this.animateDamage = this.animateDamage.bind(this);
     }
 
@@ -31,13 +31,12 @@ export class PlayerView {
     /**
      *
      * @param {PlayerModel} playerModel
-     * @param {MapModel} mapModel
      * @param {{x: number, y: number}} position
      * @param {number} playerDirection
      * @param {number} [scale]
      * @param weaponSpriteSelect
      **/
-    update(playerModel, mapModel, position, playerDirection, scale, weaponSpriteSelect) {
+    update(playerModel, position, playerDirection, scale, weaponSpriteSelect) {
         const numberTile = playerDirection;
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;

@@ -1,6 +1,6 @@
 export class CanvasView {
 
-    constructor() {
+    constructor(canvasHtml) {
         this.ctx = $('#screen')[0].getContext('2d');
     }
 

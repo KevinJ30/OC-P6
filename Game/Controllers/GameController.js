@@ -8,6 +8,7 @@ import {MapView} from "../Views/MapView.js";
 import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
 import {ArmorModel} from "../Models/Armors/ArmorModel.js";
+import { ArmorView } from '../Views/Armor/ArmorView.js';
 
 /**
  * @property {Map} map
@@ -27,10 +28,6 @@ export class GameController {
         this.gameModel = gameModel;
         this.mapModel = new MapModel(32, 20, 15, this.eventManager);
         this.mapView = new MapView(this.gameView.ctx);
-
-        this.background = new Image();
-        this.background.src = './ressources/background_fight.png';
-
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
@@ -117,30 +114,39 @@ export class GameController {
         let playersInfo = [
             {
                 spriteSheet: './ressources/player.png',
-                chest: new ArmorModel(30, './ressources/chestArmor1.png'),
-                legs: new ArmorModel(15, './ressources/legsArmor1.png'),
-                foot: new ArmorModel(10, './ressources/footArmor1.png'),
+                chest: new ArmorModel(30),
+                chestView: new ArmorView('./ressources/chestArmor1.png'),
+                legs: new ArmorModel(15),
+                legsView: new ArmorView('./ressources/legsArmor1.png'),
+                foot: new ArmorModel(10),
+                footView: new ArmorView('./ressources/footArmor1.png'),
             },
             {
                 spriteSheet: './ressources/skeleton.png',
-                chest: new ArmorModel(30, './ressources/chestArmor2.png'),
-                legs: new ArmorModel(15, './ressources/legsArmor2.png'),
-                foot: new ArmorModel(10, './ressources/footArmor2.png'),
+                chest: new ArmorModel(30),
+                chestView: new ArmorView('./ressources/chestArmor2.png'),
+                legs: new ArmorModel(15),
+                legsView: new ArmorView('./ressources/legsArmor2.png'),
+                foot: new ArmorModel(10),
+                footView: new ArmorView('./ressources/footArmor2.png'),
             },
         ]
 
         for(let i = 0; i < numberPlayer; i++) {
-            let playerSprite = new Image();
-            playerSprite.src = playersInfo[i].spriteSheet;
-
             players.push({
-                model : new PlayerModel(this.eventManager, 64, 64, playerSprite, this.mapModel, {}),
-                view : new PlayerView('')
+                model : new PlayerModel(this.eventManager, 64, 64, this.mapModel, {}),
+                view : new PlayerView(playersInfo[i].spriteSheet)
             });
 
+            // Model
             players[i].model.chest = playersInfo[i].chest;
             players[i].model.legs = playersInfo[i].legs;
             players[i].model.foot = playersInfo[i].foot;
+            
+            // View
+            players[i].view.chest = playersInfo[i].chestView;
+            players[i].view.legs = playersInfo[i].legsView;
+            players[i].view.foot = playersInfo[i].footView;
 
             // Init default name players
             players[i].model.setName('Player ' + i);
@@ -259,31 +265,28 @@ export class GameController {
      * @return {boolean} endGame
      **/
     update() {
-        let players = this.gameModel.getPlayers();
-        let playerSelected = this.gameModel.playerSelected;
-
         // On affiche la map que si les joueurs peuvent ce déplacer sur la map
         this.mapView.drawMap(this.mapModel.spriteSheet, this.mapModel.map, this.mapModel.maxTileX, this.mapModel.maxTileY);
         this.mapView.drawEvents(this.mapModel.spriteSheet, this.mapModel.mapEvents, this.mapModel.maxTileX, this.mapModel.maxTileY);
 
         // Affiche la grille pour le joueur selectionné
         if(!this.gameModel.getPlayerSelected().model.checkIsMovement()) {
-            this.gameModel.getPlayerSelected().view.addGridToPlayer(this.mapModel, this.gameModel.getPlayerSelected().model.position);
+            this.gameModel.getPlayerSelected().view.addGridToPlayer(this.gameView, this.mapModel, this.gameModel.getPlayerSelected().model.position);
         }
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
+            this.gameModel.getPlayerIndex(i).view.update(this.gameView, this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
         }
 
         return true;
     }
 
     updateFight() {
-        this.gameView.draw(this.background, 0, 0, 1104, 621, 0, 0, Config.MAP_MAX_X * 32, Config.MAP_MAX_Y * 32);
+        this.gameView.draw(this.gameView.background, 0, 0, 1104, 621, 0, 0, Config.MAP_MAX_X * 32, Config.MAP_MAX_Y * 32);
 
         // Affichage des deux joueur
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
+            this.gameModel.getPlayerIndex(i).view.update(this.gameView, this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
         }
 
         if(this.gameOver() && !this.gameModel.gameOver)

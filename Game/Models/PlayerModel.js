@@ -34,8 +34,7 @@ export class PlayerModel {
      * @param {MapModel} mapModel
      * @param {x, y, numberTile} position
      **/
-    constructor (eventManager, sizeX, sizeY, image, mapModel, position) {
-        this.spriteSheet = image;
+    constructor (eventManager, sizeX, sizeY, mapModel, position) {
         this.mapModel = mapModel;
         this.selectedPlayer = true;
         this.size = { x: sizeX, y: sizeY };

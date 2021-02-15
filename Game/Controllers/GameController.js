@@ -5,10 +5,8 @@ import {PlayerModel, PlayerSprite} from "../Models/PlayerModel.js";
 import {PlayerView} from "../Views/PlayerView.js";
 import { Generator } from '../Map/Generator.js';
 import {MapView} from "../Views/MapView.js";
-import {WeaponView} from "../Views/Weapon/WeaponView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
 import {ArmorModel} from "../Models/Armors/ArmorModel.js";
-import { ArmorView } from '../Views/Armor/ArmorView.js';
 
 /**
  * @property {Map} map

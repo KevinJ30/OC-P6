@@ -1,5 +1,4 @@
 import {Config} from "../config/Config.js";
-import {WeaponView} from "./Weapon/WeaponView.js";
 import {Spritesheet} from "./Spritesheet.js";
 
 /**

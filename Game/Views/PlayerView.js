@@ -7,27 +7,27 @@ import {Spritesheet} from "./Spritesheet.js";
  *
  * @property {HTMLImageElement} spriteSheet
  **/
-export class PlayerView extends Spritesheet {
+export class PlayerView {
 
     /**
      * Constructor.
      **/
     constructor(src) {
-        super(src);
-
         this.weaponView = null;
         this.animateDamage = this.animateDamage.bind(this);
-        this.chest = null;
-        this.legs = null;
-        this.foot = null;
+        this.sprite = new Spritesheet(src);
+    }
+
+    addArmorSprite(name, src) {
+        this[name] = new Spritesheet(src);
     }
 
     /**
      * Add weapon to the player
      * @param {WeaponView} weapon
      **/
-    setWeapon(weapon) {
-        this.weaponView = weapon;
+    setWeapon(src) {
+        this.weaponView = new Spritesheet(src);
     }
 
     /**
@@ -43,21 +43,21 @@ export class PlayerView extends Spritesheet {
         const sourceX = Math.floor(numberTile % 9) * 64;
         const sourceY = Math.floor((numberTile / 9)) *  64;
 
-        if(this.spritesheet) {
-            gameView.draw(this.spritesheet, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+        if(this.sprite) {
+            gameView.draw(this.sprite.image, sourceX, sourceY, 64, 64, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
-
+        
         if(this.chest && this.legs && this.foot) {
-            gameView.draw(this.chest.spritesheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            gameView.draw(this.legs.spritesheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
-            gameView.draw(this.foot.spritesheet, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            gameView.draw(this.chest.image, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            gameView.draw(this.legs.image, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
+            gameView.draw(this.foot.image, sourceX, sourceY, playerModel.size.x, playerModel.size.y, position.x, position.y, Config.TILE_SIZE * scale, Config.TILE_SIZE * scale);
         }
 
         // Affichage de l'arme
         if(this.weaponView) {
             const sourceXWeapon = Math.floor(weaponSpriteSelect % 9) * 64;
             const sourceYWeapon = Math.floor((weaponSpriteSelect / 9)) *  64;
-            gameView.draw(this.weaponView.spritesheet, sourceXWeapon, sourceYWeapon, 64, 64, position.x, position.y, scale * 32, scale * 32);
+            gameView.draw(this.weaponView.image, sourceXWeapon, sourceYWeapon, 64, 64, position.x, position.y, scale * 32, scale * 32);
         }
     }
 
@@ -81,14 +81,14 @@ export class PlayerView extends Spritesheet {
      * @param {PlayerModel} playerModel
      **/
     animateDamage(playerModel) {
-        const playerSpriteBuffer = this.spritesheet;
+        const playerSpriteBuffer = this.sprite;
         const chestSpriteBuffer = this.chest;
         const legsSpriteBuffer = this.legs;
         const footSpriteBuffer = this.foot;
         const weaponSpriteBuffer = this.weaponView !== null ? this.weaponView : null;
 
 
-        this.spritesheet = null;
+        this.sprite = null;
         this.chest = null;
         this.legs = null;
         this.foot = null;
@@ -98,7 +98,7 @@ export class PlayerView extends Spritesheet {
         }
 
         setTimeout(() => {
-            this.spritesheet = playerSpriteBuffer;
+            this.sprite = playerSpriteBuffer;
             this.chest = chestSpriteBuffer;
             this.legs = legsSpriteBuffer;
             this.foot = footSpriteBuffer;

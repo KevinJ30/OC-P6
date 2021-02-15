@@ -1,8 +1,8 @@
 export class Spritesheet{
 
     constructor(src) {
-        this.spritesheet = new Image();
-        this.spritesheet.src = src;
+        this.image = new Image();
+        this.image.src = src;
     }
 
 }

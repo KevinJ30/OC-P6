@@ -61,7 +61,7 @@ export class GameController {
             new WeaponModel("Lance en fer forgé", 35)
         ];
 
-        this.gameModel.getPlayerSelected().view.setWeapon(new WeaponView('./ressources/dragonspear.png'));
+        this.gameModel.getPlayerSelected().view.setWeapon('./ressources/dragonspear.png');
         this.gameModel.getPlayerSelected().model.setWeapon(weapons[Utils.randomNumber(0, 3)]);
     }
 
@@ -115,20 +115,20 @@ export class GameController {
             {
                 spriteSheet: './ressources/player.png',
                 chest: new ArmorModel(30),
-                chestView: new ArmorView('./ressources/chestArmor1.png'),
+                chestView: './ressources/chestArmor1.png',
                 legs: new ArmorModel(15),
-                legsView: new ArmorView('./ressources/legsArmor1.png'),
+                legsView: './ressources/legsArmor1.png',
                 foot: new ArmorModel(10),
-                footView: new ArmorView('./ressources/footArmor1.png'),
+                footView: './ressources/footArmor1.png',
             },
             {
                 spriteSheet: './ressources/skeleton.png',
                 chest: new ArmorModel(30),
-                chestView: new ArmorView('./ressources/chestArmor2.png'),
+                chestView: './ressources/chestArmor2.png',
                 legs: new ArmorModel(15),
-                legsView: new ArmorView('./ressources/legsArmor2.png'),
+                legsView: './ressources/legsArmor2.png',
                 foot: new ArmorModel(10),
-                footView: new ArmorView('./ressources/footArmor2.png'),
+                footView: './ressources/footArmor2.png',
             },
         ]
 
@@ -144,9 +144,9 @@ export class GameController {
             players[i].model.foot = playersInfo[i].foot;
             
             // View
-            players[i].view.chest = playersInfo[i].chestView;
-            players[i].view.legs = playersInfo[i].legsView;
-            players[i].view.foot = playersInfo[i].footView;
+            players[i].view.addArmorSprite('chest', playersInfo[i].chestView)
+            players[i].view.addArmorSprite('legs', playersInfo[i].legsView)
+            players[i].view.addArmorSprite('foot', playersInfo[i].footView)
 
             // Init default name players
             players[i].model.setName('Player ' + i);

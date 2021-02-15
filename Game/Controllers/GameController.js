@@ -279,7 +279,7 @@ export class GameController {
     }
 
     updateFight() {
-        this.gameView.drawFight(this.background);
+        this.gameView.draw(this.background, 0, 0, 1104, 621, 0, 0, Config.MAP_MAX_X * 32, Config.MAP_MAX_Y * 32);
 
         // Affichage des deux joueur
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {

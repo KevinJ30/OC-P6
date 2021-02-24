@@ -9,7 +9,7 @@ import {GameOverController} from "./Controllers/GameOverController.js";
 import { HUDModel } from './Models/HUDModel.js';
 import { HUDView } from './Views/HUDView.js';
 import {GameModel} from './Models/GameModel.js'
-import {GameView} from './views/GameView.js'
+import {GameView} from './Views/GameView.js'
 
 window.onload = () => {
     /**

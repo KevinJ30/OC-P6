@@ -8,32 +8,54 @@ import {MapView} from "../Views/MapView.js";
 import {WeaponModel} from "../Models/WeaponModel.js";
 import {ArmorModel} from "../Models/Armors/ArmorModel.js";
 
+const WEAPONS = [
+    new WeaponModel("Epée rouillé", 10),
+    new WeaponModel("Sabre du desert", 15),
+    new WeaponModel("Lance affûté", 25),
+    new WeaponModel("Lance en fer forgé", 35)
+];
+
+
 /**
- * @property {Map} map
- * @property {CanvasRenderingContext2D} ctx
- * @property {Array} player
- * @property {InputController} input
+ * Classe GameController créer par Joudrier Kevin
+ * 
+ * @property {EventManager} eventManager : Contient tout les événements
+ * @property {GameView} gameView : Représente la vue du controller Game
+ * @property {GameModel} gameModel : Modéle du controller Game
+ * @property {MapModel} mapModel : Modèle de la map
+ * @property {MapView} mapView : vue de la map
  **/
 export class GameController {
 
     /**
-     * @param {EventManager} eventManager
+     * Constructeur de la classe
+     * 
+     * @param {EventManager} eventManager : Liste des événements
+     * @param {GameModel} gameModel : Modèle du controller
+     * @param {GameView} gameView : Vue du controller
      **/
     constructor(eventManager, gameModel, gameView) {
         this.eventManager = eventManager;
-
         this.gameView = gameView;
         this.gameModel = gameModel;
+
+        // Initialisation de la map
         this.mapModel = new MapModel(32, 20, 15, this.eventManager);
         this.mapView = new MapView(this.gameView.ctx);
 
-        this.bindingMethodOfClass();
+        this.bindMethodOfClass();
         this.allSubscribeToObserver();
-
+        
+        // Création des deux joueurs
         this.gameModel.players = this.createPlayers(2);
     }
 
-    bindingMethodOfClass() {
+    /**
+     * Lie la class méthode des évenements
+     * 
+     * @return {void}
+     **/
+    bindMethodOfClass() {
         this.changeRoundEvent = this.changeRoundEvent.bind(this);
         this.dropItemEvent = this.dropItemEvent.bind(this);
         this.defendPlayerEvent = this.defendPlayerEvent.bind(this);
@@ -42,6 +64,11 @@ export class GameController {
         this.start = this.start.bind(this);
     }
 
+    /**
+     * Souscriptions aux événement
+     * 
+     * @return {void}
+     **/
     allSubscribeToObserver() {
         this.eventManager.attach('game.changeRoundEvent', this.changeRoundEvent, 0);
         this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0);
@@ -51,20 +78,20 @@ export class GameController {
         this.eventManager.attach('game.startGameEvent', this.start, 0);
     }
 
+    /**
+     * Evénement rammassage d'un trésor de guerre sur le sol de la map
+     * 
+     * @return {void}
+     **/
     dropItemEvent() {
-        let weapons = [
-            new WeaponModel("Epée rouillé", 10),
-            new WeaponModel("Sabre du desert", 15),
-            new WeaponModel("Lance affûté", 25),
-            new WeaponModel("Lance en fer forgé", 35)
-        ];
-
         this.gameModel.getPlayerSelected().view.setWeapon('./ressources/dragonspear.png');
-        this.gameModel.getPlayerSelected().model.setWeapon(weapons[Utils.randomNumber(0, 3)]);
+        this.gameModel.getPlayerSelected().model.setWeapon(WEAPONS[Utils.randomNumber(0, 3)]);
     }
 
     /**
-     * start the game playing
+     * Démarrage d'une partie
+     * 
+     * @return {void}
      **/
     start() {
         // Init your map
@@ -80,6 +107,11 @@ export class GameController {
         this.gameModel.notify();
     }
 
+    /**
+     * Intialisation des joueurs au démarrage de la partie
+     * 
+     * @return {void}
+     **/
     initPlayers() {
         this.gameModel.players[0].selectedPlayer = true;
 
@@ -96,19 +128,25 @@ export class GameController {
         this.checkDistancePlayer(this.gameModel.players[0].model, this.gameModel.players[1].model);
     }
 
+    /**
+     * Redemarre une nouvelle partie
+     * 
+     * @return {void}
+     **/
     restart() {
         this.start();
     }
 
     /**
-     * Create list of the new player
+     * Créer une liste de nouveaux joueurs
      *
-     * @param {number} numberPlayer
-     * @return {Array} : list of the players
+     * @param {number} numberPlayer : Nombre de joueurs
+     * @return {Array} : Liste des joueurs crée
      **/
     createPlayers(numberPlayer) {
         let players = [];
 
+        // Inforamtions des joueurs
         let playersInfo = [
             {
                 spriteSheet: './ressources/player.png',
@@ -153,6 +191,11 @@ export class GameController {
         return players;
     }
 
+    /**
+     * Evénement de défense d'un joueurs
+     * 
+     * @return {void}
+     **/
     defendPlayerEvent() {
         this.gameModel.getPlayerSelected().model.defend = true;
         this.eventManager.trigger('game.changeRoundEvent');
@@ -160,10 +203,17 @@ export class GameController {
     }
 
     /**
-     * Event player enter the fight
+     * Evénement démarrage de la phase de combat
+     * 
+     * @return {void}
      **/
     enterFightEvent() {
-        // Change position player
+        /**
+         * Déplace les personnages dans une zone
+         * Change la directions des personnages
+         **/
+
+        // Player 1
         this.gameModel.players[0].model.position.x = 80;
         this.gameModel.players[0].model.position.y = 220;
         this.gameModel.players[0].model.playerDirection = PlayerSprite.RIGHT;
@@ -171,7 +221,8 @@ export class GameController {
         if(this.gameModel.players[0].model.weapon && this.gameModel.players[0].view.weaponView){
             this.gameModel.players[0].view.weaponView.spriteSelected = PlayerSprite.RIGHT;
         }
-
+        
+        // Player 2
         this.gameModel.players[1].model.position.x = 480;
         this.gameModel.players[1].model.position.y = 220;
         this.gameModel.players[1].model.playerDirection = PlayerSprite.LEFT;
@@ -182,10 +233,8 @@ export class GameController {
     }
 
     /**
-     * Generate random position for the player
-     * 
-     * @param {Array<PlayerView>} players
-     * @returns {{x: number, y: number}}
+     * Génération d'une position aléatoire d'un personnage sur la map
+     * @returns {{x: number, y: number}} : Position du personnage
      **/
     generatePositionPlayer() {
         let randomX = Utils.randomNumber(0, Config.MAP_MAX_X - 1);
@@ -212,6 +261,15 @@ export class GameController {
         return {x: randomX * 32, y:randomY * 32, numberTile: PlayerSprite.RIGHT};
     }
 
+    /**
+     * Vérifie la distance entre les deux personnages
+     * Si les deux sont trop rapproché ont calcule une nouvelle position
+     * 
+     * @param {PlayerModel} player1
+     * @param {PlayerModel} player2
+     * 
+     * @return {void}
+     **/
     checkDistancePlayer(player1, player2) {
         let positionPlayer1 = player1.position;
         let positionPlayer2 = player2.position;
@@ -220,7 +278,11 @@ export class GameController {
         let distanceX = positionPlayer1.x - positionPlayer2.x;
         let distanceY = positionPlayer1.y - positionPlayer2.y;
         let distance = (distanceX + distanceY) / 2;
-
+        
+        /**
+         * Tant que la distance est inférieure a 3 case
+         * on calcule une nouvelle position
+         **/
         while(Math.abs(Math.trunc(distance / 32)) < 3) {
             positionPlayer1 = this.generatePositionPlayer();
             distanceX = positionPlayer1.x - positionPlayer2.x;
@@ -233,14 +295,16 @@ export class GameController {
 
 
     /**
-     * Configure the change of a round game
+     * Evénement changement du tour
+     * 
+     * @return {void}
      **/
     changeRoundEvent() {
         const player1 = this.gameModel.getPlayerSelected();
         const player2 = this.gameModel.getPlayerNotSelected();
 
         /**
-         * Detect player conflict
+         * Vérifie si il y a un conflit entre les deux joueurs
          **/
         if(this.detectPlayerConflict(player1, player2)) {
             this.eventManager.trigger('game.enterFightEvent');
@@ -259,8 +323,9 @@ export class GameController {
     }
 
     /**
-     * Game loop
-     * @return {boolean} endGame
+     * Boucle du jeu pour la phase renforcement des joueurs
+     * 
+     * @return {boolean}
      **/
     update() {
         // On affiche la map que si les joueurs peuvent ce déplacer sur la map
@@ -279,6 +344,11 @@ export class GameController {
         return true;
     }
 
+    /**
+     * Boucle du jeu pour la phase d'attaque
+     * 
+     * @return {boolean}
+     **/
     updateFight() {
         this.gameView.draw(this.gameView.background, 0, 0, 1104, 621, 0, 0, Config.MAP_MAX_X * 32, Config.MAP_MAX_Y * 32);
 
@@ -298,7 +368,7 @@ export class GameController {
     }
 
     /**
-     * Detect player conflict on the map
+     * Vérifie le conflit entre les personnages sur la map
      **/
     detectPlayerConflict(player1, player2) {
         const xAbs = Math.abs(player1.model.position.x - player2.model.position.x);
@@ -309,6 +379,11 @@ export class GameController {
         return distance <= 32;
     }
 
+    /**
+     * Vérifie si la partie est terminé
+     * 
+     * @return {number}
+     **/
     gameOver() {
         let isDeadPlayer = 0;
         this.gameModel.getPlayers().forEach((player) => {

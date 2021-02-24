@@ -1,0 +1,13 @@
+@startuml
+    title Life Cycle Game
+
+    (*) --> "Initialisation Partie"
+        --> "Execution de la methode update" as test
+
+    if "Entre en combat" then
+        ->[True] "state : fight"
+    else
+        ->[False] test
+    Endif
+
+@enduml

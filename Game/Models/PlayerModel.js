@@ -207,7 +207,7 @@ export class PlayerModel {
      **/
     dropItem() {
         if(this.mapModel.mapEvents[this.position.y / 32][this.position.x / 32]) {
-            this.eventManager.trigger('game.dropItemEvent', null, [this.position, this]);
+            this.eventManager.trigger('game.dropItemEvent', [this.position, this]);
         }
     }
 

@@ -145,17 +145,20 @@ export class HUDView {
      * @return {void} 
      **/
     update(hudState) {
+        // Affihce le nom des joueurs
         this.playerOneNameElement.text(hudState.playerOneName);
         this.playerTwoNameElement.text(hudState.playerTwoName);
         this.textSelectedElement.text(hudState.playerSelectedUsername);
 
-        // Connect value progress bar
+        // Synchronise la valeur de la progress bar avec la vie des joueurs
         this.playerOneProgressElement.val(hudState.healthPlayerOne);
         this.playerTwoProgressElement.val(hudState.healthPlayerTwo);
         
+        // Affiche les informations d'attaque
         this.playerOneInfoAttackText.text(hudState.players[0].model.weapon ? hudState.players[0].model.weapon.damage : hudState.players[0].model.damage)
         this.playerTwoInfoAttackText.text(hudState.players[1].model.weapon ? hudState.players[1].model.weapon.damage : hudState.players[1].model.damage)
         
+        // Affiche l'icone de defense si le joueur clique sur le bouton se défendre
         if(hudState.players[0].model.defend) {
             $('.player1__info .info-defend').removeClass('hidden');
         } else {
@@ -168,13 +171,14 @@ export class HUDView {
             $('.player2__info .info-defend').addClass('hidden');
         }
 
-
+        // Si la partie démarre on affiche le plateau de jeu
         if(hudState.gameStart) {
             this.gameContainer.removeClass('hidden');
         } else {
             this.gameContainer.addClass('hidden'); 
         }
 
+        // Affiche les infmrations
         if(hudState.displayInformations) {
             this.HUDContainerInformation.addClass('display');
         }
@@ -183,6 +187,7 @@ export class HUDView {
             this.HUDContainerInformation.removeClass('display');
         }
 
+        // Affiche le plateau de combat
         if(hudState.isFight) {
             this.HUDFightContainer.removeClass('hidden');
             this.HUDFightSelectedContainer.removeClass('hidden');
@@ -192,12 +197,14 @@ export class HUDView {
             this.HUDFightSelectedContainer.addClass('hidden');
         }
 
+        // Affiche le conteneur du jeu
         if(hudState.displayGameContainer) {
             this.gameContainer.removeClass('hidden');
         } else {
             this.gameContainer.addClass('hidden');
         }
 
+        // Affiche le joueur qui est en train de jouer son tour
         if(hudState.playerSelectedNumber === 0) {
             this.HUDContainerPlayerOne.removeClass('notSelected')
             this.HUDContainerPlayerTwo.addClass('notSelected')

@@ -1,14 +1,13 @@
 import {Observer} from "../Observer/Observer.js";
 
 /**
- * Manage data of the GameController
- * class GameModel
+ * Classe GameModel créer par Joudrier Kevin
  *
- * @property {Map} map
- * @property {Array} players
- * @property {number} playerSelected
- * @property {boolean} isStarted
- * @property {boolean} isFight
+ * @property {Map} map : Tableaux contenant les données de la map
+ * @property {Array} players : Tableaux contenant les joueurs de la partie
+ * @property {number} playerSelected : Joueur séléctionner pendant la partie
+ * @property {boolean} isStarted : Statue correspondant au lancement de la partie
+ * @property {boolean} isFight : Statue correspondant a la phase de combat
  **/
 export class GameModel extends Observer {
 
@@ -24,15 +23,18 @@ export class GameModel extends Observer {
     }
 
     /**
-     *
+     * Ajoute un joueur
+     * 
      * @param {{view: PlayerView, model: PlayerModel}} player
+     * @return {void}
      **/
     addPlayer(player) {
         this.players.push(player);
     }
 
     /**
-     *
+     * Retourne le joueur par son index dans le tableaux
+     * 
      * @param {number} index
      * @returns {Object}
      **/
@@ -41,7 +43,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return array of the player
+     * Retourne le tableau de joueur
+     * 
      * @returns {Array}
      **/
     getPlayers() {
@@ -49,7 +52,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return player selected
+     * Retourne le joueur séléctionné
+     * 
      * @returns {Object}
      **/
     getPlayerSelected() {
@@ -57,7 +61,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return the player who is not selected
+     * Retourne le joueur qui n'est pas selectionné
+     * 
      * @returns {Object}
      **/
     getPlayerNotSelected(){
@@ -65,7 +70,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * return number of the player
+     * Retourne le nombre de dans la partie
+     * 
      * @returns {number}
      **/
     countPlayer() {
@@ -73,7 +79,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return model with player selected index
+     * Retourne le model du joueur par son index
+     * 
      * @param index
      **/
     getPlayerModelWithIndex(index) {
@@ -81,7 +88,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return the game started
+     * Retourne si la partie est démarré
+     * 
      * @returns {boolean}
      **/
     getIsStarted() {
@@ -89,7 +97,8 @@ export class GameModel extends Observer {
     }
 
     /**
-     * Return if the game is in combat stage
+     * Retourne si le jeu est en phase de combat
+     * 
      * @returns {boolean}
      */
     getIsFight() {

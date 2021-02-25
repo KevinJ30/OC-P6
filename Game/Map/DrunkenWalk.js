@@ -1,7 +1,15 @@
 import {Config} from '../config/Config.js';
 import {Drunken} from './Drunken.js';
-import {Utils} from '../Utils.js';
 
+/**
+ * classe DrunkenWalk créer par Joudrier Kevin
+ * 
+ * Inspiré de l'algorithme Random Walker
+ * https://en.wikipedia.org/wiki/Random_walker_algorithm
+ * 
+ * @property {number} numberDrunken : Nombre de drunken utilisé
+ * @property {Array} drunkens : Tableau contenant les drunkens
+ **/
 export class DrunkenWalk {
 
     constructor(numberDrunken) {
@@ -9,12 +17,23 @@ export class DrunkenWalk {
         this.drunkens = [];
     }
 
+    /**
+     * Initialisation du tableau de drunken
+     * 
+     * @return {void}
+     **/
     init() {
         for(let i = 0; i < this.numberDrunken; i++) {
             this.drunkens.push(new Drunken());
         }
     }
 
+    /**
+     * Démarrer les drunkens sur la map
+     * 
+     * @param {array} map : Tableau contenant la map
+     * @return {array} Nouvelle map
+     **/
     startDrunk(map) {
         let newMap = map;
         let lastDrunkenPosition = null;
@@ -33,9 +52,4 @@ export class DrunkenWalk {
 
         return newMap;
     }
-
-    randomDirection () {
-        return Utils.randomNumber(0, 3);
-    }
-
 }

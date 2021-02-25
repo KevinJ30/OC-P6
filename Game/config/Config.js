@@ -35,9 +35,14 @@ export let Config = {
     WALL_TILE: 2,
 
     /**
-     * @property {number} GROUND_TILE : Numéro de la correspondant a un sol sur la spritesheet
+     * @property {number} GROUND_TILE : Numéro de la Tile correspondant a un sol sur la spritesheet
      **/
     GROUND_TILE: 1,
+
+    /**
+     * @property {number} BOX_TILE : Numéro de la Tile correspondant au trésor de guerre sur la spritesheet
+     **/
+    BOX_TILE: 26,
 
     /**
      * @property {number} DRUNKEN_LIFE_MIN : Durée de vie minimum d'un marcheur

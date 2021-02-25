@@ -1,9 +1,22 @@
+/**
+ * classe MenuView créer par Joudrier Kevin
+ * 
+ * @property {HTMLElement} menuContainer : Contient tous les éléments HTML du menu
+ * @property {HTMLElement} fieldPlayerOneNameElement : Champs permettant d'indiquer le nom du joueur 1
+ * @property {HTMLElement} fieldPlayerTwoNameElement : Champs permettant d'indiquer le nom du joueur 2
+ * @property {HTMLElement} buttonStartElement : Bouton correspondant au démarrage de la partie
+ **/
 export class MenuView {
 
     constructor() {
         this.drawView();
     }
 
+    /**
+     * Affiche les éléments HTML du menu
+     * 
+     * @return {void}
+     **/
     drawView() {
         this.menuContainer = $('.menu_game');
 
@@ -16,10 +29,21 @@ export class MenuView {
         this.menuContainer.append(this.buttonStartElement)
     }
 
+    /**
+     * Affiche ou masque le menu du jeu
+     * 
+     * @return {void}
+     **/
     displayMenu() {
         this.menuContainer.toggleClass('hidden');
     }
 
+    /**
+     * Lie l'événement du bouton clique a la méthode du controller
+     * 
+     * @param {CallableFunction} handler
+     * @return {void}
+     **/
     bindButtonStartGame(handler) {
         this.buttonStartElement.click((event) => {
             event.preventDefault()
@@ -28,12 +52,12 @@ export class MenuView {
     }
 
     /**
-     * Create field
+     * Créer un champs HTML
      *
-     * @param {string} type
-     * @param {string} name
+     * @param {string} type : Type de champ
+     * @param {string} name : Nom du champ
      * @param {string} placeholder
-     * @param {string} classes
+     * @param {string} classes : Toutes les classes du champ
      * @return {HTMLInputElement}
      */
     createField(type, name, placeholder, classes) {
@@ -47,9 +71,11 @@ export class MenuView {
     }
 
     /**
-     * Create button element
-     * @param value
-     * @param classes
+     * Créer un bouton HTML
+     * 
+     * @param value : Text du bouton
+     * @param classes : Toutes les classes du bouton
+     * @return {HTMLButtonElement}
      **/
     createButton(value, classes) {
         let buttonElement = $('<button></button>');

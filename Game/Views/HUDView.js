@@ -1,3 +1,27 @@
+/**
+ * classe HUDView créer par Joudrier Kevin
+ *
+ * @property {HTMLElement} gameContainer : Contient tous les éléments HTML du jeu
+ * @property {HTMLElement} HUDContainer : Contient tous les éléments HTML du HUD
+ * @property {HTMLElement} HUDContainerPlayerOne : Contient tous les éléments HTML du HUD
+ * Pour le joueur 1
+ * @property {HTMLElement} HUDContainerPlayerTwo : Contient tous les éléments HTML du HUD
+ * pour le joueur 2
+ * @property {HTMLElement} playerOneNameElement : Elément HTML contenant le nom du joueur 1
+ * @property {HTMLElement} playerTwoNameElement : Elément HTML contenant le nom du joueur 2
+ * @property {HTMLElement} playerInfoContainerOne : Contient tous les éléments HTML contenant
+ * les caractéristiques du joueur 1
+ * @property {HTMLElement} playerOneInfoDefendText : Elément contenant les informations de défense
+ * @property {HTMLElement} playerOneInfoAttackText : Elément contenant les information d'attaque
+ * @property {HTMLElement} playerInfoContainerTwo : Contient tous les éléments HTML contenant
+ * les caractéristiques du joueur 2
+ * @property {HTMLElement} playerTwoInfoDefendText : Elément contenant les informations de défense
+ * @property {HTMLElement} playerTwoInfoAttackText : Elément contenant les informations d'attaque
+ * @property {HTMLElement} playerOneProgressElement : Progresse bar contenant la vie du joueur
+ * @property {HTMLElement} playerTwoProgressElement : Progress bar contenant la vie du joueur
+ * @property {HTMLElement} HUDContainerInformation : Contient les information du HUD
+ * @property {HTMLElement} textInformationElement : Elément contenant le texte a affiché pendant la phase de combat
+ **/
 export class HUDView {
 
     constructor() {
@@ -37,6 +61,11 @@ export class HUDView {
         this.createShieldElement();
     }
 
+    /**
+     * Créer les éléments HTML pour représenter la défense d'un joueur
+     * 
+     * @return {void}
+     **/
     createShieldElement() {
         const shieldIcon = $('<span class="icon-shield></span')
         const shieldText = $('<span class="text-info"></span>')
@@ -50,6 +79,12 @@ export class HUDView {
         return container;
     }
 
+    /**
+     * Lie l'événement du bouton d'attaque avec le controller
+     * 
+     * @param {function} handler : fonction d'apelle 
+     * @return {void}
+     **/
     bindButtonAttack(handler) {
         this.buttonAttackElement.click((event) => {
             event.preventDefault();
@@ -57,6 +92,12 @@ export class HUDView {
         })
     }
 
+    /**
+     * Lie le bouton de défense avec le controller
+     * 
+     * @param {function} handler : fonction d'appelle 
+     * @return {void}
+     **/
     bindButtonDefend(handler) {
         this.buttonDefendElement.click((event) => {
             event.preventDefault();
@@ -64,7 +105,11 @@ export class HUDView {
         })
     }
 
-
+    /**
+     * Affiche les éléments du HUD combat
+     * 
+     * @return {void}
+     **/
     drawHudFight() {
         this.HUDFightContainer = $('<div></div>').addClass('HUD-fight');
         this.HUDFightSelectedContainer = $('<div></div>').addClass('HUD-fight__selected')
@@ -84,10 +129,21 @@ export class HUDView {
         this.gameContainer.append(this.HUDFightSelectedContainer);
     }
 
+    /**
+     * Affiche ou masque la fénêtre de jeu
+     * 
+     * @return {void}
+     **/
     toggleGameScreen() {
         this.gameContainer.toggleClass('hidden');
     }
 
+    /**
+     * Met a jour les élément HTML du HUD
+     * 
+     * @param {Object} hudState
+     * @return {void} 
+     **/
     update(hudState) {
         this.playerOneNameElement.text(hudState.playerOneName);
         this.playerTwoNameElement.text(hudState.playerTwoName);
@@ -151,7 +207,13 @@ export class HUDView {
         }
     }
 
-    drawInformation(message) {
+    /**
+     * Affiche un message sur l'ecran de jeu
+     * 
+     * @param {string} message : message a affiché au millieu de l'écran 
+     * @return {void}
+     **/
+    drawInformation(message, duration = 2000) {
         this.textInformationsElement.text(message);
         this.HUDContainerInformation.css({visibility: 'visible'})
         
@@ -161,7 +223,7 @@ export class HUDView {
         
         this.HUDContainerInformation.addClass('fadeIn');
         
-        // Disparition message
+        // Disparition du message
         setTimeout(() => {
             this.HUDContainerInformation.removeClass('fadeIn');
             this.HUDContainerInformation.addClass('fadeOut');
@@ -169,6 +231,6 @@ export class HUDView {
             setTimeout(() => {
                 this.HUDContainerInformation.css({visibility:'hidden'});
             }, 30);
-        }, 2000);
+        }, duration);
     }
 }

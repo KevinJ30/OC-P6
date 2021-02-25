@@ -3,8 +3,17 @@ import { Config } from '../config/Config.js';
 import {Utils} from "../Utils.js";
 
 /**
- * Joudrier Kevin
- * Build a map with the parameters
+ * Classe MapModel créer par Joudrier Kevin
+ * 
+ * @property {HTMLImageElement} spriteSheet : Image contenant les Tiles de la map
+ * @property {number} tileSize : Largeur et hauteur d'une Tile
+ * @property {number} maxTileX : Largeur maximum de la map en nombre de Tile
+ * @property {number} maxTileY : Hauteur maximum de la map en nombre de Tile
+ * @property {Array} map : Tableau contenant la map
+ * @property {Array} mapCollision : Tableau représentant les collision sur la map
+ * @property {Array} mapEvents : Tableau représentant les evénement sur la map
+ * @property {Generator} generator : Générateur de map procédurale
+ * @property {EventManager} eventManager : Liste des événements
  **/
 
 export class MapModel {
@@ -31,32 +40,34 @@ export class MapModel {
         this.generator = null;
         this.eventManager = eventManager;
 
-        // Bind this to the method
+        // Bind les méthodes et attache les événement
         this.dropItemEvent = this.dropItemEvent.bind(this);
-        this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0)
-
-        this.loadWeapon();
+        this.eventManager.attach('game.dropItemEvent', this.dropItemEvent, 0);
     }
 
     /**
-     * Add generator class
-     * @param {Generator} generator 
+     * Ajoute un générateur
+     * 
+     * @param {Generator} generator
+     * @return {void}
      **/
     addGenerator(generator) {
         this.generator = generator;
     }
 
+    /**
+     * Supprime le trésor de guerre poser sur la map
+     * 
+     * @param {Object} position : Cordonnées de la case sur la map
+     **/
     dropItemEvent(position) {
         this.mapEvents[position.y / 32][position.x / 32] = 0;
     }
 
-    loadWeapon() {
-        this.weaponDragonspearSprite = new Image();
-        this.weaponDragonspearSprite.src = "../ressources/dragonspear.png";
-    }
-
     /**
-     * Build random map
+     * Construis une map aléatoire
+     * 
+     * @return {void}
      **/
     build() {
         this.map = this.generator.generatedEmptyMap();
@@ -71,20 +82,31 @@ export class MapModel {
     }
 
     /**
-     * Detect collision with edge map
+     * Vérifie si il y a une collision entre les bord de la map
      *
-     * @param {number} targetX
-     * @param {number} targetY
+     * @param {number} targetX : Case ciblé en largeur
+     * @param {number} targetY : Case ciblé en hauteur
      * @returns {boolean}
      **/
     collideIsEdgeMap(targetX, targetY) {
         return targetX > 0 && targetX / 32 < this.maxTileX && targetY > 0 && targetY / 32 < this.maxTileY;
     }
 
+    /**
+     * 
+     * @param {number} targetX : Case ciblé en largeur
+     * @param {number} targetY : Case ciblé en hauteur
+     * @return {boolean}
+     */
     collide(targetX, targetY) {
         return this.mapCollision[targetY][targetX];
     }
 
+    /**
+     * Construis aléatoirement la map des évenements
+     * 
+     * @return {array} : map d'événements
+     **/
     generateEventsMap() {
         let mapEvents = [];
 
@@ -101,7 +123,9 @@ export class MapModel {
     }
 
     /**
-     * Add random weapon on the map
+     * Ajoute un trésor de guerre aléatoirement sur la map
+     * 
+     * @return {void}
      **/
     addWeapon() {
         let positionX = Utils.randomNumber(0, this.maxTileX - 1);

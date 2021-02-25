@@ -1,7 +1,19 @@
-import {HUDView} from "../Views/HUDView.js";
-
+/**
+ * Classe HUDController créer par Joudrier Kevin
+ * 
+ * @property {HUDView} HUDView
+ * @property {GameModel} gameModel
+ * @property {EventManager} eventManager
+ * @property {HUDModel} hudModel
+ **/
 export class HUDController {
 
+    /**
+     * @param {EventManager} eventManager 
+     * @param {GameModel} gameModel 
+     * @param {HUDModel} HUDModel 
+     * @param {HUDView} HUDView 
+     */
     constructor(eventManager, gameModel, HUDModel, HUDView) {
         this.HUDView = HUDView;
         this.gameModel = gameModel;
@@ -10,6 +22,7 @@ export class HUDController {
 
         this.bindingMethodOfClass();
         this.allSubscribeToObserver();
+
         this.gameModel.notify();
         this.hudModel.notify();
 
@@ -17,6 +30,11 @@ export class HUDController {
         this.HUDView.bindButtonDefend(this.handleDefendPlayer);
     }
 
+    /**
+     * Bind la classe sur les méthode des événements
+     * 
+     * @return {void}
+     **/
     bindingMethodOfClass() {
         this.handleUpdateGameStore = this.handleUpdateGameStore.bind(this);
         this.handleAttackPlayer = this.handleAttackPlayer.bind(this);
@@ -29,6 +47,11 @@ export class HUDController {
         this.handleDropItem = this.handleDropItem.bind(this);
     }
 
+    /**
+     * Souscription a tous les observer et attachement a tous les événement
+     * 
+     * @return {void}
+     **/
     allSubscribeToObserver() {
         this.gameModel.subscribe(this.handleUpdateGameStore)
         this.hudModel.subscribe(this.updateView);
@@ -39,6 +62,11 @@ export class HUDController {
         this.eventManager.attach('game.dropItemEvent', this.handleDropItem, 0)
     }
 
+    /**
+     * Fonction souscrite a l'observer du game model
+     * 
+     * @return {void}
+     **/
     handleUpdateGameStore () {
         this.hudModel.update({
             ...this.hudModel.state,
@@ -55,11 +83,21 @@ export class HUDController {
         this.hudModel.notify();
     }
 
+    /**
+     * Evénement du bouton démarrage de la partie
+     * 
+     * @return {void}
+     **/
     handleStartGameEvent () { 
         this.hudModel.toggleDisplayGameContainer();
         this.HUDView.drawInformation('Renforcer vous avant de vous battre !')
     }
 
+    /**
+     * Evénement du bouton attaque
+     * 
+     * @return {void}
+     **/
     handleAttackPlayer() {
         let playerNotSelected = this.gameModel.getPlayerNotSelected();
         let playerSelected = this.gameModel.getPlayerSelected();
@@ -76,27 +114,62 @@ export class HUDController {
         this.gameModel.notify();
     }
 
+    /**
+     * Evénement du bouton Defense
+     * 
+     * @return {void}
+     **/
     handleDefendPlayer() {
         this.eventManager.trigger('game.defendPlayerEvent');
     }
 
+    /**
+     * Evénment quand on ramasse un trésor de guerre
+     * Déclencher par l'event manager
+     * 
+     * @param {Object} positionWeapon 
+     * @param {PlayerModel} player 
+     * @return {void}
+     **/
     handleDropItem(positionWeapon, player) {
         const weapon = player.weapon;
         this.HUDView.drawInformation('Vous venez de ramasser ' + weapon.name + '. Cette arme inflige ' + weapon.damage + ' dégats !');
     }
 
+    /**
+     * Evénement quand on entre dans la phase de combat
+     * Déclencher par l'event manager
+     * 
+     * @return {void}
+     **/
     handleEnterFightEvent() {
         this.hudModel.toggleIsFight();
     }
 
+    /**
+     * Evénement quand la partie est terminé
+     * Déclencher par l'event manager
+     * 
+     * @return {void}
+     **/
     handleGameOverEvent() {
         this.hudModel.toggleGameOverScreen();
     }
 
+    /**
+     * Evénement rechargement de la partie
+     * Déclencher par l'évent manager
+     **/
     handleRestartGame() {
         this.hudModel.toggleRestartGame();
     }
 
+    /**
+     * Met a jour les informations de la vue
+     * Déclenché quand les données du HUD change
+     * 
+     * @return {void}
+     **/
     updateView() {
         this.HUDView.update(this.hudModel.state);
     }

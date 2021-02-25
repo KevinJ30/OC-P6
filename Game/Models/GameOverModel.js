@@ -1,9 +1,10 @@
-import {Observer} from "../Observer/Observer.js";
-
+/**
+ * class GameOverModel créer par Joudrier Kevin
+ * 
+ * @property {string} hiddenClass : Nom de la classe hidden   
+ **/
 export class GameOverModel {
 
-    constructor() {
-        this.hiddenClass  = 'hidden';
-    }
+    constructor() { this.hiddenClass  = 'hidden'; }
     
 }

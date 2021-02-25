@@ -1,14 +1,14 @@
 /**
- * Class ArmorModel
+ * Classe ArmorModel créer par Joudrier Kevin
  *
- * @property { number } armor
+ * @property { number } armor : Point d'armure
  **/
 export class ArmorModel {
 
     /**
      * @param {number} armor
      **/
-    constructor(armor, spriteSheetSrc) {
+    constructor(armor) {
         this.armor = armor;
     }
 

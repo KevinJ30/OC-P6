@@ -166,7 +166,7 @@ export class GameController {
                 foot: new ArmorModel(10),
                 footView: './ressources/footArmor2.png',
             },
-        ]
+        ];
 
         for(let i = 0; i < numberPlayer; i++) {
             players.push({
@@ -338,7 +338,13 @@ export class GameController {
         }
 
         for(let i =0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameView, this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 1, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
+            this.gameModel.getPlayerIndex(i).view.update(
+                this.gameView, this.gameModel.getPlayerModelWithIndex(i), 
+                this.gameModel.getPlayerIndex(i).model.position, 
+                this.gameModel.getPlayerIndex(i).model.playerDirection, 
+                1, 
+                this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect
+            );
         }
 
         return true;
@@ -354,7 +360,13 @@ export class GameController {
 
         // Affichage des deux joueur
         for(let i = 0; i < this.gameModel.countPlayer(); i++) {
-            this.gameModel.getPlayerIndex(i).view.update(this.gameView, this.gameModel.getPlayerModelWithIndex(i), this.gameModel.getPlayerIndex(i).model.position, this.gameModel.getPlayerIndex(i).model.playerDirection, 2.5, this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect);
+            this.gameModel.getPlayerIndex(i).view.update(
+                this.gameView, this.gameModel.getPlayerModelWithIndex(i), 
+                this.gameModel.getPlayerIndex(i).model.position, 
+                this.gameModel.getPlayerIndex(i).model.playerDirection, 
+                2.5, 
+                this.gameModel.getPlayerIndex(i).model.weaponSpriteSelect
+            );
         }
 
         if(this.gameOver() && !this.gameModel.gameOver)
